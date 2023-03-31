@@ -25,6 +25,7 @@ from dmpcatalogue.core.data_parser_task import DataParserTask
 from dmpcatalogue.core.file_downloader_task import FileDownloaderTask
 from dmpcatalogue.core.settings_registry import SettingsRegistry
 from dmpcatalogue.core.utils import cache_directory, file_exists
+from dmpcatalogue.constants import DEFAULT_LOCALE, LOCALES
 
 
 class DataRegistry(QObject):
@@ -47,6 +48,9 @@ class DataRegistry(QObject):
         self.favorites = SettingsRegistry.favorites()
         self.task_manager = QgsApplication.taskManager()
 
+        locale = QgsApplication.locale()
+        self.locale = locale if locale in LOCALES else DEFAULT_LOCALE
+
         self.dataFetched.connect(self.parse_data)
 
     def initialize(self, force_download=False):
@@ -65,7 +69,7 @@ class DataRegistry(QObject):
         if file_exists(datasets_cache) and not force_download:
             # datasets cached, only fetch their status
             task = QgsNetworkContentFetcherTask(
-                QUrl(f"{url}/datasetAvailabilities")
+                QUrl(f"{url}/datasetAvailabilities?locale={self.locale}")
             )
             reply_handler = partial(self.cache_response, task, status_cache)
             task.fetched.connect(reply_handler)
@@ -73,7 +77,7 @@ class DataRegistry(QObject):
         else:
             # fetch datasets and their status
             status_task = QgsNetworkContentFetcherTask(
-                QUrl(f"{url}/datasetAvailabilities")
+                QUrl(f"{url}/datasetAvailabilities?locale={self.locale}")
             )
             status_reply_handler = partial(
                 self.cache_response, status_task, status_cache, False
@@ -85,6 +89,7 @@ class DataRegistry(QObject):
                 QUrl(
                     f"{url}/datasetCollections?include="
                     "datasetCollectionItems,datasetCollectionItems.dataset"
+                    f"&locale={self.locale}"
                 )
             )
             collections_reply_handler = partial(
@@ -99,6 +104,7 @@ class DataRegistry(QObject):
                     "wfsSource,wmsSource,wmtsSource,fileSources,"
                     "category,tags,owners,thumbnail,"
                     "fileSources.fileSourceType"
+                    f"&locale={self.locale}"
                 )
             )
             task_handler = partial(self.cache_response, task, datasets_cache)
