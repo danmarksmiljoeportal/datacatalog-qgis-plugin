@@ -19,18 +19,14 @@ jobs:
 
       - name: Collect files for packaging
         run: |
-          rsync -av --exclude='*.pro' --exclude='*.ts' dmpcatalogue output
+          rsync -av --exclude='*.pro' --exclude='*.ts' --exclude='tests' dmpcatalogue output
+          (cd output && zip -9 -r ../dmpcatalogue.zip dmpcatalogue/)
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: dmpcatalogue
           path: output/
-
-      - name: Prepage release package
-        if: startsWith(github.ref, 'refs/tags/')
-        run: |
-          (cd output && zip -9 -r ../dmpcatalogue.zip dmpcatalogue/)
 
       - name: Upload asset on tagged release
         uses: softprops/action-gh-release@v1
