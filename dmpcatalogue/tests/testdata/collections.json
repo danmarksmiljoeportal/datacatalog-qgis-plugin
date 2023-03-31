@@ -1,0 +1,134 @@
+{
+  "data": [
+    {
+      "type": "datasetCollections",
+      "id": "6bd6cde6-f6fb-41d1-bc1c-af89004ac587",
+      "attributes": {
+        "title": "1 - Collections e2e",
+        "description": "ssssssssssssss",
+        "created": "2023-01-13 04:32:14Z",
+        "updated": "2023-01-13 04:32:14Z"
+      },
+      "relationships": {
+        "datasetCollectionItems": {
+          "data": [
+            {
+              "type": "datasetCollectionItems",
+              "id": "ccafb342-9c14-408e-06e3-08daf51f252b"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "datasetCollections",
+      "id": "3951cd64-3117-45c8-a844-af8f01486b8d",
+      "attributes": {
+        "title": "Test af datasamling",
+        "description": "test test test",
+        "created": "2023-01-19 19:55:44Z",
+        "updated": "2023-01-19 19:55:45Z"
+      },
+      "relationships": {
+        "datasetCollectionItems": {
+          "data": [
+            {
+              "type": "datasetCollectionItems",
+              "id": "e4802172-9c90-47f9-0018-08dafa5726d6"
+            },
+            {
+              "type": "datasetCollectionItems",
+              "id": "41bff73d-1515-44aa-0019-08dafa5726d6"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "type": "datasetCollectionItems",
+      "id": "ccafb342-9c14-408e-06e3-08daf51f252b",
+      "attributes": {
+        "order": 0
+      },
+      "relationships": {
+        "dataset": {
+          "data": {
+            "type": "datasets",
+            "id": "urn:dmp:ds:1-test"
+          }
+        }
+      }
+    },
+    {
+      "type": "datasets",
+      "id": "urn:dmp:ds:1-test",
+      "attributes": {
+        "title": "1 - e2e",
+        "description": "sssssssssssss",
+        "supportContact": "",
+        "metadata": null,
+        "created": "2023-01-13 04:26:32Z",
+        "updated": "2023-01-17 03:26:56Z"
+      }
+    },
+    {
+      "type": "datasetCollectionItems",
+      "id": "e4802172-9c90-47f9-0018-08dafa5726d6",
+      "attributes": {
+        "order": 0
+      },
+      "relationships": {
+        "dataset": {
+          "data": {
+            "type": "datasets",
+            "id": "urn:dmp:ds:aftaleomraader-for-grundvand"
+          }
+        }
+      }
+    },
+    {
+      "type": "datasets",
+      "id": "urn:dmp:ds:aftaleomraader-for-grundvand",
+      "attributes": {
+        "title": "Aftaleområder for grundvand",
+        "description": "Arealer med tinglyste aftaler for grundvandsbeskyttelse. Datasættet viser de arealer, hvor kommunerne har tinglyst aftaler med lodsejer for grundvandsbeskyttelse. Af datasættet fremgår hvilke typer af aftaler, der er indgået samt hvilke restriktioner, der ligger i aftalerne.",
+        "supportContact": "support@miljoeportal.dk",
+        "metadata": "https://geodata-info.dk/srv/dan/catalog.search#/metadata/f723f64a-1670-4d7d-b81c-213c384f547e",
+        "created": "2022-12-21 15:15:40Z",
+        "updated": "2023-01-04 09:25:03Z"
+      }
+    },
+    {
+      "type": "datasetCollectionItems",
+      "id": "41bff73d-1515-44aa-0019-08dafa5726d6",
+      "attributes": {
+        "order": 1
+      },
+      "relationships": {
+        "dataset": {
+          "data": {
+            "type": "datasets",
+            "id": "urn:dmp:ds:bundfauna-dvfi-vandloeb"
+          }
+        }
+      }
+    },
+    {
+      "type": "datasets",
+      "id": "urn:dmp:ds:bundfauna-dvfi-vandloeb",
+      "attributes": {
+        "title": "Bundfauna DVFI Vandløb",
+        "description": "Indeholder samtlige resultater fra faunaindeks undersøgelser i VanDa. Datasættet indeholder informationer om sted, arter og indeks. VanDa er Danmarks Miljøportals system for inddatering af data for det rene overfladevand. VanDa indeholder data for sø, vandløb og det marine område, når det drejer sig om kemi, flora og fauna.",
+        "supportContact": "support@miljoeportal.dk",
+        "metadata": null,
+        "created": "2022-12-21 15:15:40Z",
+        "updated": "2023-01-04 10:40:11Z"
+      }
+    }
+  ],
+  "meta": {
+    "total": 2
+  }
+}

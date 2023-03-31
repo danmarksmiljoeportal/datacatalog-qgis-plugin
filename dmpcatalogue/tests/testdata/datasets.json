@@ -1,0 +1,614 @@
+{
+  "data": [
+    {
+      "type": "datasets",
+      "id": "urn:dmp:ds:aabeskyttelseslinjer",
+      "attributes": {
+        "title": "Åbeskyttelseslinjer",
+        "description": "Åbeskyttelseslinjen har til formål at sikre åer som værdifulde landskabselementer og som levesteder og spredningskorridorer for plante- og dyreliv. Der er inden for beskyttelseslinien tale om et generelt forbud mod ændringer.",
+        "supportContact": "support@miljoeportal.dk",
+        "metadata": "https://geodata-info.dk/srv/dan/catalog.search#/metadata/3033fc6c-b7f8-418a-8fc9-f1af372b8182",
+        "created": "2022-12-21 13:52:14Z",
+        "updated": "2022-12-21 13:52:14Z"
+      },
+      "relationships": {
+        "wmsSource": {
+          "data": {
+            "type": "wmsSources",
+            "id": "5a522420-3878-4bdc-ab21-af7200f50f54"
+          }
+        },
+        "wfsSource": {
+          "data": {
+            "type": "wfsSources",
+            "id": "79b0db6a-4edc-47f8-9eed-af7200f50f54"
+          }
+        },
+        "wmtsSource": {
+          "data": {
+            "type": "wmtsSources",
+            "id": "88e3213c-9e91-4b88-b0d4-af7200f508f3"
+          }
+        },
+        "fileSources": {
+          "data": [
+            {
+              "type": "fileSources",
+              "id": "0912ae14-70e3-4d09-8d3c-af7200f50f54"
+            },
+            {
+              "type": "fileSources",
+              "id": "66745c6b-9f51-4c21-ace9-af7200f50f54"
+            },
+            {
+              "type": "fileSources",
+              "id": "acefb52a-e997-4158-afea-af7200f50f54"
+            }
+          ]
+        },
+        "tags": {
+          "data": [
+            {
+              "type": "tags",
+              "id": "41cfe7cf-c69b-420c-8865-af7200f50759"
+            },
+            {
+              "type": "tags",
+              "id": "21048da8-fe93-40ca-a850-af7200f50759"
+            },
+            {
+              "type": "tags",
+              "id": "dd9dd252-7c52-4249-b4b6-af7200f50759"
+            },
+            {
+              "type": "tags",
+              "id": "da134564-6d7e-4330-ba51-af7200f50759"
+            }
+          ]
+        },
+        "owners": {
+          "data": [
+            {
+              "type": "organizations",
+              "id": "23d484f1-a96f-424a-b25c-af7200f50585"
+            }
+          ]
+        },
+        "category": {
+          "data": {
+            "type": "categories",
+            "id": "6c19472d-1f14-4f89-b0d2-af7200f5070a"
+          }
+        },
+        "thumbnail": {
+          "data": null
+        }
+      }
+    },
+    {
+      "type": "datasets",
+      "id": "urn:dmp:ds:aalegraes-marin",
+      "attributes": {
+        "title": "Ålegræs Marin",
+        "description": "Datasættet indeholder samtlige arter fra ålegræs, marin undersøgelser i VanDa herunder informationer om sted, tid, transekt, målested, art og dækningsgrad, samt hovedudbredelse og maks dybdegrænse. VanDa er Danmarks Miljøportals system for inddatering af data for det rene overfladevand. VanDa indeholder data for sø, vandløb og det marine område, når det drejer sig om kemi, flora og fauna.",
+        "supportContact": "support@miljoeportal.dk",
+        "metadata": null,
+        "created": "2022-12-21 13:52:14Z",
+        "updated": "2022-12-21 13:52:14Z"
+      },
+      "relationships": {
+        "wmsSource": {
+          "data": null
+        },
+        "wfsSource": {
+          "data": null
+        },
+        "wmtsSource": {
+          "data": null
+        },
+        "fileSources": {
+          "data": [
+            {
+              "type": "fileSources",
+              "id": "09a3d1f2-dce2-4eeb-9781-af7200f50f0a"
+            }
+          ]
+        },
+        "tags": {
+          "data": [
+            {
+              "type": "tags",
+              "id": "8b1bf350-76ac-468f-8bb4-af7200f50759"
+            },
+            {
+              "type": "tags",
+              "id": "3aa079b6-711a-4b5f-9d93-af7200f50759"
+            },
+            {
+              "type": "tags",
+              "id": "9e8aff6d-f6de-493c-b0c4-af7200f50759"
+            }
+          ]
+        },
+        "owners": {
+          "data": [
+            {
+              "type": "organizations",
+              "id": "bc1cda17-4e31-4d48-84d1-af7200f50585"
+            },
+            {
+              "type": "organizations",
+              "id": "0d950540-a59e-45a7-964a-af7200f50585"
+            },
+            {
+              "type": "organizations",
+              "id": "1d252c9c-2a5f-4193-a091-af7200f50585"
+            },
+            {
+              "type": "organizations",
+              "id": "23d484f1-a96f-424a-b25c-af7200f50585"
+            },
+            {
+              "type": "organizations",
+              "id": "cd2dc313-da19-4e68-b750-af7200f50585"
+            }
+          ]
+        },
+        "category": {
+          "data": {
+            "type": "categories",
+            "id": "699f65b4-9d40-418a-9ef3-af7200f5058c"
+          }
+        },
+        "thumbnail": {
+          "data": null
+        }
+      }
+    },
+    {
+      "type": "datasets",
+      "id": "urn:dmp:ds:aftaleomraader-for-grundvand",
+      "attributes": {
+        "title": "Aftaleområder for grundvand",
+        "description": "Arealer med tinglyste aftaler for grundvandsbeskyttelse. Datasættet viser de arealer, hvor kommunerne har tinglyst aftaler med lodsejer for grundvandsbeskyttelse. Af datasættet fremgår hvilke typer af aftaler, der er indgået samt hvilke restriktioner, der ligger i aftalerne.",
+        "supportContact": "support@miljoeportal.dk",
+        "metadata": "https://geodata-info.dk/srv/dan/catalog.search#/metadata/f723f64a-1670-4d7d-b81c-213c384f547e",
+        "created": "2022-12-21 13:52:14Z",
+        "updated": "2022-12-21 13:52:14Z"
+      },
+      "relationships": {
+        "wmsSource": {
+          "data": {
+            "type": "wmsSources",
+            "id": "e6d0bc70-2609-478b-89f5-af7200f50f38"
+          }
+        },
+        "wfsSource": {
+          "data": {
+            "type": "wfsSources",
+            "id": "70fbe574-01bd-4935-82b8-af7200f50f38"
+          }
+        },
+        "wmtsSource": {
+          "data": null
+        },
+        "fileSources": {
+          "data": [
+            {
+              "type": "fileSources",
+              "id": "62b99189-3abd-4172-8165-af7200f50f38"
+            },
+            {
+              "type": "fileSources",
+              "id": "378279fe-ea24-49bb-8ce8-af7200f50f38"
+            },
+            {
+              "type": "fileSources",
+              "id": "40fb1828-560a-42ce-b08b-af7200f50f38"
+            }
+          ]
+        },
+        "tags": {
+          "data": [
+            {
+              "type": "tags",
+              "id": "33d12d68-c7b9-4e21-b1f2-af7200f50759"
+            },
+            {
+              "type": "tags",
+              "id": "1ace4d5b-b3c9-4e77-be35-af7200f50759"
+            }
+          ]
+        },
+        "owners": {
+          "data": [
+            {
+              "type": "organizations",
+              "id": "23d484f1-a96f-424a-b25c-af7200f50585"
+            }
+          ]
+        },
+        "category": {
+          "data": {
+            "type": "categories",
+            "id": "abb62553-d9e5-4f62-b1da-af7200f50714"
+          }
+        },
+        "thumbnail": {
+          "data": null
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "type": "wmsSources",
+      "id": "5a522420-3878-4bdc-ab21-af7200f50f54",
+      "attributes": {
+        "url": "https://b0902-prod-dist-app.azurewebsites.net/geoserver/wms",
+        "documentationUrl": null,
+        "description": null,
+        "layer": "dai:aa_bes_linjer",
+        "style": null,
+        "version": "1.3.0",
+        "format": "image/png",
+        "minResolution": null,
+        "maxResolution": null
+      }
+    },
+    {
+      "type": "wfsSources",
+      "id": "79b0db6a-4edc-47f8-9eed-af7200f50f54",
+      "attributes": {
+        "url": "https://b0902-prod-dist-app.azurewebsites.net/geoserver/wfs",
+        "documentationUrl": null,
+        "description": null,
+        "typeName": "dai:aa_bes_linjer",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "type": "fileSources",
+      "id": "0912ae14-70e3-4d09-8d3c-af7200f50f54",
+      "attributes": {
+        "url": "https://arealdata-api.miljoeportal.dk/download/daie/aa_bes_linjer_MITAB.zip",
+        "documentationUrl": null,
+        "description": null
+      },
+      "relationships": {
+        "fileSourceType": {
+          "data": {
+            "type": "fileSourceTypes",
+            "id": "2a88c8f2-68c2-4b23-9792-af72010bf20a"
+          }
+        }
+      }
+    },
+    {
+      "type": "fileSourceTypes",
+      "id": "2a88c8f2-68c2-4b23-9792-af72010bf20a",
+      "attributes": {
+        "name": "TAB"
+      }
+    },
+    {
+      "type": "fileSources",
+      "id": "66745c6b-9f51-4c21-ace9-af7200f50f54",
+      "attributes": {
+        "url": "https://arealdata-api.miljoeportal.dk/download/daie/aa_bes_linjer_SHAPE.zip",
+        "documentationUrl": null,
+        "description": null
+      },
+      "relationships": {
+        "fileSourceType": {
+          "data": {
+            "type": "fileSourceTypes",
+            "id": "4accdf04-c7df-470c-97f4-af72010bf20a"
+          }
+        }
+      }
+    },
+    {
+      "type": "fileSourceTypes",
+      "id": "4accdf04-c7df-470c-97f4-af72010bf20a",
+      "attributes": {
+        "name": "Shapefile"
+      }
+    },
+    {
+      "type": "fileSources",
+      "id": "acefb52a-e997-4158-afea-af7200f50f54",
+      "attributes": {
+        "url": "https://arealdata-api.miljoeportal.dk/download/daie/aa_bes_linjer_GDB.zip",
+        "documentationUrl": null,
+        "description": null
+      },
+      "relationships": {
+        "fileSourceType": {
+          "data": {
+            "type": "fileSourceTypes",
+            "id": "f9bfcad7-0386-482c-b249-af72010bf20a"
+          }
+        }
+      }
+    },
+    {
+      "type": "fileSourceTypes",
+      "id": "f9bfcad7-0386-482c-b249-af72010bf20a",
+      "attributes": {
+        "name": "FGDB"
+      }
+    },
+    {
+      "type": "tags",
+      "id": "41cfe7cf-c69b-420c-8865-af7200f50759",
+      "attributes": {
+        "name": "naturbeskyttelsesloven"
+      }
+    },
+    {
+      "type": "tags",
+      "id": "21048da8-fe93-40ca-a850-af7200f50759",
+      "attributes": {
+        "name": "beskyttelseslinje"
+      }
+    },
+    {
+      "type": "tags",
+      "id": "dd9dd252-7c52-4249-b4b6-af7200f50759",
+      "attributes": {
+        "name": "naturbeskyttelse"
+      }
+    },
+    {
+      "type": "tags",
+      "id": "da134564-6d7e-4330-ba51-af7200f50759",
+      "attributes": {
+        "name": "åbeskyttelse"
+      }
+    },
+    {
+      "type": "organizations",
+      "id": "23d484f1-a96f-424a-b25c-af7200f50585",
+      "attributes": {
+        "title": "Kommunerne",
+        "abbreviation": "KOMM",
+        "attribution": null,
+        "url": null,
+        "created": "2022-12-21 13:52:07Z",
+        "updated": "2022-12-21 13:52:07Z",
+        "description": null
+      }
+    },
+    {
+      "type": "categories",
+      "id": "6c19472d-1f14-4f89-b0d2-af7200f5070a",
+      "attributes": {
+        "name": "Naturbeskyttelse"
+      }
+    },
+    {
+      "type": "fileSources",
+      "id": "09a3d1f2-dce2-4eeb-9781-af7200f50f0a",
+      "attributes": {
+        "url": "https://arealdata-api.miljoeportal.dk/data/vanda-ue-33/file",
+        "documentationUrl": null,
+        "description": null
+      },
+      "relationships": {
+        "fileSourceType": {
+          "data": {
+            "type": "fileSourceTypes",
+            "id": "94fdb00f-4ca8-40bb-89c7-af72010bf207"
+          }
+        }
+      }
+    },
+    {
+      "type": "fileSourceTypes",
+      "id": "94fdb00f-4ca8-40bb-89c7-af72010bf207",
+      "attributes": {
+        "name": "CSV"
+      }
+    },
+    {
+      "type": "tags",
+      "id": "8b1bf350-76ac-468f-8bb4-af7200f50759",
+      "attributes": {
+        "name": "arter"
+      }
+    },
+    {
+      "type": "tags",
+      "id": "3aa079b6-711a-4b5f-9d93-af7200f50759",
+      "attributes": {
+        "name": "marin"
+      }
+    },
+    {
+      "type": "tags",
+      "id": "9e8aff6d-f6de-493c-b0c4-af7200f50759",
+      "attributes": {
+        "name": "ålegræs"
+      }
+    },
+    {
+      "type": "organizations",
+      "id": "bc1cda17-4e31-4d48-84d1-af7200f50585",
+      "attributes": {
+        "title": "Miljøstyrelsen",
+        "abbreviation": "MST",
+        "attribution": null,
+        "url": "https://mst.dk/",
+        "created": "2022-12-21 13:52:07Z",
+        "updated": "2022-12-21 13:52:07Z",
+        "description": null
+      }
+    },
+    {
+      "type": "organizations",
+      "id": "0d950540-a59e-45a7-964a-af7200f50585",
+      "attributes": {
+        "title": "Vejdirektoratet",
+        "abbreviation": "VD",
+        "attribution": null,
+        "url": "https://www.vejdirektoratet.dk/",
+        "created": "2022-12-21 13:52:07Z",
+        "updated": "2022-12-21 13:52:07Z",
+        "description": null
+      }
+    },
+    {
+      "type": "organizations",
+      "id": "1d252c9c-2a5f-4193-a091-af7200f50585",
+      "attributes": {
+        "title": "Danske Regioner",
+        "abbreviation": "REG-DK",
+        "attribution": null,
+        "url": null,
+        "created": "2022-12-21 13:52:07Z",
+        "updated": "2022-12-21 13:52:07Z",
+        "description": null
+      }
+    },
+    {
+      "type": "organizations",
+      "id": "cd2dc313-da19-4e68-b750-af7200f50585",
+      "attributes": {
+        "title": "DTU Aqua",
+        "abbreviation": "DTU-AQUA",
+        "attribution": null,
+        "url": "https://www.aqua.dtu.dk/",
+        "created": "2022-12-21 13:52:07Z",
+        "updated": "2022-12-21 13:52:07Z",
+        "description": null
+      }
+    },
+    {
+      "type": "categories",
+      "id": "699f65b4-9d40-418a-9ef3-af7200f5058c",
+      "attributes": {
+        "name": "Havmiljø"
+      }
+    },
+    {
+      "type": "wmsSources",
+      "id": "e6d0bc70-2609-478b-89f5-af7200f50f38",
+      "attributes": {
+        "url": "https://b0902-prod-dist-app.azurewebsites.net/geoserver/wms",
+        "documentationUrl": null,
+        "description": null,
+        "layer": "dai:aftarea_grvbes",
+        "style": null,
+        "version": "1.3.0",
+        "format": "image/png",
+        "minResolution": null,
+        "maxResolution": null
+      }
+    },
+    {
+      "type": "wfsSources",
+      "id": "70fbe574-01bd-4935-82b8-af7200f50f38",
+      "attributes": {
+        "url": "https://b0902-prod-dist-app.azurewebsites.net/geoserver/wfs",
+        "documentationUrl": null,
+        "description": null,
+        "typeName": "dai:aftarea_grvbes",
+        "version": "2.0.0"
+      }
+    },
+    {
+      "type": "fileSources",
+      "id": "62b99189-3abd-4172-8165-af7200f50f38",
+      "attributes": {
+        "url": "https://arealdata-api.miljoeportal.dk/download/daie/aftarea_grvbes_SHAPE.zip",
+        "documentationUrl": null,
+        "description": null
+      },
+      "relationships": {
+        "fileSourceType": {
+          "data": {
+            "type": "fileSourceTypes",
+            "id": "4accdf04-c7df-470c-97f4-af72010bf20a"
+          }
+        }
+      }
+    },
+    {
+      "type": "fileSources",
+      "id": "378279fe-ea24-49bb-8ce8-af7200f50f38",
+      "attributes": {
+        "url": "https://arealdata-api.miljoeportal.dk/download/daie/aftarea_grvbes_GDB.zip",
+        "documentationUrl": null,
+        "description": null
+      },
+      "relationships": {
+        "fileSourceType": {
+          "data": {
+            "type": "fileSourceTypes",
+            "id": "f9bfcad7-0386-482c-b249-af72010bf20a"
+          }
+        }
+      }
+    },
+    {
+      "type": "fileSources",
+      "id": "40fb1828-560a-42ce-b08b-af7200f50f38",
+      "attributes": {
+        "url": "https://arealdata-api.miljoeportal.dk/download/daie/aftarea_grvbes_MITAB.zip",
+        "documentationUrl": null,
+        "description": null
+      },
+      "relationships": {
+        "fileSourceType": {
+          "data": {
+            "type": "fileSourceTypes",
+            "id": "2a88c8f2-68c2-4b23-9792-af72010bf20a"
+          }
+        }
+      }
+    },
+    {
+      "type": "tags",
+      "id": "33d12d68-c7b9-4e21-b1f2-af7200f50759",
+      "attributes": {
+        "name": "grundvandsbeskyttelse"
+      }
+    },
+    {
+      "type": "tags",
+      "id": "1ace4d5b-b3c9-4e77-be35-af7200f50759",
+      "attributes": {
+        "name": "grundvand"
+      }
+    },
+    {
+      "type": "categories",
+      "id": "abb62553-d9e5-4f62-b1da-af7200f50714",
+      "attributes": {
+        "name": "Geologisk undergrund og råstofindvending"
+      }
+    },
+    {
+      "type": "wmtsSources",
+      "id": "88e3213c-9e91-4b88-b0d4-af7200f508f3",
+      "attributes": {
+        "url": "https://services.datafordeler.dk/GeoDanmarkOrto/orto_foraar_wmts/1.0.0/wmts?username=UFZLDDPIJS&password=DAIdatafordel123",
+        "documentationUrl": null,
+        "description": null,
+        "layer": "orto_foraar_wmts",
+        "style": "default",
+        "extent": "120000,5661139.2,1000000,6500000",
+        "matrixSet": "KortforsyningTilingDK",
+        "matrixIds": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+        "resolutions": "1638.4,819.2,409.6,204.8,102.4,51.2,25.6,12.8,6.4,3.2,1.6,0.8,0.4,0.2,0.1,0.05",
+        "format": "image/jpeg",
+        "minResolution": null,
+        "maxResolution": null
+      }
+    }
+  ],
+  "meta": {
+    "total": 3
+  }
+}

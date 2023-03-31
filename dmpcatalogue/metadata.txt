@@ -1,0 +1,26 @@
+[general]
+name=DMP Data Catalogue
+description=Discover and add layers from the Danish Miljøportal data catalog
+description[da]=Opdag og tilføj lag fra datakataloget hos Danmarsk Miljøportal
+about=Danish Miljøportal is a joint public partnership owned by the state, the municipalities and the regions, which aims to support digital environmental management in Denmark. The basic idea is that the state, municipalities and regions enter, update and retrieve data from the same databases, and that data is also made available to companies and citizens.
+
+     It includes data on the environment, water, nature, land use and climate adaptation. The data is used across a number of areas, for example when citizens collect soil pollution certificates, when municipalities designate spray-free areas, or when the state prepares water plans, agricultural packages and rules for waste water.
+about[da]=Danmarks Miljøportal er et fællesoffentligt partnerskab ejet af staten, kommunerne og regionerne, der har til formål at understøtte digital miljøforvaltning i Danmark. Grundideen er, at stat, kommuner og regioner inddaterer, opdaterer og henter data fra de samme databaser, og at data også bliver gjort tilgængelig for virksomheder og borgere.
+
+    Det omfatter data om miljø, vand, natur, arealanvendelse og klimatilpasning. Dataene bruges på tværs af en række områder, eksempelvis når borgere henter jordforureningsattester, når kommuner udpeger sprøjtefri områder, eller når staten udarbejder vandplaner, landbrugspakker og regler for spildevand.
+category=Web
+version=1.0.0
+qgisMinimumVersion=3.22
+
+icon=icons/dmpcatalogue.svg
+tags=wms,wfs,data,catalog,denmark
+
+author=Danmarks Miljøportal
+email=support@miljoeportal.dk
+
+homepage=https://github.com/danmarksmiljoeportal/datacatalog-qgis-plugin
+tracker=https://github.com/danmarksmiljoeportal/datacatalog-qgis-plugin/issues
+repository=https://github.com/danmarksmiljoeportal/datacatalog-qgis-plugin
+
+experimental=True
+deprecated=False

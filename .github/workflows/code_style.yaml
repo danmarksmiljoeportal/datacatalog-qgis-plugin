@@ -1,0 +1,14 @@
+name: Code Style
+
+on: [push]
+
+jobs:
+  check_code_style:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: psf/black@stable
+        with:
+          options: "--check --diff --verbose -l 80"
+          src: "./dmpcatalogue"

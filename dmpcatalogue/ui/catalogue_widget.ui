@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CatalogueDockWidget</class>
+ <widget class="QDockWidget" name="CatalogueDockWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>289</width>
+    <height>438</height>
+   </rect>
+  </property>
+  <property name="allowedAreas">
+   <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+  </property>
+  <property name="windowTitle">
+   <string>DMP Catalogue</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Collections are groups of layers that are&lt;br&gt;frequently used together. Collections are&lt;br&gt;tailored towards specific job functions and&lt;br&gt;areas, and are maintained by working&lt;br&gt;groups and domain experts.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Datasets</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QToolBar" name="dataset_toolbar">
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="floatable">
+           <bool>false</bool>
+          </property>
+          <addaction name="datasources_source_action"/>
+          <addaction name="group_owners_action"/>
+         </widget>
+        </item>
+        <item>
+         <widget class="QgsFilterLineEdit" name="search_dataset">
+          <property name="placeholderText">
+           <string>Search…</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="DatasetTreeView" name="dataset_tree">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
+          <property name="headerHidden">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Collections</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QToolBar" name="collection_toolbar">
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="floatable">
+           <bool>false</bool>
+          </property>
+          <addaction name="collections_source_action"/>
+         </widget>
+        </item>
+        <item>
+         <widget class="QgsFilterLineEdit" name="search_collection">
+          <property name="placeholderText">
+           <string>Search…</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="DatasetTreeView" name="collection_tree">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
+          <property name="headerHidden">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <action name="options_action">
+   <property name="text">
+    <string>Options…</string>
+   </property>
+  </action>
+  <action name="datasources_source_action">
+   <property name="text">
+    <string>Datasources</string>
+   </property>
+   <property name="toolTip">
+    <string>Datasources</string>
+   </property>
+  </action>
+  <action name="collections_source_action">
+   <property name="text">
+    <string>Datasources</string>
+   </property>
+   <property name="toolTip">
+    <string>Datasources</string>
+   </property>
+  </action>
+  <action name="group_owners_action">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Group by owners</string>
+   </property>
+   <property name="toolTip">
+    <string>Group by owners</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QgsFilterLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>qgis.gui</header>
+  </customwidget>
+  <customwidget>
+   <class>DatasetTreeView</class>
+   <extends>QTreeView</extends>
+   <header>dmpcatalogue.gui.dataset_tree_view</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
