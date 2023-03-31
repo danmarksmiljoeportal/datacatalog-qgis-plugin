@@ -67,6 +67,13 @@ class DataParserTask(QgsTask):
         with open(cache_file, "r", encoding="utf-8") as f:
             content = json.load(f)
 
+        meta = content.get("meta", None)
+        if meta is None:
+            return False
+
+        if meta["total"] == 0:
+            return False
+
         lookup_table = lookup_map(content["included"], simplify=True)
 
         flatten(content["data"], lookup_table)

@@ -203,3 +203,28 @@ class SettingsRegistry:
         settings.setValue(
             "dmpcatalogue/last_dir", directory, QgsSettings.Plugins
         )
+
+    @staticmethod
+    def tracking_enabled() -> bool:
+        """
+        Returns whether tracking is enabled.
+        """
+        settings = QgsSettings()
+        return settings.value(
+            "dmpcatalogue/tracking_enabled",
+            False,
+            bool,
+            QgsSettings.Plugins,
+        )
+
+    @staticmethod
+    def set_tracking_enabled(enable: bool):
+        """
+        Sets tracking state.
+        """
+        settings = QgsSettings()
+        settings.setValue(
+            "dmpcatalogue/tracking_enabled",
+            enable,
+            QgsSettings.Plugins,
+        )
