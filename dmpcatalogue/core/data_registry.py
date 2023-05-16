@@ -91,7 +91,7 @@ class DataRegistry(QObject):
             full_url = (
                 f"{url}/datasetCollections?include="
                 "datasetCollectionItems,datasetCollectionItems.dataset"
-                    f"&locale={self.locale}"
+                f"&locale={self.locale}"
             )
             if SettingsRegistry.tracking_enabled():
                 full_url += "&orgname=Danmarks Miljøportal&componentname=DMPCatalogue&appname=QGIS&appurlname=http://qgis.org"
@@ -107,7 +107,7 @@ class DataRegistry(QObject):
                 "wfsSource,wmsSource,wmtsSource,fileSources,"
                 "category,tags,owners,thumbnail,"
                 "fileSources.fileSourceType"
-                    f"&locale={self.locale}"
+                f"&locale={self.locale}"
             )
             if SettingsRegistry.tracking_enabled():
                 full_url += "&orgname=Danmarks Miljøportal&componentname=DMPCatalogue&appname=QGIS&appurlname=http://qgis.org"
