@@ -22,4 +22,4 @@ These are available here https://github.com/danmarksmiljoeportal/datacatalog-qgi
 
 # Support
 
-Please contact support@miljoeportal.dk if find bugs in the plugin or you have suggestions for how to improve the plugin.
+Please contact support@miljoeportal.dk if you find bugs in the plugin or you have suggestions for how to improve the plugin.
