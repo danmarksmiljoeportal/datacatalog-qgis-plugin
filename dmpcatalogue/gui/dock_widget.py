@@ -84,7 +84,9 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         )
         self.group_owners_action.toggled.connect(self.toggle_group_owners)
 
-        self.options_action.setIcon(QgsApplication.getThemeIcon("/mActionOptions.svg"))
+        self.options_action.setIcon(
+            QgsApplication.getThemeIcon("/mActionOptions.svg")
+        )
         self.options_action.triggered.connect(self.open_plugin_options)
 
         col_menu = QMenu()

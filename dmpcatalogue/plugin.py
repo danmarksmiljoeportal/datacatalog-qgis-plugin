@@ -55,7 +55,9 @@ class DmpPlugin:
         self.dock_action.setCheckable(True)
         self.dock_action.toggled.connect(self.toggle_dock_widget)
 
-        self.settings_action = QAction(self.tr("Settings"), self.iface.mainWindow())
+        self.settings_action = QAction(
+            self.tr("Settings"), self.iface.mainWindow()
+        )
         self.settings_action.setIcon(
             QgsApplication.getThemeIcon("/mActionOptions.svg")
         )
