@@ -35,7 +35,7 @@ jobs:
           docker run -d --name qgis-testing-environment -v "$GITHUB_WORKSPACE":/tests_directory -e DISPLAY=:99 "$DOCKER_IMAGE":${{ matrix.docker_tags }}
           # Wait for xvfb to finish starting
           printf "Waiting for the docker...🐳..."
-          sleep 10
+          sleep 30
           echo " done 🥩"
 
       - name: Docker set up QGIS
