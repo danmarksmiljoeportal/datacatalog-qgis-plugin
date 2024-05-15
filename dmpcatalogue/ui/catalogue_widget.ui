@@ -35,9 +35,6 @@
     </property>
     <item>
      <widget class="QTabWidget" name="tabWidget">
-      <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Collections are groups of layers that are&lt;br&gt;frequently used together. Collections are&lt;br&gt;tailored towards specific job functions and&lt;br&gt;areas, and are maintained by working&lt;br&gt;groups and domain experts.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
       <property name="currentIndex">
        <number>0</number>
       </property>
@@ -95,6 +92,9 @@
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
         <string>Collections</string>
+       </attribute>
+       <attribute name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Collections are groups of layers that are&lt;br&gt;frequently used together. Collections are&lt;br&gt;tailored towards specific job functions and&lt;br&gt;areas, and are maintained by working&lt;br&gt;groups and domain experts.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <property name="leftMargin">
