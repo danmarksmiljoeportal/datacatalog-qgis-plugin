@@ -55,6 +55,15 @@ class DmpPlugin:
         self.dock_action.setCheckable(True)
         self.dock_action.toggled.connect(self.toggle_dock_widget)
 
+        self.settings_action = QAction(
+            self.tr("Settings"), self.iface.mainWindow()
+        )
+        self.settings_action.setIcon(
+            QgsApplication.getThemeIcon("/mActionOptions.svg")
+        )
+        self.settings_action.setObjectName("dmpCatalogueSettings")
+        self.settings_action.triggered.connect(self.open_settings)
+
         self.help_action = QAction(self.tr("Help"), self.iface.mainWindow())
         self.help_action.setIcon(
             QgsApplication.getThemeIcon("/mActionHelpContents.svg")
@@ -64,6 +73,9 @@ class DmpPlugin:
 
         self.iface.addPluginToWebMenu(
             self.tr("DMP Catalogue"), self.dock_action
+        )
+        self.iface.addPluginToWebMenu(
+            self.tr("DMP Catalogue"), self.settings_action
         )
         self.iface.addPluginToWebMenu(
             self.tr("DMP Catalogue"), self.help_action
@@ -76,6 +88,9 @@ class DmpPlugin:
     def unload(self):
         self.iface.removePluginWebMenu(
             self.tr("DMP Catalogue"), self.dock_action
+        )
+        self.iface.removePluginWebMenu(
+            self.tr("DMP Catalogue"), self.settings_action
         )
         self.iface.removePluginWebMenu(
             self.tr("DMP Catalogue"), self.help_action
@@ -100,6 +115,9 @@ class DmpPlugin:
                 "blob/master/README.md"
             )
         )
+
+    def open_settings(self):
+        self.iface.showOptionsDialog(self.iface.mainWindow(), "dmpOptions")
 
     def report_error(self, message):
         self.iface.messageBar().pushMessage(
