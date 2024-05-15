@@ -99,6 +99,7 @@ class WmsSource(Datasource):
         uri.setParam("layers", self.layer)
         uri.setParam("styles", self.style)
         uri.setParam("format", self.image_format)
+        uri.setParam("crs", "EPSG:25832")
         layer = QgsRasterLayer(str(uri.encodedUri(), "utf-8"), title, "wms")
         return layer
 
