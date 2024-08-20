@@ -155,6 +155,7 @@ class WfsSource(Datasource):
         uri = QgsDataSourceUri()
         uri.setParam("url", url)
         uri.setParam("typename", self.typename)
+        uri.setParam('restrictToRequestBBOX', '1')
 
         layer = QgsVectorLayer(uri.uri(), title, "wfs")
         return layer
