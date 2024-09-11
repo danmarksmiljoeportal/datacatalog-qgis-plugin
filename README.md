@@ -16,8 +16,8 @@ These are available here https://github.com/danmarksmiljoeportal/datacatalog-qgi
 
 # Getting Started
 
-1. Install the plugin with the QGIS plugin manager
-2. Enable the plugin, by clicking on the "DMP Catalogue" button in the toolbar
+1. Install the plugin with the QGIS plugin manager.
+2. Enable the plugin, by clicking on the "DMP Catalogue" button in the toolbar.
 3. Double click on any layer in the _Datasets_ tab, to add it to the current QGIS project.
 
 # Support
