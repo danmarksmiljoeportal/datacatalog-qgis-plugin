@@ -6,7 +6,7 @@ The plugin adds a button to the QGIS toolbar, with which you can enable the plug
 The plugin allows you to explore the datasets (layers) and collections (groups of layers) in a tree, and also search for specific layers by name.
 
 # Installation
-The plugin is installed using the QGIS plugin manager.
+The plugin is installed using the QGIS plugin manager. 
 
 Goto to Plugins > "Manage and Install Plugins" click on "All" and search for "DMP Data Catalogue".
 
