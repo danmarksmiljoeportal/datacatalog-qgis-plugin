@@ -19,6 +19,7 @@ jobs:
 
       - name: Collect files for packaging
         run: |
+          cp LICENSE dmpcatalogue/
           rsync -av --exclude='*.pro' --exclude='*.ts' --exclude='tests' dmpcatalogue output
           (cd output && zip -9 -r ../dmpcatalogue.zip dmpcatalogue/)
 
