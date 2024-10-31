@@ -111,7 +111,6 @@ class WmtsSource(WmsSource):
     """
 
     tile_matrix: str
-    crs: str = "EPSG:25832"
 
     def to_layer(self, title: str) -> QgsRasterLayer:
         url = self.prepare_url()
@@ -136,7 +135,7 @@ class WmtsSource(WmsSource):
         uri.setParam("styles", self.style)
         uri.setParam("format", self.image_format)
         uri.setParam("tileMatrixSet", self.tile_matrix)
-        uri.setParam("crs", self.crs)
+        uri.setParam("crs", "EPSG:25832")
         layer = QgsRasterLayer(str(uri.encodedUri(), "utf-8"), title, "wms")
         return layer
 
@@ -155,6 +154,7 @@ class WfsSource(Datasource):
         uri = QgsDataSourceUri()
         uri.setParam("url", url)
         uri.setParam("typename", self.typename)
+        uri.setParam("srsname", "EPSG:25832")
 
         layer = QgsVectorLayer(uri.uri(), title, "wfs")
         return layer
