@@ -128,6 +128,8 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         self.collection_tree.set_filters(Filters.ShowAll)
         self.collection_tree.datasets_model.set_show_collections(True)
 
+        self.collection_tree.doubleClicked.connect(self.handle_doubleclick)
+
         self.registry = DATA_REGISTRY
 
         self.registry.fileDownloaded.connect(
@@ -313,6 +315,44 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
 
             if errors:
                 self.show_message("\n".join(errors))
+
+    def handle_doubleclick(self, index):
+        collection = self.collection_tree.collection_for_index(index)
+        if collection is None:
+            return
+
+        root = QgsProject.instance().layerTreeRoot()
+        group = root.findGroup(collection.title)
+        if group is None:
+            group = root.addGroup(collection.title)
+        else:
+            root.removeChildNode(group)
+            group = root.addGroup(collection.title)
+
+        errors = list()
+        for ds in collection.datasets:
+            if ds in self.registry.datasets:
+                d = self.registry.datasets[ds]
+                layer = d.layer()
+                if layer is None:
+                    errors.append(
+                        self.tr("There are no layers in the dataset ")
+                        + d.title
+                    )
+                    continue
+                if not layer.isValid():
+                    errors.append(
+                        self.tr("Failed to load ")
+                        + d.title
+                        + ": "
+                        + layer.error().message()
+                     )
+                    continue
+                QgsProject.instance().addMapLayer(layer, False)
+                group.addLayer(layer)
+
+        if errors:
+            self.show_message("\n".join(errors))
 
     def add_dataset_collection(self, collection, dataset, protocol=""):
         if collection is not None and dataset is not None:
