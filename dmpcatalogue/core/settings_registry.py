@@ -228,3 +228,28 @@ class SettingsRegistry:
             enable,
             QgsSettings.Plugins,
         )
+
+    @staticmethod
+    def use_request_bbox() -> bool:
+        """
+        Returns whether reqquest bbox should be used to fetch WFS features.
+        """
+        settings = QgsSettings()
+        return settings.value(
+            "dmpcatalogue/request_bbox",
+            False,
+            bool,
+            QgsSettings.Plugins,
+        )
+
+    @staticmethod
+    def set_use_request_bbox(use_bbox: bool):
+        """
+        Sets use of the request bbox.
+        """
+        settings = QgsSettings()
+        settings.setValue(
+            "dmpcatalogue/request_bbox",
+            use_bbox,
+            QgsSettings.Plugins,
+        )
