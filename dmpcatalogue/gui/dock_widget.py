@@ -336,8 +336,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                 layer = d.layer()
                 if layer is None:
                     errors.append(
-                        self.tr("There are no layers in the dataset ")
-                        + d.title
+                        self.tr("There are no layers in the dataset ") + d.title
                     )
                     continue
                 if not layer.isValid():
@@ -346,7 +345,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                         + d.title
                         + ": "
                         + layer.error().message()
-                     )
+                    )
                     continue
                 QgsProject.instance().addMapLayer(layer, False)
                 group.addLayer(layer)

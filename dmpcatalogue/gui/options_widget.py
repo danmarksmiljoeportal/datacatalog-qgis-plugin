@@ -61,7 +61,9 @@ class DmpOptionsWidget(BASE, WIDGET):
         self.dataforsyningen_token_edit.setText(token)
 
         self.tracking_checkbox.setChecked(SettingsRegistry.tracking_enabled())
-        self.request_bbox_checkbox.setChecked(SettingsRegistry.use_request_bbox())
+        self.request_bbox_checkbox.setChecked(
+            SettingsRegistry.use_request_bbox()
+        )
 
     def accept(self):
         old_url = SettingsRegistry.catalog_url()
