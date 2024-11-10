@@ -99,12 +99,20 @@ class DataParserTask(QgsTask):
             data = attributes.pop("fileSources", None)
             attributes["files"] = file_datasource(data)
 
+            data = attributes.pop("thumbnail", None)
+            attributes["thumbnail"] = attribute(data, "url")
+
+            data = attributes.pop("category", None)
+            attributes["category"] = attribute(data, "name")
+
+            if attributes["thumbnail"] is None:
+                t = data.pop("thumbnail", None)
+                attributes["thumbnail"] = attribute(t, "url")
+
             # extract necessary information from the complex attributes
             for key, field in (
                 ("tags", "name"),
-                ("category", "name"),
                 ("owners", "title"),
-                ("thumbnail", "url"),
             ):
                 data = attributes.pop(key, None)
                 attributes[key] = attribute(data, field)

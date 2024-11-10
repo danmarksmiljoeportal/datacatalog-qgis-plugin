@@ -106,7 +106,7 @@ class DataRegistry(QObject):
                 f"{url}/datasets?include="
                 "wfsSource,wmsSource,wmtsSource,fileSources,"
                 "category,tags,owners,thumbnail,"
-                "fileSources.fileSourceType"
+                "fileSources.fileSourceType,category.thumbnail"
                 f"&locale={self.locale}"
             )
             if SettingsRegistry.tracking_enabled():
