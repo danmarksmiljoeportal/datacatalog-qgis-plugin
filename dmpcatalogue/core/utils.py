@@ -37,7 +37,9 @@ def cache_directory(dir_name: str = "dmpcatalogue") -> str:
     """
     Creates cache directory with the given name and returns full path to it.
     """
-    dirs = QStandardPaths.standardLocations(QStandardPaths.GenericCacheLocation)
+    dirs = QStandardPaths.standardLocations(
+        QStandardPaths.StandardLocation.GenericCacheLocation
+    )
 
     root = dirs[0] if dirs else tempfile.gettempdir()
 

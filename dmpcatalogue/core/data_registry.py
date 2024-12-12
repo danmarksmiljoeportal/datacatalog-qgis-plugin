@@ -132,7 +132,7 @@ class DataRegistry(QObject):
         """
         reply = task.reply()
         if reply is not None:
-            if reply.error() != QNetworkReply.NoError:
+            if reply.error() != QNetworkReply.NetworkError.NoError:
                 self.requestFailed.emit(
                     self.tr("Network request failed: ") + reply.errorString()
                 )

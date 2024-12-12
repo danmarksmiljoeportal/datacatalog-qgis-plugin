@@ -41,3 +41,5 @@ email=support@miljoeportal.dk
 homepage=https://miljoeportal.dk/
 tracker=https://github.com/danmarksmiljoeportal/datacatalog-qgis-plugin/issues
 repository=https://github.com/danmarksmiljoeportal/datacatalog-qgis-plugin
+
+supportsQt6=yes

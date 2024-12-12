@@ -43,7 +43,9 @@ class DmpPlugin:
         self.iface.registerOptionsWidgetFactory(self.options_factory)
 
         self.dock_widget = CatalogueDockWidget()
-        self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dock_widget)
+        self.iface.addDockWidget(
+            Qt.DockWidgetArea.RightDockWidgetArea, self.dock_widget
+        )
         self.dock_widget.hide()
         self.dock_widget.visibilityChanged.connect(self.toggle_dock_action)
 

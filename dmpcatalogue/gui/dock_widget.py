@@ -75,7 +75,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         self.datasources_source_action.setMenu(ds_menu)
         self.dataset_toolbar.widgetForAction(
             self.datasources_source_action
-        ).setPopupMode(QToolButton.InstantPopup)
+        ).setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
         self.datasources_source_action.setIcon(
             QIcon(os.path.join(PLUGIN_PATH, "icons", "datasources.svg"))
         )
@@ -116,7 +116,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         self.collections_source_action.setMenu(col_menu)
         self.collection_toolbar.widgetForAction(
             self.collections_source_action
-        ).setPopupMode(QToolButton.InstantPopup)
+        ).setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
         self.collections_source_action.setIcon(
             QIcon(os.path.join(PLUGIN_PATH, "icons", "datasources.svg"))
         )

@@ -49,7 +49,7 @@ class Roles(IntEnum):
     Custom roles used by the dataset model.
     """
 
-    RoleNodeType = Qt.UserRole
+    RoleNodeType = Qt.ItemDataRole.UserRole
     RoleDatasetUid = auto()
     RoleDatasetTitle = auto()
     RoleDatasetDescription = auto()
@@ -350,7 +350,9 @@ class DatasetItemModel(QAbstractItemModel):
 
         return text
 
-    def data(self, index: QModelIndex, role: int = Qt.DisplayRole) -> Any:
+    def data(
+        self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole
+    ) -> Any:
         if not index.isValid():
             return None
 
@@ -368,7 +370,7 @@ class DatasetItemModel(QAbstractItemModel):
 
         dataset = self.dataset_for_index(index)
 
-        if role == Qt.DisplayRole:
+        if role == Qt.ItemDataRole.DisplayRole:
             if index.column() == 0:
                 if dataset is not None:
                     return dataset.title
@@ -380,7 +382,7 @@ class DatasetItemModel(QAbstractItemModel):
                     return self.tr("Favorites")
                 return None
             return None
-        elif role == Qt.ToolTipRole:
+        elif role == Qt.ItemDataRole.ToolTipRole:
             if dataset is not None:
                 return self.tooltip_for_dataset(dataset)
             elif node.node_type == NodeType.NodeCategory:
@@ -390,7 +392,7 @@ class DatasetItemModel(QAbstractItemModel):
             elif node.node_type == NodeType.NodeOwner:
                 return node.owner
             return None
-        elif role == Qt.ForegroundRole:
+        elif role == Qt.ItemDataRole.ForegroundRole:
             if dataset is not None:
                 if dataset.status == "unavailable":
                     return QBrush(QColor("#d65253"))
@@ -399,7 +401,7 @@ class DatasetItemModel(QAbstractItemModel):
                 else:
                     return None
             return None
-        elif role == Qt.DecorationRole:
+        elif role == Qt.ItemDataRole.DecorationRole:
             if index.column() == 0:
                 if dataset is not None:
                     if dataset.status == "unavailable":
@@ -547,7 +549,7 @@ class DatasetProxyModel(QSortFilterProxyModel):
         self.setSourceModel(self.model)
         self.setDynamicSortFilter(True)
         self.setSortLocaleAware(True)
-        self.setFilterCaseSensitivity(Qt.CaseInsensitive)
+        self.setFilterCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
         self.sort(0)
 
         self.model.favoriteAdded.connect(self.invalidateFilter)
@@ -596,7 +598,7 @@ class DatasetProxyModel(QSortFilterProxyModel):
                 while parent.isValid():
                     parent_parts = (
                         self.sourceModel()
-                        .data(parent, Qt.DisplayRole)
+                        .data(parent, Qt.ItemDataRole.DisplayRole)
                         .split(" ")
                     )
                     if parent_parts:
@@ -607,7 +609,7 @@ class DatasetProxyModel(QSortFilterProxyModel):
 
                 parts_to_search = (
                     self.sourceModel()
-                    .data(source_index, Qt.DisplayRole)
+                    .data(source_index, Qt.ItemDataRole.DisplayRole)
                     .split(" ")
                 )
                 parts_to_search.append(ds_uid)
@@ -673,5 +675,7 @@ class DatasetProxyModel(QSortFilterProxyModel):
         right_str = self.sourceModel().data(right)
         return strcoll(left_str, right_str) < 0
 
-    def data(self, index: QModelIndex, role: int = Qt.DisplayRole) -> Any:
+    def data(
+        self, index: QModelIndex, role: int = Qt.ItemDataRole.DisplayRole
+    ) -> Any:
         return super(DatasetProxyModel, self).data(index, role)

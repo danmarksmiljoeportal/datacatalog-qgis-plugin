@@ -81,7 +81,9 @@ class test_dataset_model(unittest.TestCase):
         self.assertEqual(model.rowCount(), 1)
         self.assertTrue(model.hasChildren())
         self.assertEqual(
-            model.data(model.index(0, 0, QModelIndex()), Qt.DisplayRole),
+            model.data(
+                model.index(0, 0, QModelIndex()), Qt.ItemDataRole.DisplayRole
+            ),
             "Favorites",
         )
         self.assertEqual(model.rowCount(model.index(0, 0, QModelIndex())), 0)
@@ -118,7 +120,9 @@ class test_dataset_model(unittest.TestCase):
         self.assertTrue(model.index(0, 0, QModelIndex()).isValid())
         self.assertTrue(model.index(1, 0, QModelIndex()).isValid())
         self.assertEqual(
-            model.data(model.index(0, 0, QModelIndex()), Qt.DisplayRole),
+            model.data(
+                model.index(0, 0, QModelIndex()), Qt.ItemDataRole.DisplayRole
+            ),
             "Favorites",
         )
         self.assertFalse(
@@ -132,16 +136,20 @@ class test_dataset_model(unittest.TestCase):
         self.assertEqual(model.rowCount(category_index), 1)
         self.assertTrue(model.hasChildren(category_index))
         self.assertEqual(
-            model.data(category_index, Qt.DisplayRole), "category1"
+            model.data(category_index, Qt.ItemDataRole.DisplayRole), "category1"
         )
         self.assertEqual(
-            model.data(category_index, Qt.ToolTipRole), "category1"
+            model.data(category_index, Qt.ItemDataRole.ToolTipRole), "category1"
         )
         self.assertFalse(
-            model.data(model.index(2, 0, QModelIndex()), Qt.DisplayRole)
+            model.data(
+                model.index(2, 0, QModelIndex()), Qt.ItemDataRole.DisplayRole
+            )
         )
         self.assertFalse(
-            model.data(model.index(2, 0, QModelIndex()), Qt.ToolTipRole)
+            model.data(
+                model.index(2, 0, QModelIndex()), Qt.ItemDataRole.ToolTipRole
+            )
         )
 
         # another dataset
@@ -170,25 +178,31 @@ class test_dataset_model(unittest.TestCase):
         self.assertEqual(model.rowCount(category_index), 2)
         self.assertTrue(model.hasChildren(category_index))
         self.assertEqual(
-            model.data(category_index, Qt.DisplayRole), "category2"
+            model.data(category_index, Qt.ItemDataRole.DisplayRole), "category2"
         )
         self.assertEqual(
-            model.data(category_index, Qt.ToolTipRole), "category2"
+            model.data(category_index, Qt.ItemDataRole.ToolTipRole), "category2"
         )
         self.assertFalse(
-            model.data(model.index(3, 0, QModelIndex()), Qt.DisplayRole)
+            model.data(
+                model.index(3, 0, QModelIndex()), Qt.ItemDataRole.DisplayRole
+            )
         )
         self.assertFalse(
-            model.data(model.index(3, 0, QModelIndex()), Qt.ToolTipRole)
+            model.data(
+                model.index(3, 0, QModelIndex()), Qt.ItemDataRole.ToolTipRole
+            )
         )
 
         category_index = model.index(1, 0, QModelIndex())
         ds_index = model.index(0, 0, category_index)
         self.assertTrue(model.dataset_for_index(ds_index))
         self.assertEqual(model.dataset_for_index(ds_index).uid, "ds-01")
-        self.assertEqual(model.data(ds_index, Qt.DisplayRole), "dataset1")
         self.assertEqual(
-            model.data(ds_index, Qt.ToolTipRole),
+            model.data(ds_index, Qt.ItemDataRole.DisplayRole), "dataset1"
+        )
+        self.assertEqual(
+            model.data(ds_index, Qt.ItemDataRole.ToolTipRole),
             "<p><b>dataset1</b></p><p>dataset1 description</p>",
         )
         self.assertEqual(model.data(ds_index, Roles.RoleDatasetUid), "ds-01")
@@ -207,9 +221,11 @@ class test_dataset_model(unittest.TestCase):
         ds_index = model.index(0, 0, category_index)
         self.assertTrue(model.dataset_for_index(ds_index))
         self.assertEqual(model.dataset_for_index(ds_index).uid, "ds-02")
-        self.assertEqual(model.data(ds_index, Qt.DisplayRole), "dataset2")
         self.assertEqual(
-            model.data(ds_index, Qt.ToolTipRole),
+            model.data(ds_index, Qt.ItemDataRole.DisplayRole), "dataset2"
+        )
+        self.assertEqual(
+            model.data(ds_index, Qt.ItemDataRole.ToolTipRole),
             "<p><b>dataset2</b></p><p>dataset2 description</p>",
         )
         self.assertEqual(model.data(ds_index, Roles.RoleDatasetUid), "ds-02")
@@ -237,9 +253,11 @@ class test_dataset_model(unittest.TestCase):
         )
         ds_index = model.index(3, 0, QModelIndex())
         self.assertEqual(model.dataset_for_index(ds_index).uid, "ds-04")
-        self.assertEqual(model.data(ds_index, Qt.DisplayRole), "dataset4")
         self.assertEqual(
-            model.data(ds_index, Qt.ToolTipRole),
+            model.data(ds_index, Qt.ItemDataRole.DisplayRole), "dataset4"
+        )
+        self.assertEqual(
+            model.data(ds_index, Qt.ItemDataRole.ToolTipRole),
             "<p><b>dataset4</b></p><p>dataset4 description</p>",
         )
         self.assertEqual(model.data(ds_index, Roles.RoleDatasetUid), "ds-04")
@@ -257,7 +275,8 @@ class test_dataset_model(unittest.TestCase):
         # favorites
         favorites_index = model.index(0, 0, QModelIndex())
         self.assertEqual(
-            model.data(favorites_index, Qt.DisplayRole), "Favorites"
+            model.data(favorites_index, Qt.ItemDataRole.DisplayRole),
+            "Favorites",
         )
         self.assertEqual(model.rowCount(favorites_index), 0)
         registry.add_or_remove_favorite("ds-02")
@@ -304,7 +323,9 @@ class test_dataset_model(unittest.TestCase):
         )
 
         self.assertEqual(
-            model.data(model.index(0, 0, QModelIndex()), Qt.DisplayRole),
+            model.data(
+                model.index(0, 0, QModelIndex()), Qt.ItemDataRole.DisplayRole
+            ),
             "Favorites",
         )
         self.assertEqual(model.rowCount(model.index(0, 0, QModelIndex())), 0)
@@ -312,35 +333,53 @@ class test_dataset_model(unittest.TestCase):
         owner_index = model.index(1, 0, QModelIndex())
         self.assertTrue(model.hasChildren(owner_index))
         self.assertEqual(model.rowCount(owner_index), 3)
-        self.assertEqual(model.data(owner_index, Qt.DisplayRole), "org1")
-        self.assertEqual(model.data(owner_index, Qt.ToolTipRole), "org1")
+        self.assertEqual(
+            model.data(owner_index, Qt.ItemDataRole.DisplayRole), "org1"
+        )
+        self.assertEqual(
+            model.data(owner_index, Qt.ItemDataRole.ToolTipRole), "org1"
+        )
 
         ds_index = model.index(0, 0, owner_index)
         self.assertTrue(model.dataset_for_index(ds_index))
         self.assertEqual(model.dataset_for_index(ds_index).uid, "ds-01")
-        self.assertEqual(model.data(ds_index, Qt.DisplayRole), "dataset1")
+        self.assertEqual(
+            model.data(ds_index, Qt.ItemDataRole.DisplayRole), "dataset1"
+        )
         ds_index = model.index(1, 0, owner_index)
         self.assertTrue(model.dataset_for_index(ds_index))
         self.assertEqual(model.dataset_for_index(ds_index).uid, "ds-03")
-        self.assertEqual(model.data(ds_index, Qt.DisplayRole), "dataset3")
+        self.assertEqual(
+            model.data(ds_index, Qt.ItemDataRole.DisplayRole), "dataset3"
+        )
         ds_index = model.index(2, 0, owner_index)
         self.assertTrue(model.dataset_for_index(ds_index))
         self.assertEqual(model.dataset_for_index(ds_index).uid, "ds-04")
-        self.assertEqual(model.data(ds_index, Qt.DisplayRole), "dataset4")
+        self.assertEqual(
+            model.data(ds_index, Qt.ItemDataRole.DisplayRole), "dataset4"
+        )
 
         owner_index = model.index(2, 0, QModelIndex())
         self.assertTrue(model.hasChildren(owner_index))
         self.assertEqual(model.rowCount(owner_index), 2)
-        self.assertEqual(model.data(owner_index, Qt.DisplayRole), "org2")
-        self.assertEqual(model.data(owner_index, Qt.ToolTipRole), "org2")
+        self.assertEqual(
+            model.data(owner_index, Qt.ItemDataRole.DisplayRole), "org2"
+        )
+        self.assertEqual(
+            model.data(owner_index, Qt.ItemDataRole.ToolTipRole), "org2"
+        )
         ds_index = model.index(0, 0, owner_index)
         self.assertTrue(model.dataset_for_index(ds_index))
         self.assertEqual(model.dataset_for_index(ds_index).uid, "ds-02")
-        self.assertEqual(model.data(ds_index, Qt.DisplayRole), "dataset2")
+        self.assertEqual(
+            model.data(ds_index, Qt.ItemDataRole.DisplayRole), "dataset2"
+        )
         ds_index = model.index(1, 0, owner_index)
         self.assertTrue(model.dataset_for_index(ds_index))
         self.assertEqual(model.dataset_for_index(ds_index).uid, "ds-03")
-        self.assertEqual(model.data(ds_index, Qt.DisplayRole), "dataset3")
+        self.assertEqual(
+            model.data(ds_index, Qt.ItemDataRole.DisplayRole), "dataset3"
+        )
 
         # collections
         model.set_mode(Mode.GroupCategories)
@@ -349,7 +388,9 @@ class test_dataset_model(unittest.TestCase):
         self.assertEqual(model.rowCount(), 1)
         self.assertTrue(model.hasChildren())
         self.assertEqual(
-            model.data(model.index(0, 0, QModelIndex()), Qt.DisplayRole),
+            model.data(
+                model.index(0, 0, QModelIndex()), Qt.ItemDataRole.DisplayRole
+            ),
             "Favorites",
         )
         self.assertEqual(model.rowCount(model.index(0, 0, QModelIndex())), 0)
@@ -373,7 +414,9 @@ class test_dataset_model(unittest.TestCase):
             model.index2node(QModelIndex()).node_type, NodeType.NodeCategory
         )
         self.assertEqual(
-            model.data(model.index(0, 0, QModelIndex()), Qt.DisplayRole),
+            model.data(
+                model.index(0, 0, QModelIndex()), Qt.ItemDataRole.DisplayRole
+            ),
             "Favorites",
         )
         collection_index = model.index(1, 0, QModelIndex())
@@ -384,10 +427,12 @@ class test_dataset_model(unittest.TestCase):
         self.assertTrue(model.hasChildren(collection_index))
         self.assertEqual(model.rowCount(collection_index), 2)
         self.assertEqual(
-            model.data(collection_index, Qt.DisplayRole), "collection1"
+            model.data(collection_index, Qt.ItemDataRole.DisplayRole),
+            "collection1",
         )
         self.assertEqual(
-            model.data(collection_index, Qt.ToolTipRole), "collection1"
+            model.data(collection_index, Qt.ItemDataRole.ToolTipRole),
+            "collection1",
         )
 
         ds_index = model.index(0, 0, collection_index)
@@ -397,7 +442,9 @@ class test_dataset_model(unittest.TestCase):
         ds_index = model.index(1, 0, collection_index)
         self.assertTrue(model.dataset_for_index(ds_index))
         self.assertEqual(model.dataset_for_index(ds_index).uid, "ds-02")
-        self.assertEqual(model.data(ds_index, Qt.DisplayRole), "dataset2")
+        self.assertEqual(
+            model.data(ds_index, Qt.ItemDataRole.DisplayRole), "dataset2"
+        )
 
         registry.collections["col-02"] = DummyCollection(
             "col-02",
@@ -416,19 +463,25 @@ class test_dataset_model(unittest.TestCase):
         self.assertTrue(model.hasChildren(collection_index))
         self.assertEqual(model.rowCount(collection_index), 2)
         self.assertEqual(
-            model.data(collection_index, Qt.DisplayRole), "collection2"
+            model.data(collection_index, Qt.ItemDataRole.DisplayRole),
+            "collection2",
         )
         self.assertEqual(
-            model.data(collection_index, Qt.ToolTipRole), "collection2"
+            model.data(collection_index, Qt.ItemDataRole.ToolTipRole),
+            "collection2",
         )
         ds_index = model.index(0, 0, collection_index)
         self.assertTrue(model.dataset_for_index(ds_index))
         self.assertEqual(model.dataset_for_index(ds_index).uid, "ds-01")
-        self.assertEqual(model.data(ds_index, Qt.DisplayRole), "dataset1")
+        self.assertEqual(
+            model.data(ds_index, Qt.ItemDataRole.DisplayRole), "dataset1"
+        )
         ds_index = model.index(1, 0, collection_index)
         self.assertTrue(model.dataset_for_index(ds_index))
         self.assertEqual(model.dataset_for_index(ds_index).uid, "ds-03")
-        self.assertEqual(model.data(ds_index, Qt.DisplayRole), "dataset3")
+        self.assertEqual(
+            model.data(ds_index, Qt.ItemDataRole.DisplayRole), "dataset3"
+        )
 
         registry.collections["col-03"] = DummyCollection(
             "col-03",
@@ -485,11 +538,15 @@ class test_dataset_model(unittest.TestCase):
         model.model.rebuild()
         self.assertEqual(model.rowCount(), 2)
         self.assertEqual(
-            model.data(model.index(0, 0, QModelIndex()), Qt.DisplayRole),
+            model.data(
+                model.index(0, 0, QModelIndex()), Qt.ItemDataRole.DisplayRole
+            ),
             "category1",
         )
         self.assertEqual(
-            model.data(model.index(1, 0, QModelIndex()), Qt.DisplayRole),
+            model.data(
+                model.index(1, 0, QModelIndex()), Qt.ItemDataRole.DisplayRole
+            ),
             "category2",
         )
 
@@ -593,7 +650,8 @@ class test_dataset_model(unittest.TestCase):
         self.assertEqual(model.rowCount(), 3)
         favorites_index = model.index(0, 0, QModelIndex())
         self.assertEqual(
-            model.data(favorites_index, Qt.DisplayRole), "Favorites"
+            model.data(favorites_index, Qt.ItemDataRole.DisplayRole),
+            "Favorites",
         )
         self.assertEqual(model.rowCount(favorites_index), 1)
         self.assertEqual(
@@ -667,14 +725,16 @@ class test_dataset_model(unittest.TestCase):
         category_index = view.proxy_model.index(0, 0, QModelIndex())
         self.assertFalse(view.dataset_for_index(category_index))
         self.assertEqual(
-            view.proxy_model.data(category_index, Qt.DisplayRole), "category1"
+            view.proxy_model.data(category_index, Qt.ItemDataRole.DisplayRole),
+            "category1",
         )
         ds_index = view.proxy_model.index(0, 0, category_index)
         self.assertEqual(view.dataset_for_index(ds_index).uid, "ds1")
         category_index = view.proxy_model.index(1, 0, QModelIndex())
         self.assertFalse(view.dataset_for_index(category_index))
         self.assertEqual(
-            view.proxy_model.data(category_index, Qt.DisplayRole), "category2"
+            view.proxy_model.data(category_index, Qt.ItemDataRole.DisplayRole),
+            "category2",
         )
         ds_index = view.proxy_model.index(0, 0, category_index)
         self.assertEqual(view.dataset_for_index(ds_index).uid, "ds3")
@@ -683,7 +743,8 @@ class test_dataset_model(unittest.TestCase):
         view.set_filter_string("text")
         category_index = view.proxy_model.index(0, 0, QModelIndex())
         self.assertEqual(
-            view.proxy_model.data(category_index, Qt.DisplayRole), "category2"
+            view.proxy_model.data(category_index, Qt.ItemDataRole.DisplayRole),
+            "category2",
         )
         self.assertEqual(view.proxy_model.rowCount(), 1)
         self.assertEqual(view.proxy_model.rowCount(category_index), 1)
