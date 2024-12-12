@@ -29,6 +29,7 @@ from dmpcatalogue.core.utils import (
     icon,
     collection,
 )
+from dmpcatalogue.constants import PLUGIN_ICON
 
 
 class DataParserTask(QgsTask):
@@ -104,6 +105,7 @@ class DataParserTask(QgsTask):
 
             data = attributes.pop("category", None)
             attributes["category"] = attribute(data, "name")
+            attributes["category_icon"] = PLUGIN_ICON
 
             if attributes["thumbnail"] is None:
                 t = data.pop("thumbnail", None)

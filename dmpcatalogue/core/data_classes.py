@@ -185,6 +185,7 @@ class Dataset:
     owners: list[str]
     status: str
     thumbnail: QIcon
+    category_icon: QIcon
     wms: WmsSource
     wmts: WmtsSource
     wfs: WfsSource

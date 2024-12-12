@@ -131,9 +131,10 @@ class CategoryNode(ModelNode):
     Model node corresponding to a category of datasets.
     """
 
-    def __init__(self, category):
+    def __init__(self, category, icon=None):
         super(CategoryNode, self).__init__()
         self.category = category
+        self.icon = icon
 
 
 class OwnerNode(ModelNode):
@@ -301,7 +302,9 @@ class DatasetItemModel(QAbstractItemModel):
             if category != "":
                 category_node = parent_node.get_child_category_node(category)
                 if category_node is None:
-                    category_node = CategoryNode(category)
+                    category_node = CategoryNode(
+                        category, dataset.category_icon
+                    )
                     parent_node.add_child_node(category_node)
                 category_node.add_child_node(dataset_node)
             else:
@@ -411,7 +414,7 @@ class DatasetItemModel(QAbstractItemModel):
                     else:
                         return dataset.thumbnail
                 elif node.node_type == NodeType.NodeCategory:
-                    return PLUGIN_ICON
+                    return PLUGIN_ICON if node.icon is None else node.icon
                 elif node.node_type == NodeType.NodeOwner:
                     return PLUGIN_ICON
                 elif is_favorite_node:

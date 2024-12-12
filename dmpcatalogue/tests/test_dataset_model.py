@@ -49,6 +49,7 @@ class DummyDataset:
         self.files = files
         self.status = "available"
         self.thumbnail = None
+        self.category_icon = None
         self.owners = owners
 
     def has_ows_source(self):

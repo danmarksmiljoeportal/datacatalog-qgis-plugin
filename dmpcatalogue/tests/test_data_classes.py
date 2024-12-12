@@ -197,6 +197,7 @@ class test_classes(unittest.TestCase):
             ["Kommunerne"],
             "available",
             None,
+            None,
             WmsSource(
                 "https://geodata.fvm.dk/geoserver/Vandprojekter/wms",
                 "ID15oplande",
