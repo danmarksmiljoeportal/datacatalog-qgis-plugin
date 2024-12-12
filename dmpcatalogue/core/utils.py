@@ -86,7 +86,7 @@ def lookup_map(
         key = item["id"] if exclude_type else (item["type"], item["id"])
         if key not in result:
             if not include_resources:
-                result[key] = item["attributes"]
+                result[key] = item["attributes"].copy()
             else:
                 if "relationships" in item:
                     result[key] = {
@@ -94,7 +94,7 @@ def lookup_map(
                         **item["relationships"],
                     }
                 else:
-                    result[key] = item["attributes"]
+                    result[key] = item["attributes"].copy()
             result[key]["id"] = item["id"]
 
     if simplify:

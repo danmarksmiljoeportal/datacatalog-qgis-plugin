@@ -15,6 +15,7 @@ import os
 import json
 
 from qgis.PyQt.QtCore import pyqtSignal
+from qgis.PyQt.QtGui import QIcon
 
 from qgis.core import QgsTask
 
@@ -88,7 +89,7 @@ class DataParserTask(QgsTask):
                 return False
 
             uid = item["id"]
-            attributes = item["attributes"]
+            attributes = item["attributes"].copy()
 
             # create datasources
             for dtype, keys in (
@@ -104,11 +105,11 @@ class DataParserTask(QgsTask):
             data = attributes.pop("fileSources", None)
             attributes["files"] = file_datasource(data)
 
-            data = attributes.pop("category", None)
+            data = attributes.pop("category", None).copy()
             attributes["category"] = attribute(data, "name")
             attributes["category_icon"] = PLUGIN_ICON
             if data is not None:
-                thumb = data.pop("thumbnail", None)
+                thumb = data.pop("thumbnail", None).copy()
                 tid = attribute(thumb, "id")
                 url = attribute(thumb, "url")
                 if tid is not None:
@@ -116,7 +117,13 @@ class DataParserTask(QgsTask):
                     attributes["category_icon"] = icon(icon_file, url)
 
             data = attributes.pop("thumbnail", None)
-            attributes["thumbnail"] = attribute(data, "url")
+            attributes["thumbnail"] = QIcon(attributes["category_icon"])
+            if data is not None:
+                tid = attribute(data, "id")
+                url = attribute(data, "url")
+                if tid is not None:
+                    icon_file = os.path.join(icon_cache, tid)
+                    attributes["thumbnail"] = icon(icon_file, url)
 
             # extract necessary information from the complex attributes
             for key, field in (
@@ -129,15 +136,6 @@ class DataParserTask(QgsTask):
             # inject status info
             status = attribute(status_info.get(uid, None), "status")
             attributes["status"] = status
-
-            # dataset icon
-            safe_uid = str(uid)
-            for c in (".", ":"):
-                if c in safe_uid:
-                    safe_uid = safe_uid.replace(c, "-")
-            icon_file = os.path.join(icon_cache, safe_uid)
-            url = attributes.get("thumbnail", None)
-            attributes["thumbnail"] = icon(icon_file, url)
 
             ds = Dataset(uid, **attributes)
             self.datasets[uid] = ds
