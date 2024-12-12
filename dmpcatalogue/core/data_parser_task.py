@@ -78,6 +78,10 @@ class DataParserTask(QgsTask):
         lookup_table = lookup_map(content["included"], simplify=True)
 
         flatten(content["data"], lookup_table)
+
+        with open("/home/alex/data.json", "w", encoding="utf-8") as f:
+            json.dump(content["data"], f, indent=2)
+
         step = 90 / len(content["data"])
         for i, item in enumerate(content["data"]):
             if self.isCanceled():
@@ -100,16 +104,19 @@ class DataParserTask(QgsTask):
             data = attributes.pop("fileSources", None)
             attributes["files"] = file_datasource(data)
 
-            data = attributes.pop("thumbnail", None)
-            attributes["thumbnail"] = attribute(data, "url")
-
             data = attributes.pop("category", None)
             attributes["category"] = attribute(data, "name")
             attributes["category_icon"] = PLUGIN_ICON
+            if data is not None:
+                thumb = data.pop("thumbnail", None)
+                tid = attribute(thumb, "id")
+                url = attribute(thumb, "url")
+                if tid is not None:
+                    icon_file = os.path.join(icon_cache, tid)
+                    attributes["category_icon"] = icon(icon_file, url)
 
-            if attributes["thumbnail"] is None:
-                t = data.pop("thumbnail", None)
-                attributes["thumbnail"] = attribute(t, "url")
+            data = attributes.pop("thumbnail", None)
+            attributes["thumbnail"] = attribute(data, "url")
 
             # extract necessary information from the complex attributes
             for key, field in (

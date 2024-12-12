@@ -95,6 +95,7 @@ def lookup_map(
                     }
                 else:
                     result[key] = item["attributes"]
+            result[key]["id"] = item["id"]
 
     if simplify:
         flatten(data, result)
@@ -242,7 +243,7 @@ def icon(icon_file: str, url: Union[str, None]) -> QIcon:
         return QIcon(icon_file)
 
     if url is None:
-        return PLUGIN_ICON
+        return None
 
     # download icon
     request = QgsBlockingNetworkRequest()
@@ -254,7 +255,7 @@ def icon(icon_file: str, url: Union[str, None]) -> QIcon:
 
         return QIcon(icon_file)
 
-    return PLUGIN_ICON
+    return None
 
 
 def collection(data: dict, lookup_map: dict) -> dict:
