@@ -80,9 +80,6 @@ class DataParserTask(QgsTask):
 
         flatten(content["data"], lookup_table)
 
-        with open("/home/alex/data.json", "w", encoding="utf-8") as f:
-            json.dump(content["data"], f, indent=2)
-
         step = 90 / len(content["data"])
         for i, item in enumerate(content["data"]):
             if self.isCanceled():
