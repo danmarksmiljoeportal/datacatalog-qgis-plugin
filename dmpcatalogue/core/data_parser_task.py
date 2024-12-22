@@ -144,16 +144,39 @@ class DataParserTask(QgsTask):
         with open(cache_file, "r", encoding="utf-8") as f:
             content = json.load(f)
 
-        lookup_table = lookup_map(content["included"], include_resources=True)
+        lookup_table = lookup_map(content["included"], simplify=True)
+        flatten(content["data"], lookup_table)
+
         step = 10 / len(content["data"])
         for i, item in enumerate(content["data"]):
             if self.isCanceled():
                 return False
 
             uid = item["id"]
-            attributes = collection(item, lookup_table)
-            self.collections[uid] = Collection(uid, **attributes)
+            params = dict()
 
+            attrs = item["attributes"]
+            params["title"] = attrs["title"]
+            params["description"] = attrs["description"]
+
+            params["datasets"] = list()
+            d = attrs["datasetCollectionItems"]
+            if d is None:
+                continue
+
+            for item in d:
+                params["datasets"].append(item["dataset"]["id"])
+
+            params["icon"] = None
+            t = attrs["thumbnail"]
+            if t is not None:
+                tid = t["id"]
+                url = t["url"]
+                if tid is not None:
+                    icon_file = os.path.join(icon_cache, tid)
+                    params["icon"] = icon(icon_file, url)
+
+            self.collections[uid] = Collection(uid, **params)
             self.setProgress(self.progress() + i * step)
 
         self.processed.emit()

@@ -254,3 +254,4 @@ class Collection:
     title: str
     description: str
     datasets: list[str]
+    icon: QIcon

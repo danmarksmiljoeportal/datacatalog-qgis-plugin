@@ -158,6 +158,7 @@ class CollectionNode(ModelNode):
         self.node_type = NodeType.NodeCollection
         self.collection = collection
         self.title = collection.title
+        self.icon = collection.icon
 
 
 class DatasetNode(ModelNode):
@@ -414,6 +415,8 @@ class DatasetItemModel(QAbstractItemModel):
                     else:
                         return dataset.thumbnail
                 elif node.node_type == NodeType.NodeCategory:
+                    return PLUGIN_ICON if node.icon is None else node.icon
+                elif node.node_type == NodeType.NodeCollection:
                     return PLUGIN_ICON if node.icon is None else node.icon
                 elif node.node_type == NodeType.NodeOwner:
                     return PLUGIN_ICON

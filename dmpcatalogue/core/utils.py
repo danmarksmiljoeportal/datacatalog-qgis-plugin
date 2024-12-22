@@ -256,23 +256,3 @@ def icon(icon_file: str, url: Union[str, None]) -> QIcon:
         return QIcon(icon_file)
 
     return None
-
-
-def collection(data: dict, lookup_map: dict) -> dict:
-    """
-    Returns dictionary of parameters needed to construct an instance of the
-    Collection class.
-    """
-    params = dict()
-    attrs = data["attributes"]
-    params["title"] = attrs["title"]
-    params["description"] = attrs["description"]
-
-    params["datasets"] = list()
-    rels = data["relationships"]
-    for item in rels["datasetCollectionItems"]["data"]:
-        col_item = lookup_map.get((item["type"], item["id"]), None)
-        if col_item:
-            params["datasets"].append(col_item["dataset"]["data"]["id"])
-
-    return params

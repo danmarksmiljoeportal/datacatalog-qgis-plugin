@@ -90,7 +90,7 @@ class DataRegistry(QObject):
 
             full_url = (
                 f"{url}/datasetCollections?include="
-                "datasetCollectionItems,datasetCollectionItems.dataset"
+                "datasetCollectionItems,datasetCollectionItems.dataset,thumbnail"
                 f"&locale={self.locale}"
             )
             if SettingsRegistry.tracking_enabled():
