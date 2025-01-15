@@ -45,7 +45,10 @@ class FileDownloaderTask(QgsTask):
 
         downloader.startDownload()
 
-        loop.exec_()
+        try:
+            loop.exec_()
+        except AttributeError:
+            loop.exec()
 
         if not self.isCanceled():
             self.setProgress(100)

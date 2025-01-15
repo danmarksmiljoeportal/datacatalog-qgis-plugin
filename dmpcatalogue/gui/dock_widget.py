@@ -203,7 +203,10 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             details_action.triggered.connect(
                 lambda: self.show_dataset_details(dataset)
             )
-            menu.exec_(self.dataset_tree.mapToGlobal(point))
+            try:
+                menu.exec_(self.dataset_tree.mapToGlobal(point))
+            except AttributeError:
+                menu.exec(self.dataset_tree.mapToGlobal(point))
 
     def collection_context_menu(self, point):
         index = self.collection_tree.indexAt(point)
@@ -259,7 +262,10 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                 lambda: self.show_dataset_details(dataset)
             )
 
-        menu.exec_(self.collection_tree.mapToGlobal(point))
+        try:
+            menu.exec_(self.collection_tree.mapToGlobal(point))
+        except AttributeError:
+            menu.exec(self.collection_tree.mapToGlobal(point))
 
     def add_dataset(self, protocol=""):
         dataset = self.dataset_tree.selected_dataset()
@@ -394,12 +400,18 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
     def show_dataset_details(self, dataset):
         if dataset is not None:
             dlg = DetailsDialog(dataset)
-            dlg.exec_()
+            try:
+                dlg.exec_()
+            except AttributeError:
+                dlg.exec()
 
     def show_collection_details(self, collection):
         if collection is not None:
             dlg = DetailsDialog(collection)
-            dlg.exec_()
+            try:
+                dlg.exec_()
+            except AttributeError:
+                dlg.exec()
 
     def toggle_group_owners(self, checked):
         if checked:
