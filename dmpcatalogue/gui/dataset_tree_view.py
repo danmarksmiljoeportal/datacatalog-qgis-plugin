@@ -57,7 +57,7 @@ class DatasetTreeView(QTreeView):
                 if first_visible_index.isValid():
                     self.selectionModel().setCurrentIndex(
                         first_visible_index,
-                        QItemSelectionModel.SelectionFlag.ClearAndSelect,
+                        QItemSelectionModel.SelectionFlag.Clear | QItemSelectionModel.SelectionFlag.Select,
                     )
         else:
             self.collapseAll()
