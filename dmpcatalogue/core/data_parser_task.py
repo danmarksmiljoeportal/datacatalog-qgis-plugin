@@ -28,7 +28,6 @@ from dmpcatalogue.core.utils import (
     ows_datasource,
     file_datasource,
     icon,
-    collection,
 )
 from dmpcatalogue.constants import PLUGIN_ICON
 
