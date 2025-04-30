@@ -292,10 +292,10 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             root = QgsProject.instance().layerTreeRoot()
             group = root.findGroup(collection.title)
             if group is None:
-                group = root.addGroup(collection.title)
+                group = root.insertGroup(0, collection.title)
             else:
                 root.removeChildNode(group)
-                group = root.addGroup(collection.title)
+                group = root.insertGroup(0, collection.title)
 
             errors = list()
             for ds in collection.datasets:
