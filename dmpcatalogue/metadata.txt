@@ -33,7 +33,7 @@ version=1.3.0
 qgisMinimumVersion=3.22
 
 icon=icons/dmpcatalogue.svg
-tags=wms,wfs,data,catalog,denmark,dmp,miljoedata,Kemidata,katalog,danamrk,jordforurening,ortofoto
+tags=wms,wfs,data,catalog,denmark,dmp,miljoedata,Kemidata,katalog,danmark,jordforurening,ortofoto
 
 author=Danmarks Miljøportal
 email=support@miljoeportal.dk
