@@ -4,28 +4,28 @@ description=Discover and add layers from the Danish Environmental Portals (Danma
 description[da]=Opdag og tilføj lag fra Danmarks Miljøportals Datakatalog
 about=With the Danish Environmental Portal plugin, you can easily load all layers from the Danish Environmental Portal's Data Catalog. The Data Catalog contains all map layers displayed from the public databases with nature and environmental data found at the Environmental Portal, such as the Naturdatabasen, DKjord, Arealeditering, PULS, VanDa, etc. 
 
-In addition to these layers, the Data Catalog contains several hundred other publicly available layers relevant to working with environmental and nature data. Data is displayed via web services, and most layers are available as WMS, WFS, or WMTS. It is possible to switch between desired types in the plugin. 
+ In addition to these layers, the Data Catalog contains several hundred other publicly available layers relevant to working with environmental and nature data. Data is displayed via web services, and most layers are available as WMS, WFS, or WMTS. It is possible to switch between desired types in the plugin.
 
-For all layers, it is possible to view metadata, which includes a description of the map layer, tags, data owner, and other information about the data. 
+ For all layers, it is possible to view metadata, which includes a description of the map layer, tags, data owner, and other information about the data.
 
-The map layers are grouped into main categories but can also be sorted by data owner or data collections if the map is part of a collection. Additionally, the search field can be used to find desired datasets, after which the map layer is easily added to the view. It is also possible to add layers from collections. 
+ The map layers are grouped into main categories but can also be sorted by data owner or data collections if the map is part of a collection. Additionally, the search field can be used to find desired datasets, after which the map layer is easily added to the view. It is also possible to add layers from collections.
 
-About the Danish Environmental Portal 
+ About the Danish Environmental Portal
 
-The Danish Environmental Portal is a public partnership owned by the state, municipalities, and regions, aimed at supporting digital environmental management in Denmark. The basic idea is that the state, municipalities, and regions input, update, and retrieve data from the same databases, and that data is also made available to businesses and citizens. 
+ The Danish Environmental Portal is a public partnership owned by the state, municipalities, and regions, aimed at supporting digital environmental management in Denmark. The basic idea is that the state, municipalities, and regions input, update, and retrieve data from the same databases, and that data is also made available to businesses and citizens.
 
-It includes data on the environment, water, nature, land use, and climate adaptation. The data is used across various areas, for example, when citizens retrieve soil contamination certificates, when municipalities designate pesticide-free areas, or when the state prepares the national water plan, and wastewater regulations.
+ It includes data on the environment, water, nature, land use, and climate adaptation. The data is used across various areas, for example, when citizens retrieve soil contamination certificates, when municipalities designate pesticide-free areas, or when the state prepares the national water plan, and wastewater regulations.
 about[da]=Med Danmarks Miljøportals plugin kan du let indlæse samtlige lag fra Danmarks Miljøportals Datakatalog. I Datakataloget findes alle kortlag som udstilles fra de fællesoffentlige databaser med natur- og miljødata som findes hos Miljøportalen, fx Naturdatabasen, DKjord, Arealeditering, PULS, VanDa mv.  
 
-Udover disse lag, indeholder Datakataloget flere hundrede af andre offentligt tilgængelige lag med relevans for arbejdet med miljø- og naturdata. Data er udstillet via. webservices, og de fleste lag kan er tilgængelige som WMS, WFS eller WMTS. Det muligt at skifte mellem ønskede typer i plugin’et. 
+ Udover disse lag, indeholder Datakataloget flere hundrede af andre offentligt tilgængelige lag med relevans for arbejdet med miljø- og naturdata. Data er udstillet via. webservices, og de fleste lag kan er tilgængelige som WMS, WFS eller WMTS. Det muligt at skifte mellem ønskede typer i plugin’et.
 
-For alle lag er det muligt at se metadata, som bl.a. indeholder beskrivelse af kortlaget, tags, dataejer og andre oplysninger om data. 
+ For alle lag er det muligt at se metadata, som bl.a. indeholder beskrivelse af kortlaget, tags, dataejer og andre oplysninger om data.
 
-Kortlagene er grupperet i overordnede kategorier, men kan også sorteres efter dataejer, eller datasamlinger, såfremt kortet indgår i en samling. Desuden kan søgefeltet benyttes til at fremsøge ønskede datasæt, hvorefter kortlaget nemt tilføjes til visningen. Det er også muligt at tilføje lag ud fra samlinger. 
+ Kortlagene er grupperet i overordnede kategorier, men kan også sorteres efter dataejer, eller datasamlinger, såfremt kortet indgår i en samling. Desuden kan søgefeltet benyttes til at fremsøge ønskede datasæt, hvorefter kortlaget nemt tilføjes til visningen. Det er også muligt at tilføje lag ud fra samlinger.
 
-Om Danmarks Miljøportal 
+ Om Danmarks Miljøportal
 
-Danmarks Miljøportal er et fællesoffentligt partnerskab ejet af staten, kommunerne og regionerne, der har til formål at understøtte digital miljøforvaltning i Danmark. Grundideen er, at stat, kommuner og regioner inddaterer, opdaterer og henter data fra de samme databaser, og at data også bliver gjort tilgængelig for virksomheder og borgere. 
+ Danmarks Miljøportal er et fællesoffentligt partnerskab ejet af staten, kommunerne og regionerne, der har til formål at understøtte digital miljøforvaltning i Danmark. Grundideen er, at stat, kommuner og regioner inddaterer, opdaterer og henter data fra de samme databaser, og at data også bliver gjort tilgængelig for virksomheder og borgere.
 
  Det omfatter data om miljø, vand, natur, arealanvendelse og klimatilpasning. Dataene bruges på tværs af en række områder, f.eks. når borgere henter jordforureningsattester, når kommuner udpeger sprøjtefri områder, eller når staten udarbejder vandplaner, landbrugspakker og regler for spildevand.
 category=Web
