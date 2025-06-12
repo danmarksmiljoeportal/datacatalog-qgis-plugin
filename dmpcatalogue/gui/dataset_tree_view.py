@@ -91,6 +91,30 @@ class DatasetTreeView(QTreeView):
         else:
             return None
 
+    def dataset_group_for_index(
+        self, index: QModelIndex
+    ) -> Union[list[Dataset], None]:
+        """
+        Returns a dataset group at the specified tree view index, or None
+        if the index does not correspond to a dataset group.
+        """
+        source_index = self.proxy_model.mapToSource(index)
+        if self.datasets_model.is_category(source_index):
+            return self.datasets_model.dataset_group_for_index(source_index)
+        else:
+            return None
+
+    def selected_dataset_group(self) -> Union[list[Dataset], None]:
+        """
+        Returns the currently selected dataset group in the tree view, or None
+        if no dataset group is currently selected.
+        """
+        if self.selectionModel().hasSelection():
+            index = self.selectionModel().selectedIndexes()[0]
+            return self.dataset_group_for_index(index)
+        else:
+            return None
+
     def collection_for_index(
         self, index: QModelIndex
     ) -> Union[Collection, None]:

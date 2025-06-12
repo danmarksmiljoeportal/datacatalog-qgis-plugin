@@ -504,6 +504,35 @@ class DatasetItemModel(QAbstractItemModel):
         node = self.index2node(index)
         return node is not None and node.node_type == NodeType.NodeDataset
 
+    def is_category(self, index: QModelIndex) -> bool:
+        """
+        Returns True if index corresponds to a dataset.
+        """
+        node = self.index2node(index)
+        return node is not None and (
+            node.node_type == NodeType.NodeCategory
+            or node.node_type == NodeType.NodeOwner
+        )
+
+    def dataset_group_for_index(
+        self, index: QModelIndex
+    ) -> Union[list[Dataset], None]:
+        """
+        Returns datasets which are inside the category that corresponds
+        to a given index, or None if the index does not represent a category.
+        """
+        node = self.index2node(index)
+        if node is None or node.node_type not in (
+            NodeType.NodeCategory,
+            NodeType.NodeOwner,
+        ):
+            return None
+
+        datasets = []
+        for d in node.children:
+            datasets.append(d.dataset)
+        return datasets
+
     def collection_for_index(
         self, index: QModelIndex
     ) -> Union[Collection, None]:

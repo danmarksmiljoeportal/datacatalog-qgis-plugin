@@ -208,6 +208,17 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             except AttributeError:
                 menu.exec(self.dataset_tree.mapToGlobal(point))
 
+            return
+
+        dataset_group = self.dataset_tree.dataset_group_for_index(index)
+        if dataset_group is not None:
+            group_add_action = menu.addAction(self.tr("Add"))
+            group_add_action.triggered.connect(self.add_dataset_group)
+            try:
+                menu.exec_(self.dataset_tree.mapToGlobal(point))
+            except AttributeError:
+                menu.exec(self.dataset_tree.mapToGlobal(point))
+
     def collection_context_menu(self, point):
         index = self.collection_tree.indexAt(point)
         menu = QMenu()
@@ -376,6 +387,40 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
 
         if errors:
             self.show_message("\n".join(errors))
+
+    def add_dataset_group(self):
+        dataset_group = self.dataset_tree.selected_dataset_group()
+        if dataset_group is not None and len(dataset_group) > 0:
+            group_name = dataset_group[0].category
+            root = QgsProject.instance().layerTreeRoot()
+            group = root.findGroup(group_name)
+            if group is None:
+                group = root.insertGroup(0, group_name)
+            else:
+                root.removeChildNode(group)
+                group = root.insertGroup(0, group_name)
+
+            errors = list()
+            for d in dataset_group:
+                layer = d.layer()
+                if layer is None:
+                    errors.append(
+                        self.tr("There are no layers in the dataset ") + d.title
+                    )
+                    continue
+                if not layer.isValid():
+                    errors.append(
+                        self.tr("Failed to load ")
+                        + d.title
+                        + ": "
+                        + layer.error().message()
+                    )
+                    continue
+                QgsProject.instance().addMapLayer(layer, False)
+                group.addLayer(layer)
+
+            if errors:
+                self.show_message("\n".join(errors))
 
     def add_dataset_collection(self, collection, dataset, protocol=""):
         if collection is not None and dataset is not None:
