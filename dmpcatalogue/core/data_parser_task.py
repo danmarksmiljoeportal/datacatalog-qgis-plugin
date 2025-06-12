@@ -105,12 +105,14 @@ class DataParserTask(QgsTask):
             attributes["category"] = attribute(data, "name")
             attributes["category_icon"] = PLUGIN_ICON
             if data is not None:
-                thumb = data.pop("thumbnail", None).copy()
-                tid = attribute(thumb, "id")
-                url = attribute(thumb, "url")
-                if tid is not None:
-                    icon_file = os.path.join(icon_cache, tid)
-                    attributes["category_icon"] = icon(icon_file, url)
+                t = data.pop("thumbnail", None)
+                if t is not None:
+                    thumb = t.copy()
+                    tid = attribute(thumb, "id")
+                    url = attribute(thumb, "url")
+                    if tid is not None:
+                        icon_file = os.path.join(icon_cache, tid)
+                        attributes["category_icon"] = icon(icon_file, url)
 
             data = attributes.pop("thumbnail", None)
             attributes["thumbnail"] = QIcon(attributes["category_icon"])
