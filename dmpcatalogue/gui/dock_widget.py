@@ -325,6 +325,24 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
     def handle_doubleclick(self, index):
         collection = self.collection_tree.collection_for_index(index)
         if collection is None:
+            dataset = self.collection_tree.dataset_for_index(index)
+            if dataset is None:
+                return
+
+            layer = dataset.layer()
+            if layer is None:
+                self.show_message(self.tr("Dataset has no layers."))
+                return
+
+            if not layer.isValid():
+                self.show_message(
+                    self.tr("Failed to load layer: ") + layer.error().message(),
+                )
+                return
+
+            QgsProject.instance().addMapLayer(layer, False)
+            r = QgsProject.instance().layerTreeRoot()
+            r.insertLayer(0, layer)
             return
 
         root = QgsProject.instance().layerTreeRoot()
