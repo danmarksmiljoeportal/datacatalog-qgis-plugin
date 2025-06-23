@@ -169,7 +169,7 @@ class DataParserTask(QgsTask):
                 params["datasets"].append(item["dataset"]["id"])
 
             params["icon"] = None
-            t = attrs["thumbnail"]
+            t = attrs.get("thumbnail")
             if t is not None:
                 tid = t["id"]
                 url = t["url"]
