@@ -29,8 +29,9 @@ about[da]=Med Danmarks Miljøportals plugin kan du let indlæse samtlige lag fra
 
  Det omfatter data om miljø, vand, natur, arealanvendelse og klimatilpasning. Dataene bruges på tværs af en række områder, f.eks. når borgere henter jordforureningsattester, når kommuner udpeger sprøjtefri områder, eller når staten udarbejder vandplaner, landbrugspakker og regler for spildevand.
 category=Web
-version=1.3.0
+version=1.4.0
 qgisMinimumVersion=3.22
+qgisMaximumVersion=4.99
 
 icon=icons/dmpcatalogue.svg
 tags=wms,wfs,data,catalog,denmark,DMP,Danmarks Miljøportal,DMP Data Catalogue,Miljødata,katalog,danmark,jordforurening,ortofoto
