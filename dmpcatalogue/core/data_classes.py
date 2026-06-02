@@ -22,7 +22,6 @@ from qgis.PyQt.QtCore import QUrl, QUrlQuery
 from qgis.core import QgsDataSourceUri, QgsRasterLayer, QgsVectorLayer
 
 from dmpcatalogue.core.settings_registry import SettingsRegistry
-from dmpcatalogue.constants import DEFAULT_DATAFORDELER_APIKEY
 
 
 @dataclass
@@ -37,21 +36,18 @@ class Datasource:
         """
         Prepares datasource URL for further manipulations. This includes:
           - converting from percent encoding
-          - converting datafordeler.dk URLs from username/password to apikey
           - overriding auth for datafordeler.dk (apikey) and
             dataforsyningen.dk (token) if requested
         """
         url = QUrl.fromPercentEncoding(bytes(self.url, "utf-8"))
 
-        # Always convert datafordeler.dk URLs to use apikey
-        if "datafordeler.dk" in url:
+        # Override datafordeler.dk auth only if explicitly requested
+        if (
+            "datafordeler.dk" in url
+            and SettingsRegistry.override_datafordeler_auth()
+        ):
             u = QUrl(url)
-
-            # Use custom API key if override is enabled, otherwise use default
-            if SettingsRegistry.override_datafordeler_auth():
-                apikey = SettingsRegistry.datafordeler_apikey()
-            else:
-                apikey = DEFAULT_DATAFORDELER_APIKEY
+            apikey = SettingsRegistry.datafordeler_apikey()
 
             if u.hasQuery():
                 query = QUrlQuery(u.query())

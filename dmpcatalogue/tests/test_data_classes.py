@@ -46,41 +46,35 @@ class test_classes(unittest.TestCase):
         out_url = ds.prepare_url()
         self.assertEqual(out_url, url)
 
-        # datafordeler.dk auth - always converts to apikey
-        # URL without any auth gets default apikey added
+        # datafordeler.dk URLs - no auth added by default (proxy handles it)
         ds.url = "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS"
         out_url = ds.prepare_url()
-        u = QUrl(out_url)
-        self.assertTrue(u.hasQuery())
-        q = u.query()
-        self.assertEqual(q, "apikey=UFZLDDPIJS")  # default apikey added
+        self.assertEqual(out_url, ds.url)  # unchanged
 
-        # URL with old username/password gets converted to apikey
+        # URL with username/password stays unchanged if override is False
         ds.url = (
             "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?"
             "username=OLDUSER&password=OLDPASS"
         )
         out_url = ds.prepare_url()
-        u = QUrl(out_url)
-        self.assertTrue(u.hasQuery())
-        q = u.query()
-        self.assertEqual(q, "apikey=UFZLDDPIJS")  # converted to default apikey
-
-        # URL with existing apikey gets default apikey (override disabled)
-        ds.url = (
-            "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?"
-            "apikey=SOMEKEY"
-        )
-        out_url = ds.prepare_url()
-        u = QUrl(out_url)
-        self.assertTrue(u.hasQuery())
-        q = u.query()
-        self.assertEqual(q, "apikey=UFZLDDPIJS")  # replaced with default
+        self.assertEqual(out_url, ds.url)  # unchanged
 
         # With override enabled, use custom apikey
         SettingsRegistry.set_datafordeler_apikey("test_apikey")
         SettingsRegistry.set_override_datafordeler_auth(True)
 
+        ds.url = "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS"
+        out_url = ds.prepare_url()
+        u = QUrl(out_url)
+        self.assertTrue(u.hasQuery())
+        q = u.query()
+        self.assertEqual(q, "apikey=test_apikey")
+
+        # Old username/password gets converted to apikey when override enabled
+        ds.url = (
+            "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?"
+            "username=OLDUSER&password=OLDPASS"
+        )
         out_url = ds.prepare_url()
         u = QUrl(out_url)
         self.assertTrue(u.hasQuery())
@@ -95,13 +89,11 @@ class test_classes(unittest.TestCase):
         q = u.query()
         self.assertEqual(q, "apikey=")
 
-        # Back to default when override is disabled
+        # Back to unchanged when override is disabled
         SettingsRegistry.set_override_datafordeler_auth(False)
+        ds.url = "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS"
         out_url = ds.prepare_url()
-        u = QUrl(out_url)
-        self.assertTrue(u.hasQuery())
-        q = u.query()
-        self.assertEqual(q, "apikey=UFZLDDPIJS")  # back to default
+        self.assertEqual(out_url, ds.url)  # unchanged again
 
         # override dataforsyningen.dk auth
         ds.url = "https://api.dataforsyningen.dk/dhm_flow_ekstremregn"

@@ -23,8 +23,5 @@ PLUGIN_ICON = QIcon(os.path.join(PLUGIN_PATH, "icons", "dmpcatalogue.svg"))
 DEFAULT_API_ROOT = "https://datakatalog.miljoeportal.dk/api"
 DEFAULT_LOAD_ORDER = ["wms", "wmts", "wfs"]
 
-# Default Datafordeler API key (replaces old demo username/password)
-DEFAULT_DATAFORDELER_APIKEY = "UFZLDDPIJS"
-
 LOCALES = ["dk", "en"]
 DEFAULT_LOCALE = "dk"
