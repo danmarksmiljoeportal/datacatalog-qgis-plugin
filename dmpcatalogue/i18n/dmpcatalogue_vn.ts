@@ -4,11 +4,6 @@
 <context>
     <name>CatalogueDockWidget</name>
     <message>
-        <location filename="../gui/dock_widget.py" line="489"/>
-        <source>DMP Catalogue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../ui/catalogue_widget.ui" line="131"/>
         <source>Search…</source>
         <translation type="unfinished"></translation>
@@ -121,6 +116,11 @@
     <message>
         <location filename="../gui/dock_widget.py" line="448"/>
         <source>ZIP Archives (*.zip *.ZIP)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/dock_widget.py" line="489"/>
+        <source>Danmarks Miljøportals datakatalog</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -259,11 +259,6 @@
 <context>
     <name>DmpPlugin</name>
     <message>
-        <location filename="../plugin.py" line="125"/>
-        <source>DMP Catalogue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../plugin.py" line="69"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
@@ -271,6 +266,11 @@
     <message>
         <location filename="../plugin.py" line="60"/>
         <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugin.py" line="125"/>
+        <source>Danmarks Miljøportals datakatalog</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
