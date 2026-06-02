@@ -22,6 +22,7 @@ from qgis.PyQt.QtCore import QUrl, QUrlQuery
 from qgis.core import QgsDataSourceUri, QgsRasterLayer, QgsVectorLayer
 
 from dmpcatalogue.core.settings_registry import SettingsRegistry
+from dmpcatalogue.constants import DEFAULT_DATAFORDELER_APIKEY
 
 
 @dataclass
@@ -36,27 +37,41 @@ class Datasource:
         """
         Prepares datasource URL for further manipulations. This includes:
           - converting from percent encoding
-          - overriding auth for datafordeler.dk and dataforsyningen.dk if
-            requested
+          - converting datafordeler.dk URLs from username/password to apikey
+          - overriding auth for datafordeler.dk (apikey) and 
+            dataforsyningen.dk (token) if requested
         """
         url = QUrl.fromPercentEncoding(bytes(self.url, "utf-8"))
 
-        if (
-            "datafordeler.dk" in url
-            and SettingsRegistry.override_datafordeler_auth()
-        ):
+        # Always convert datafordeler.dk URLs to use apikey
+        if "datafordeler.dk" in url:
             u = QUrl(url)
+            
+            # Use custom API key if override is enabled, otherwise use default
+            if SettingsRegistry.override_datafordeler_auth():
+                apikey = SettingsRegistry.datafordeler_apikey()
+            else:
+                apikey = DEFAULT_DATAFORDELER_APIKEY
+            
             if u.hasQuery():
                 query = QUrlQuery(u.query())
-                if query.hasQueryItem("username") and query.hasQueryItem(
-                    "password"
-                ):
-                    login, password = SettingsRegistry.datafordeler_auth()
-                    query.setQueryItems(
-                        [("username", login), ("password", password)]
-                    )
-                    u.setQuery(query)
-                    url = u.toString()
+                # Remove old username/password if present
+                if query.hasQueryItem("username"):
+                    query.removeQueryItem("username")
+                if query.hasQueryItem("password"):
+                    query.removeQueryItem("password")
+                # Remove old apikey if present and set new one
+                if query.hasQueryItem("apikey"):
+                    query.removeQueryItem("apikey")
+                query.addQueryItem("apikey", apikey)
+                u.setQuery(query)
+            else:
+                # No query string, add apikey
+                query = QUrlQuery()
+                query.addQueryItem("apikey", apikey)
+                u.setQuery(query)
+            
+            url = u.toString()
 
         if (
             "dataforsyningen.dk" in url

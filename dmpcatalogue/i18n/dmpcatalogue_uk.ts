@@ -282,17 +282,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="84"/>
-        <source>Login</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../ui/options_widget.ui" line="91"/>
-        <source>Password</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/options_widget.ui" line="98"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not have an account? Sign up &lt;a href=&quot;https://datafordeler.dk/konto/login-oversigt/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;here&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -322,18 +312,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="118"/>
+        <location filename="../ui/options_widget.ui" line="111"/>
         <source>Datasource load priority (drag and drop to change)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="111"/>
+        <location filename="../ui/options_widget.ui" line="104"/>
         <source>Annonymized usage tracking</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="147"/>
+        <location filename="../ui/options_widget.ui" line="140"/>
         <source>Fetch WFS features only in the view extent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/options_widget.ui" line="84"/>
+        <source>APIKey</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

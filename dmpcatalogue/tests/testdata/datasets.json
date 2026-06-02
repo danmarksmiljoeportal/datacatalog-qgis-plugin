@@ -593,7 +593,7 @@
       "type": "wmtsSources",
       "id": "88e3213c-9e91-4b88-b0d4-af7200f508f3",
       "attributes": {
-        "url": "https://services.datafordeler.dk/GeoDanmarkOrto/orto_foraar_wmts/1.0.0/wmts?username=UFZLDDPIJS&password=DAIdatafordel123",
+        "url": "https://services.datafordeler.dk/GeoDanmarkOrto/orto_foraar_wmts/1.0.0/wmts?apikey=UFZLDDPIJS",
         "documentationUrl": null,
         "description": null,
         "layer": "orto_foraar_wmts",

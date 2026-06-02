@@ -49,9 +49,8 @@ class DmpOptionsWidget(BASE, WIDGET):
 
         override_datafordeler = SettingsRegistry.override_datafordeler_auth()
         self.datafordeler_auth_group.setChecked(override_datafordeler)
-        login, password = SettingsRegistry.datafordeler_auth()
-        self.datafordeler_login_edit.setText(login)
-        self.datafordeler_password_edit.setText(password)
+        apikey = SettingsRegistry.datafordeler_apikey()
+        self.datafordeler_apikey_edit.setText(apikey)
 
         override_dataforsyningen = (
             SettingsRegistry.override_dataforsyningen_auth()
@@ -81,9 +80,8 @@ class DmpOptionsWidget(BASE, WIDGET):
         SettingsRegistry.set_override_datafordeler_auth(
             self.datafordeler_auth_group.isChecked()
         )
-        SettingsRegistry.set_datafordeler_auth(
-            self.datafordeler_login_edit.text(),
-            self.datafordeler_password_edit.text(),
+        SettingsRegistry.set_datafordeler_apikey(
+            self.datafordeler_apikey_edit.text()
         )
 
         SettingsRegistry.set_override_dataforsyningen_auth(
