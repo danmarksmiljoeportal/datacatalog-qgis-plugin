@@ -29,7 +29,6 @@ from dmpcatalogue.gui.dataset_item_model import Filters, Mode
 from dmpcatalogue.gui.details_dialog import DetailsDialog
 from dmpcatalogue.constants import PLUGIN_PATH
 
-
 WIDGET, BASE = uic.loadUiType(
     os.path.join(PLUGIN_PATH, "ui", "catalogue_widget.ui")
 )
