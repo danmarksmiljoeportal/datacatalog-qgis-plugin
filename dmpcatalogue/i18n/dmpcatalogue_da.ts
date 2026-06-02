@@ -421,8 +421,8 @@
     </message>
     <message>
         <location filename="../ui/options_widget.ui" line="98"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not have an account? Sign up &lt;a href=&quot;https://selfservice.datafordeler.dk/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;here&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Mangler du en konto? Tilmeld dig her &amp;lt;a href=&amp;quot;https://selfservice.datafordeler.dk/&amp;quot;&amp;gt;&amp;lt;span style=&amp;quot; text-decoration: underline; color:#0000ff;&amp;quot;&amp;gt;here&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not have an account? Sign up &lt;a href=&quot;https://datafordeler.dk/konto/login-oversigt/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;here&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Mangler du en konto? Tilmeld dig her &amp;lt;a href=&amp;quot;https://datafordeler.dk/konto/login-oversigt/&amp;quot;&amp;gt;&amp;lt;span style=&amp;quot; text-decoration: underline; color:#0000ff;&amp;quot;&amp;gt;here&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
         <location filename="../ui/options_widget.ui" line="56"/>
