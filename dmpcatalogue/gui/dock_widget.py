@@ -47,7 +47,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         self.dataset_toolbar.setIconSize(iface.iconSize(True))
         self.collection_toolbar.setIconSize(iface.iconSize(True))
 
-        ds_menu = QMenu()
+        ds_menu = QMenu(self)
         all_ds_action = ds_menu.addAction(self.tr("All"))
         all_ds_action.setCheckable(True)
         all_ds_action.triggered.connect(
@@ -73,11 +73,15 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         ds_group.addAction(ows_ds_action)
         ds_group.addAction(file_ds_action)
         self.datasources_source_action.setMenu(ds_menu)
-        self.dataset_toolbar.widgetForAction(
+        ds_widget = self.dataset_toolbar.widgetForAction(
             self.datasources_source_action
-        ).setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        )
+        if ds_widget and isinstance(ds_widget, QToolButton):
+            ds_widget.setPopupMode(
+                QToolButton.ToolButtonPopupMode.MenuButtonPopup
+            )
         self.datasources_source_action.setIcon(
-            QIcon(os.path.join(PLUGIN_PATH, "icons", "datasources.svg"))
+            QgsApplication.getThemeIcon("/mActionFilter2.svg")
         )
         self.group_owners_action.setIcon(
             QIcon(os.path.join(PLUGIN_PATH, "icons", "group.svg"))
@@ -89,7 +93,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         )
         self.options_action.triggered.connect(self.open_plugin_options)
 
-        col_menu = QMenu()
+        col_menu = QMenu(self)
         all_col_action = col_menu.addAction(self.tr("All"))
         all_col_action.setCheckable(True)
         all_col_action.triggered.connect(
@@ -114,11 +118,15 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         col_group.addAction(ows_col_action)
         col_group.addAction(file_col_action)
         self.collections_source_action.setMenu(col_menu)
-        self.collection_toolbar.widgetForAction(
+        col_widget = self.collection_toolbar.widgetForAction(
             self.collections_source_action
-        ).setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        )
+        if col_widget and isinstance(col_widget, QToolButton):
+            col_widget.setPopupMode(
+                QToolButton.ToolButtonPopupMode.MenuButtonPopup
+            )
         self.collections_source_action.setIcon(
-            QIcon(os.path.join(PLUGIN_PATH, "icons", "datasources.svg"))
+            QgsApplication.getThemeIcon("/mActionFilter2.svg")
         )
 
         self.search_dataset.setShowSearchIcon(True)
