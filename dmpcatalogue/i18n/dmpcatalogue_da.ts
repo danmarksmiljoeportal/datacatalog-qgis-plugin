@@ -4,122 +4,122 @@
 <context>
     <name>CatalogueDockWidget</name>
     <message>
-        <location filename="../gui/dock_widget.py" line="370"/>
+        <location filename="../gui/dock_widget.py" line="489"/>
         <source>DMP Catalogue</source>
         <translation type="unfinished">DMP Datakatalog</translation>
     </message>
     <message>
-        <location filename="../ui/catalogue_widget.ui" line="129"/>
+        <location filename="../ui/catalogue_widget.ui" line="131"/>
         <source>Search…</source>
         <translation type="unfinished">Søg…</translation>
     </message>
     <message>
-        <location filename="../ui/catalogue_widget.ui" line="151"/>
+        <location filename="../ui/catalogue_widget.ui" line="153"/>
         <source>Options…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dock_widget.py" line="88"/>
+        <location filename="../gui/dock_widget.py" line="93"/>
         <source>All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dock_widget.py" line="94"/>
+        <location filename="../gui/dock_widget.py" line="99"/>
         <source>OWS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dock_widget.py" line="101"/>
+        <location filename="../gui/dock_widget.py" line="106"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dock_widget.py" line="128"/>
+        <location filename="../gui/dock_widget.py" line="135"/>
         <source>File downloaded </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dock_widget.py" line="187"/>
+        <location filename="../gui/dock_widget.py" line="194"/>
         <source>Remove from Favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dock_widget.py" line="187"/>
+        <location filename="../gui/dock_widget.py" line="194"/>
         <source>Add to Favorite</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dock_widget.py" line="250"/>
+        <location filename="../gui/dock_widget.py" line="271"/>
         <source>Details…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dock_widget.py" line="321"/>
+        <location filename="../gui/dock_widget.py" line="434"/>
         <source>Dataset has no layers.</source>
         <translation type="unfinished">Datasættet har ikke nogen lag.</translation>
     </message>
     <message>
-        <location filename="../gui/dock_widget.py" line="325"/>
+        <location filename="../gui/dock_widget.py" line="438"/>
         <source>Failed to load layer: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dock_widget.py" line="335"/>
+        <location filename="../gui/dock_widget.py" line="448"/>
         <source>Save File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/catalogue_widget.ui" line="39"/>
+        <location filename="../ui/catalogue_widget.ui" line="98"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Collections are groups of layers that are&lt;br&gt;frequently used together. Collections are&lt;br&gt;tailored towards specific job functions and&lt;br&gt;areas, and are maintained by working&lt;br&gt;groups and domain experts.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/catalogue_widget.ui" line="46"/>
+        <location filename="../ui/catalogue_widget.ui" line="43"/>
         <source>Datasets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/catalogue_widget.ui" line="97"/>
+        <location filename="../ui/catalogue_widget.ui" line="95"/>
         <source>Collections</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/catalogue_widget.ui" line="167"/>
+        <location filename="../ui/catalogue_widget.ui" line="169"/>
         <source>Datasources</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/catalogue_widget.ui" line="178"/>
+        <location filename="../ui/catalogue_widget.ui" line="180"/>
         <source>Group by owners</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dock_widget.py" line="227"/>
+        <location filename="../gui/dock_widget.py" line="248"/>
         <source>Add</source>
         <translation type="unfinished">Tilføj</translation>
     </message>
     <message>
-        <location filename="../gui/dock_widget.py" line="232"/>
+        <location filename="../gui/dock_widget.py" line="253"/>
         <source>{protocol.upper()} layer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dock_widget.py" line="244"/>
+        <location filename="../gui/dock_widget.py" line="265"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dock_widget.py" line="293"/>
+        <location filename="../gui/dock_widget.py" line="407"/>
         <source>There are no layers in the dataset </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dock_widget.py" line="299"/>
+        <location filename="../gui/dock_widget.py" line="412"/>
         <source>Failed to load </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dock_widget.py" line="335"/>
+        <location filename="../gui/dock_widget.py" line="448"/>
         <source>ZIP Archives (*.zip *.ZIP)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -143,12 +143,12 @@
 <context>
     <name>DatasetItemModel</name>
     <message>
-        <location filename="../gui/dataset_item_model.py" line="348"/>
+        <location filename="../gui/dataset_item_model.py" line="352"/>
         <source>Status:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dataset_item_model.py" line="380"/>
+        <location filename="../gui/dataset_item_model.py" line="386"/>
         <source>Favorites</source>
         <translation type="unfinished"></translation>
     </message>
@@ -364,13 +364,18 @@
 <context>
     <name>DmpPlugin</name>
     <message>
-        <location filename="../plugin.py" line="105"/>
+        <location filename="../plugin.py" line="125"/>
         <source>DMP Catalogue</source>
         <translation>DMP Datakatalog</translation>
     </message>
     <message>
-        <location filename="../plugin.py" line="58"/>
+        <location filename="../plugin.py" line="69"/>
         <source>Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugin.py" line="60"/>
+        <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -390,7 +395,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="62"/>
+        <location filename="../ui/options_widget.ui" line="33"/>
         <source>Catalog URL</source>
         <translation>Datakatalog URL</translation>
     </message>
@@ -430,17 +435,17 @@
         <translation type="obsolete">Benyt følgende token til Dataforsyningen</translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="39"/>
+        <location filename="../ui/options_widget.ui" line="59"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not have a token? Create one &lt;a href=&quot;https://dataforsyningen.dk/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;here&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Mangler du et token? Opret et her &amp;lt;a href=&amp;quot;https://dataforsyningen.dk/&amp;quot;&amp;gt;&amp;lt;span style=&amp;quot; text-decoration: underline; color:#0000ff;&amp;quot;&amp;gt;here&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="20"/>
+        <location filename="../ui/options_widget.ui" line="40"/>
         <source>Override Dataforsyningen token</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="32"/>
+        <location filename="../ui/options_widget.ui" line="52"/>
         <source>Token</source>
         <translation type="unfinished"></translation>
     </message>
@@ -450,8 +455,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="127"/>
+        <location filename="../ui/options_widget.ui" line="118"/>
         <source>Datasource load priority (drag and drop to change)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/options_widget.ui" line="111"/>
+        <source>Annonymized usage tracking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/options_widget.ui" line="147"/>
+        <source>Fetch WFS features only in the view extent</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
