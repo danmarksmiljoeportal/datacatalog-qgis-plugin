@@ -757,12 +757,12 @@ class test_dataset_model(unittest.TestCase):
         view.selectionModel().clear()
         self.assertFalse(view.selected_dataset())
         view.selectionModel().select(
-            category_index, QItemSelectionModel.ClearAndSelect
+            category_index, QItemSelectionModel.SelectionFlag.ClearAndSelect
         )
         self.assertFalse(view.selected_dataset())
         ds_index = view.proxy_model.index(0, 0, category_index)
         view.selectionModel().select(
-            ds_index, QItemSelectionModel.ClearAndSelect
+            ds_index, QItemSelectionModel.SelectionFlag.ClearAndSelect
         )
         self.assertEqual(view.selected_dataset().uid, "ds1")
 
