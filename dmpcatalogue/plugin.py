@@ -39,7 +39,9 @@ class DmpPlugin:
 
     def initGui(self):
         self.options_factory = DmpOptionsFactory()
-        self.options_factory.setTitle(self.tr("Danmarks Miljøportals datakatalog"))
+        self.options_factory.setTitle(
+            self.tr("Danmarks Miljøportals datakatalog")
+        )
         self.iface.registerOptionsWidgetFactory(self.options_factory)
 
         self.dock_widget = CatalogueDockWidget()
@@ -50,7 +52,8 @@ class DmpPlugin:
         self.dock_widget.visibilityChanged.connect(self.toggle_dock_action)
 
         self.dock_action = QAction(
-            self.tr("Danmarks Miljøportals datakatalog"), self.iface.mainWindow()
+            self.tr("Danmarks Miljøportals datakatalog"),
+            self.iface.mainWindow(),
         )
         self.dock_action.setIcon(PLUGIN_ICON)
         self.dock_action.setObjectName("toggleDmpCatalogue")

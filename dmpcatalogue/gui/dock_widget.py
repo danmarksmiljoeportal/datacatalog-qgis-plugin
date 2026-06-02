@@ -486,4 +486,6 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         iface.showOptionsDialog(iface.mainWindow(), "dmpOptions")
 
     def show_message(self, message, level=Qgis.Warning):
-        iface.messageBar().pushMessage(self.tr("Danmarks Miljøportals datakatalog"), message, level)
+        iface.messageBar().pushMessage(
+            self.tr("Danmarks Miljøportals datakatalog"), message, level
+        )

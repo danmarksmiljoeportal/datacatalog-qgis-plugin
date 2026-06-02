@@ -38,7 +38,7 @@ class Datasource:
         Prepares datasource URL for further manipulations. This includes:
           - converting from percent encoding
           - converting datafordeler.dk URLs from username/password to apikey
-          - overriding auth for datafordeler.dk (apikey) and 
+          - overriding auth for datafordeler.dk (apikey) and
             dataforsyningen.dk (token) if requested
         """
         url = QUrl.fromPercentEncoding(bytes(self.url, "utf-8"))
@@ -46,13 +46,13 @@ class Datasource:
         # Always convert datafordeler.dk URLs to use apikey
         if "datafordeler.dk" in url:
             u = QUrl(url)
-            
+
             # Use custom API key if override is enabled, otherwise use default
             if SettingsRegistry.override_datafordeler_auth():
                 apikey = SettingsRegistry.datafordeler_apikey()
             else:
                 apikey = DEFAULT_DATAFORDELER_APIKEY
-            
+
             if u.hasQuery():
                 query = QUrlQuery(u.query())
                 # Remove old username/password if present
@@ -70,7 +70,7 @@ class Datasource:
                 query = QUrlQuery()
                 query.addQueryItem("apikey", apikey)
                 u.setQuery(query)
-            
+
             url = u.toString()
 
         if (
