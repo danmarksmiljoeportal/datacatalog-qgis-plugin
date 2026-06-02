@@ -29,7 +29,7 @@ about[da]=Med Danmarks Miljøportals plugin kan du let indlæse samtlige lag fra
 
  Det omfatter data om miljø, vand, natur, arealanvendelse og klimatilpasning. Dataene bruges på tværs af en række områder, f.eks. når borgere henter jordforureningsattester, når kommuner udpeger sprøjtefri områder, eller når staten udarbejder vandplaner, landbrugspakker og regler for spildevand.
 category=Web
-version=1.4.0
+version=1.5.0
 qgisMinimumVersion=3.22
 qgisMaximumVersion=4.99
 
