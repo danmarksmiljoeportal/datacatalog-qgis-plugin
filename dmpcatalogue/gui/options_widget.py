@@ -59,7 +59,6 @@ class DmpOptionsWidget(BASE, WIDGET):
         token = SettingsRegistry.dataforsyningen_token()
         self.dataforsyningen_token_edit.setText(token)
 
-        self.tracking_checkbox.setChecked(SettingsRegistry.tracking_enabled())
         self.request_bbox_checkbox.setChecked(
             SettingsRegistry.use_request_bbox()
         )
@@ -89,10 +88,6 @@ class DmpOptionsWidget(BASE, WIDGET):
         )
         SettingsRegistry.set_dataforsyningen_token(
             self.dataforsyningen_token_edit.text()
-        )
-
-        SettingsRegistry.set_tracking_enabled(
-            self.tracking_checkbox.isChecked()
         )
 
         SettingsRegistry.set_use_request_bbox(

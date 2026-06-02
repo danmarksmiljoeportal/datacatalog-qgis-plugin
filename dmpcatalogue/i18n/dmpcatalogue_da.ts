@@ -395,7 +395,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="33"/>
+        <location filename="../ui/options_widget.ui" line="69"/>
         <source>Catalog URL</source>
         <translation>Datakatalog URL</translation>
     </message>
@@ -420,7 +420,7 @@
         <translation type="obsolete">Adgangskode</translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="91"/>
+        <location filename="../ui/options_widget.ui" line="127"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not have an account? Sign up &lt;a href=&quot;https://datafordeler.dk/konto/login-oversigt/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;here&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Mangler du en konto? Tilmeld dig her &amp;lt;a href=&amp;quot;https://datafordeler.dk/konto/login-oversigt/&amp;quot;&amp;gt;&amp;lt;span style=&amp;quot; text-decoration: underline; color:#0000ff;&amp;quot;&amp;gt;here&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
@@ -430,42 +430,37 @@
         <translation type="obsolete">Benyt følgende token til Dataforsyningen</translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="59"/>
+        <location filename="../ui/options_widget.ui" line="95"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not have a token? Create one &lt;a href=&quot;https://dataforsyningen.dk/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;here&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Mangler du et token? Opret et her &amp;lt;a href=&amp;quot;https://dataforsyningen.dk/&amp;quot;&amp;gt;&amp;lt;span style=&amp;quot; text-decoration: underline; color:#0000ff;&amp;quot;&amp;gt;here&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="40"/>
+        <location filename="../ui/options_widget.ui" line="76"/>
         <source>Override Dataforsyningen token</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="52"/>
+        <location filename="../ui/options_widget.ui" line="88"/>
         <source>Token</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="72"/>
+        <location filename="../ui/options_widget.ui" line="108"/>
         <source>Override Datafordeler credentials</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="111"/>
+        <location filename="../ui/options_widget.ui" line="20"/>
         <source>Datasource load priority (drag and drop to change)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="104"/>
-        <source>Annonymized usage tracking</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/options_widget.ui" line="140"/>
+        <location filename="../ui/options_widget.ui" line="59"/>
         <source>Fetch WFS features only in the view extent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/options_widget.ui" line="84"/>
+        <location filename="../ui/options_widget.ui" line="120"/>
         <source>APIKey</source>
         <translation type="unfinished"></translation>
     </message>
