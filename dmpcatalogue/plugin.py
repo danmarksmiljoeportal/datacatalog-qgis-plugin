@@ -32,10 +32,16 @@ class DmpPlugin:
         locale = QgsApplication.locale()
         qm_path = "{}/i18n/dmpcatalogue_{}.qm".format(PLUGIN_PATH, locale)
 
+        # Try short locale if full locale file doesn't exist (e.g., "da" instead of "da_DK")
+        if not os.path.exists(qm_path) and "_" in locale:
+            locale = locale.split("_")[0]
+            qm_path = "{}/i18n/dmpcatalogue_{}.qm".format(PLUGIN_PATH, locale)
+
         if os.path.exists(qm_path):
-            self.translator = QTranslator()
-            self.translator.load(qm_path)
-            QCoreApplication.installTranslator(self.translator)
+            # Qt6: translator needs parent to avoid garbage collection
+            self.translator = QTranslator(QCoreApplication.instance())
+            if self.translator.load(qm_path):
+                QCoreApplication.installTranslator(self.translator)
 
     def initGui(self):
         self.options_factory = DmpOptionsFactory()
