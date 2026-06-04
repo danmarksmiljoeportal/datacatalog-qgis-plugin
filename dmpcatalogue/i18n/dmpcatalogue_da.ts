@@ -11,92 +11,92 @@
     <message>
         <location filename="../ui/catalogue_widget.ui" line="131"/>
         <source>Search…</source>
-        <translation type="unfinished">Søg…</translation>
+        <translation>Søg…</translation>
     </message>
     <message>
         <location filename="../ui/catalogue_widget.ui" line="153"/>
         <source>Options…</source>
-        <translation type="unfinished"></translation>
+        <translation>Indstillinger</translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="93"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle</translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="99"/>
         <source>OWS</source>
-        <translation type="unfinished"></translation>
+        <translation>OWS</translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="106"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Fil</translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="135"/>
         <source>File downloaded </source>
-        <translation type="unfinished"></translation>
+        <translation>Fil downloadet </translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="194"/>
         <source>Remove from Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern fra favoritter</translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="194"/>
         <source>Add to Favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Tilføj til favoritter</translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="271"/>
         <source>Details…</source>
-        <translation type="unfinished"></translation>
+        <translation>Detaljer</translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="434"/>
         <source>Dataset has no layers.</source>
-        <translation type="unfinished">Datasættet har ikke nogen lag.</translation>
+        <translation>Datasættet har ikke nogen lag.</translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="438"/>
         <source>Failed to load layer: </source>
-        <translation type="unfinished"></translation>
+        <translation>Kunne ikke indlæse lag: </translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="448"/>
         <source>Save File</source>
-        <translation type="unfinished"></translation>
+        <translation>Gem</translation>
     </message>
     <message>
         <location filename="../ui/catalogue_widget.ui" line="98"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Collections are groups of layers that are&lt;br&gt;frequently used together. Collections are&lt;br&gt;tailored towards specific job functions and&lt;br&gt;areas, and are maintained by working&lt;br&gt;groups and domain experts.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Samlinger er grupper af lag, der ofte bruges sammen. De er tilpasset specifikke arbejdsopgaver og geografiske områder, og vedligeholdes af arbejdsgrupper og fageksperter.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ui/catalogue_widget.ui" line="43"/>
         <source>Datasets</source>
-        <translation type="unfinished"></translation>
+        <translation>Datasæt</translation>
     </message>
     <message>
         <location filename="../ui/catalogue_widget.ui" line="95"/>
         <source>Collections</source>
-        <translation type="unfinished"></translation>
+        <translation>Samlinger</translation>
     </message>
     <message>
         <location filename="../ui/catalogue_widget.ui" line="169"/>
         <source>Datasources</source>
-        <translation type="unfinished"></translation>
+        <translation>Datakilder</translation>
     </message>
     <message>
         <location filename="../ui/catalogue_widget.ui" line="180"/>
         <source>Group by owners</source>
-        <translation type="unfinished"></translation>
+        <translation>Grupper efter udbyder</translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="248"/>
         <source>Add</source>
-        <translation type="unfinished">Tilføj</translation>
+        <translation>Tilføj</translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="253"/>
@@ -106,27 +106,27 @@
     <message>
         <location filename="../gui/dock_widget.py" line="265"/>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Download</translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="407"/>
         <source>There are no layers in the dataset </source>
-        <translation type="unfinished"></translation>
+        <translation>Der er ingen lag i datasættet</translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="412"/>
         <source>Failed to load </source>
-        <translation type="unfinished"></translation>
+        <translation>Kunne ikke indlæse </translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="448"/>
         <source>ZIP Archives (*.zip *.ZIP)</source>
-        <translation type="unfinished"></translation>
+        <translation>ZIP-filer (*.zip *.ZIP)</translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="489"/>
         <source>Danmarks Miljøportals datakatalog</source>
-        <translation type="unfinished"></translation>
+        <translation>Danmarks Miljøportals datakatalog</translation>
     </message>
 </context>
 <context>
@@ -134,7 +134,7 @@
     <message>
         <location filename="../core/data_registry.py" line="201"/>
         <source>Network request failed: </source>
-        <translation type="unfinished"></translation>
+        <translation>Netværksanmodning mislykkedes: </translation>
     </message>
 </context>
 <context>
@@ -150,12 +150,12 @@
     <message>
         <location filename="../gui/dataset_item_model.py" line="352"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Status:</translation>
     </message>
     <message>
         <location filename="../gui/dataset_item_model.py" line="386"/>
         <source>Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Favoritter</translation>
     </message>
 </context>
 <context>
@@ -163,102 +163,102 @@
     <message>
         <location filename="../gui/details_dialog.py" line="152"/>
         <source>General</source>
-        <translation type="unfinished"></translation>
+        <translation>Generelt</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="154"/>
         <source>Title</source>
-        <translation type="unfinished">Titel</translation>
+        <translation>Titel</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="57"/>
         <source>Category</source>
-        <translation type="unfinished"></translation>
+        <translation>Kategori</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="158"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Beskrivelse</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="65"/>
         <source>Tags</source>
-        <translation type="unfinished">Tags</translation>
+        <translation>Tags</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="70"/>
         <source>Owners</source>
-        <translation type="unfinished">Ejere</translation>
+        <translation>Udbydere</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="76"/>
         <source>Additional information</source>
-        <translation type="unfinished"></translation>
+        <translation>Yderligere information</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="79"/>
         <source>Support contact</source>
-        <translation type="unfinished"></translation>
+        <translation>Supportkontakt</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="87"/>
         <source>Metadata</source>
-        <translation type="unfinished"></translation>
+        <translation>Metadata</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="94"/>
         <source>Created</source>
-        <translation type="unfinished"></translation>
+        <translation>Oprettet</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="96"/>
         <source>Updated</source>
-        <translation type="unfinished"></translation>
+        <translation>Opdateret</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="101"/>
         <source>WMS</source>
-        <translation type="unfinished"></translation>
+        <translation>WMS</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="131"/>
         <source>URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="133"/>
         <source>Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>Lag</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="136"/>
         <source>Style</source>
-        <translation type="unfinished"></translation>
+        <translation>Stilart</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="140"/>
         <source>Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Format</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="117"/>
         <source>WFS</source>
-        <translation type="unfinished"></translation>
+        <translation>WFS</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="122"/>
         <source>Type name</source>
-        <translation type="unfinished"></translation>
+        <translation>Typenavn</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="128"/>
         <source>WMTS</source>
-        <translation type="unfinished"></translation>
+        <translation>WMTS</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="138"/>
         <source>Tile matrix</source>
-        <translation type="unfinished"></translation>
+        <translation>Tile matrix</translation>
     </message>
 </context>
 <context>
@@ -266,7 +266,7 @@
     <message>
         <location filename="../ui/details_dialog.ui" line="14"/>
         <source>Dataset details</source>
-        <translation type="unfinished"></translation>
+        <translation>Datasæt detaljer</translation>
     </message>
 </context>
 <context>
@@ -376,12 +376,12 @@
     <message>
         <location filename="../plugin.py" line="69"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Hjælp</translation>
     </message>
     <message>
         <location filename="../plugin.py" line="60"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Indstillinger</translation>
     </message>
     <message>
         <location filename="../plugin.py" line="125"/>
