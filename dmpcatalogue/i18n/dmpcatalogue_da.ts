@@ -91,7 +91,7 @@
     <message>
         <location filename="../ui/catalogue_widget.ui" line="180"/>
         <source>Group by owners</source>
-        <translation>Grupper efter udbyder</translation>
+        <translation>Gruppér efter udbyder</translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="248"/>
@@ -101,7 +101,7 @@
     <message>
         <location filename="../gui/dock_widget.py" line="253"/>
         <source>{protocol.upper()} layer</source>
-        <translation type="unfinished"></translation>
+        <translation>{protocol.upper()} lag</translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="265"/>
@@ -386,7 +386,7 @@
     <message>
         <location filename="../plugin.py" line="125"/>
         <source>Danmarks Miljøportals datakatalog</source>
-        <translation type="unfinished"></translation>
+        <translation>Danmarks Miljøportals datakatalog</translation>
     </message>
 </context>
 <context>
@@ -432,7 +432,7 @@
     <message>
         <location filename="../ui/options_widget.ui" line="127"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not have an account? Sign up &lt;a href=&quot;https://datafordeler.dk/konto/login-oversigt/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;here&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Mangler du en konto? Tilmeld dig her &amp;lt;a href=&amp;quot;https://datafordeler.dk/konto/login-oversigt/&amp;quot;&amp;gt;&amp;lt;span style=&amp;quot; text-decoration: underline; color:#0000ff;&amp;quot;&amp;gt;here&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mangler du en konto? Tilmeld dig her &lt;a href=&quot;https://datafordeler.dk/konto/login-oversigt/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;her&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ui/options_widget.ui" line="56"/>
@@ -442,37 +442,37 @@
     <message>
         <location filename="../ui/options_widget.ui" line="95"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Do not have a token? Create one &lt;a href=&quot;https://dataforsyningen.dk/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;here&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&amp;lt;html&amp;gt;&amp;lt;head/&amp;gt;&amp;lt;body&amp;gt;&amp;lt;p&amp;gt;Mangler du et token? Opret et her &amp;lt;a href=&amp;quot;https://dataforsyningen.dk/&amp;quot;&amp;gt;&amp;lt;span style=&amp;quot; text-decoration: underline; color:#0000ff;&amp;quot;&amp;gt;here&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mangler du et token? Opret et her &lt;a href=&quot;https://dataforsyningen.dk/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;her&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ui/options_widget.ui" line="76"/>
         <source>Override Dataforsyningen token</source>
-        <translation type="unfinished"></translation>
+        <translation>Overskriv Dataforsyningen token</translation>
     </message>
     <message>
         <location filename="../ui/options_widget.ui" line="88"/>
         <source>Token</source>
-        <translation type="unfinished"></translation>
+        <translation>Token</translation>
     </message>
     <message>
         <location filename="../ui/options_widget.ui" line="108"/>
         <source>Override Datafordeler credentials</source>
-        <translation type="unfinished"></translation>
+        <translation>Overskriv Datafordeler api-key</translation>
     </message>
     <message>
         <location filename="../ui/options_widget.ui" line="20"/>
         <source>Datasource load priority (drag and drop to change)</source>
-        <translation type="unfinished"></translation>
+        <translation>Indlæsningsprioritet for datakilder (Ændres ved træk og flyt)</translation>
     </message>
     <message>
         <location filename="../ui/options_widget.ui" line="59"/>
         <source>Fetch WFS features only in the view extent</source>
-        <translation type="unfinished"></translation>
+        <translation>Indlæs kun WFS-objekter i det aktuelle kortudsnit</translation>
     </message>
     <message>
         <location filename="../ui/options_widget.ui" line="120"/>
         <source>APIKey</source>
-        <translation type="unfinished"></translation>
+        <translation>API-key</translation>
     </message>
 </context>
 </TS>

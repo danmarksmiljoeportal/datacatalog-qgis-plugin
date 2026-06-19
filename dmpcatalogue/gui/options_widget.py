@@ -38,6 +38,11 @@ class DmpOptionsWidget(BASE, WIDGET):
         super(DmpOptionsWidget, self).__init__(parent)
         self.setupUi(self)
 
+        # Ensure external links open in browser (openExternalLinks in .ui is
+        # not reliably applied by PyQt5/QGIS 3.x uic)
+        self.label_3.setOpenExternalLinks(True)
+        self.label_4.setOpenExternalLinks(True)
+
         self.load_options()
 
     def load_options(self):
