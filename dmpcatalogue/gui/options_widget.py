@@ -43,6 +43,8 @@ class DmpOptionsWidget(BASE, WIDGET):
         self.label_3.setOpenExternalLinks(True)
         self.label_4.setOpenExternalLinks(True)
 
+        self.reloadUrl.clicked.connect(self.reload_catalog)
+
         self.load_options()
 
     def load_options(self):
@@ -67,6 +69,10 @@ class DmpOptionsWidget(BASE, WIDGET):
         self.request_bbox_checkbox.setChecked(
             SettingsRegistry.use_request_bbox()
         )
+
+    def reload_catalog(self):
+        SettingsRegistry.set_catalog_url(self.url_line_edit.text())
+        DATA_REGISTRY.initialize(force_download=True)
 
     def accept(self):
         old_url = SettingsRegistry.catalog_url()

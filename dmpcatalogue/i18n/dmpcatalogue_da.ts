@@ -474,5 +474,10 @@
         <source>APIKey</source>
         <translation>API-key</translation>
     </message>
+    <message>
+        <location filename="../ui/options_widget.ui" line="20"/>
+        <source>Reload catalog URL</source>
+        <translation>Genindlæs datakatalog URL</translation>
+    </message>
 </context>
 </TS>
