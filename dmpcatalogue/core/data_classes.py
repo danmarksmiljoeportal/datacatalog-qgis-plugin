@@ -111,6 +111,7 @@ class WmsSource(Datasource):
         uri.setParam("styles", self.style)
         uri.setParam("format", self.image_format)
         uri.setParam("crs", "EPSG:25832")
+        uri.setParam("timeout", "10")  # 10 second timeout to prevent hanging on unresponsive servers
         layer = QgsRasterLayer(str(uri.encodedUri(), "utf-8"), title, "wms")
         return layer
 
@@ -147,6 +148,7 @@ class WmtsSource(WmsSource):
         uri.setParam("format", self.image_format)
         uri.setParam("tileMatrixSet", self.tile_matrix)
         uri.setParam("crs", "EPSG:25832")
+        uri.setParam("timeout", "10")  # 10 second timeout to prevent hanging on unresponsive servers
         layer = QgsRasterLayer(str(uri.encodedUri(), "utf-8"), title, "wms")
         return layer
 
@@ -166,6 +168,7 @@ class WfsSource(Datasource):
         uri.setParam("url", url)
         uri.setParam("typename", self.typename)
         uri.setParam("srsname", "EPSG:25832")
+        uri.setParam("timeout", "10")  # 10 second timeout to prevent hanging on unresponsive servers
         if SettingsRegistry.use_request_bbox():
             uri.setParam("restrictToRequestBBOX", "1")
 
