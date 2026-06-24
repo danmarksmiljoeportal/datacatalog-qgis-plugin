@@ -42,10 +42,7 @@ class Datasource:
         url = QUrl.fromPercentEncoding(bytes(self.url, "utf-8"))
 
         # Override datafordeler.dk auth only if explicitly requested
-        if (
-            "datafordeler.dk" in url
-            and SettingsRegistry.override_datafordeler_auth()
-        ):
+        if "datafordeler.dk" in url and SettingsRegistry.override_datafordeler_auth():
             u = QUrl(url)
             apikey = SettingsRegistry.datafordeler_apikey()
 
@@ -111,8 +108,7 @@ class WmsSource(Datasource):
         uri.setParam("styles", self.style)
         uri.setParam("format", self.image_format)
         uri.setParam("crs", "EPSG:25832")
-        # 10 second timeout to prevent hanging on unresponsive servers
-        uri.setParam("timeout", "10")
+        uri.setParam("timeout", "10000")  # milliseconds
         layer = QgsRasterLayer(str(uri.encodedUri(), "utf-8"), title, "wms")
         return layer
 
@@ -149,8 +145,7 @@ class WmtsSource(WmsSource):
         uri.setParam("format", self.image_format)
         uri.setParam("tileMatrixSet", self.tile_matrix)
         uri.setParam("crs", "EPSG:25832")
-        # 10 second timeout to prevent hanging on unresponsive servers
-        uri.setParam("timeout", "10")
+        uri.setParam("timeout", "10000")  # milliseconds
         layer = QgsRasterLayer(str(uri.encodedUri(), "utf-8"), title, "wms")
         return layer
 
@@ -163,20 +158,22 @@ class WfsSource(Datasource):
 
     typename: str
 
-    def to_layer(self, title: str) -> QgsVectorLayer:
+    def uri_string(self) -> str:
+        """
+        Builds and returns the WFS URI string. Call this on the main thread
+        before handing the string to a background task for layer creation.
+        """
         url = self.prepare_url()
-
         uri = QgsDataSourceUri()
         uri.setParam("url", url)
         uri.setParam("typename", self.typename)
         uri.setParam("srsname", "EPSG:25832")
-        # 10 second timeout to prevent hanging on unresponsive servers
-        uri.setParam("timeout", "10")
         if SettingsRegistry.use_request_bbox():
             uri.setParam("restrictToRequestBBOX", "1")
+        return uri.uri()
 
-        layer = QgsVectorLayer(uri.uri(), title, "wfs")
-        return layer
+    def to_layer(self, title: str) -> QgsVectorLayer:
+        return QgsVectorLayer(self.uri_string(), title, "wfs")
 
 
 @dataclass
@@ -208,9 +205,23 @@ class Dataset:
     wfs: WfsSource
     files: list[str]
 
-    def layer(
-        self, protocol: str = ""
-    ) -> Union[QgsRasterLayer, QgsVectorLayer, None]:
+    def resolved_source(self, protocol: str = ""):
+        """
+        Returns (resolved_protocol, source) for the datasource that would be
+        used for the given protocol preference.
+        Uses the configured load order when protocol is empty.
+        Returns (None, None) if no suitable source is available.
+        """
+        if protocol:
+            return protocol, getattr(self, protocol)
+        load_order = SettingsRegistry.datasource_load_order()
+        for p in load_order:
+            source = getattr(self, p)
+            if source is not None:
+                return p, source
+        return None, None
+
+    def layer(self, protocol: str = "") -> Union[QgsRasterLayer, QgsVectorLayer, None]:
         """
         Returns layer from one of the associated OGC-compliant datasources.
         If dataset has several datasources, they will be checked in order

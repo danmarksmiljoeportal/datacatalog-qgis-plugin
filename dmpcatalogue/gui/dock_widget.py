@@ -25,13 +25,13 @@ from qgis.utils import iface
 
 from dmpcatalogue.core.settings_registry import SettingsRegistry
 from dmpcatalogue.core.data_registry import DATA_REGISTRY
+from dmpcatalogue.core.data_classes import WfsSource
+from dmpcatalogue.core.wfs_layer_task import WfsLayerTask
 from dmpcatalogue.gui.dataset_item_model import Filters, Mode
 from dmpcatalogue.gui.details_dialog import DetailsDialog
 from dmpcatalogue.constants import PLUGIN_PATH
 
-WIDGET, BASE = uic.loadUiType(
-    os.path.join(PLUGIN_PATH, "ui", "catalogue_widget.ui")
-)
+WIDGET, BASE = uic.loadUiType(os.path.join(PLUGIN_PATH, "ui", "catalogue_widget.ui"))
 
 
 class CatalogueDockWidget(QgsDockWidget, WIDGET):
@@ -72,13 +72,9 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         ds_group.addAction(ows_ds_action)
         ds_group.addAction(file_ds_action)
         self.datasources_source_action.setMenu(ds_menu)
-        ds_widget = self.dataset_toolbar.widgetForAction(
-            self.datasources_source_action
-        )
+        ds_widget = self.dataset_toolbar.widgetForAction(self.datasources_source_action)
         if ds_widget and isinstance(ds_widget, QToolButton):
-            ds_widget.setPopupMode(
-                QToolButton.ToolButtonPopupMode.MenuButtonPopup
-            )
+            ds_widget.setPopupMode(QToolButton.ToolButtonPopupMode.MenuButtonPopup)
         self.datasources_source_action.setIcon(
             QgsApplication.getThemeIcon("/mActionFilter2.svg")
         )
@@ -87,9 +83,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         )
         self.group_owners_action.toggled.connect(self.toggle_group_owners)
 
-        self.options_action.setIcon(
-            QgsApplication.getThemeIcon("/mActionOptions.svg")
-        )
+        self.options_action.setIcon(QgsApplication.getThemeIcon("/mActionOptions.svg"))
         self.options_action.triggered.connect(self.open_plugin_options)
 
         col_menu = QMenu(self)
@@ -121,9 +115,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             self.collections_source_action
         )
         if col_widget and isinstance(col_widget, QToolButton):
-            col_widget.setPopupMode(
-                QToolButton.ToolButtonPopupMode.MenuButtonPopup
-            )
+            col_widget.setPopupMode(QToolButton.ToolButtonPopupMode.MenuButtonPopup)
         self.collections_source_action.setIcon(
             QgsApplication.getThemeIcon("/mActionFilter2.svg")
         )
@@ -150,14 +142,10 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         self.registry.downloadFailed.connect(self.show_message)
 
         self.search_dataset.textChanged.connect(self.set_dataset_filter_string)
-        self.dataset_tree.customContextMenuRequested.connect(
-            self.dataset_context_menu
-        )
+        self.dataset_tree.customContextMenuRequested.connect(self.dataset_context_menu)
         self.dataset_tree.doubleClicked.connect(lambda: self.add_dataset())
 
-        self.search_collection.textChanged.connect(
-            self.set_collection_filter_string
-        )
+        self.search_collection.textChanged.connect(self.set_collection_filter_string)
         self.collection_tree.customContextMenuRequested.connect(
             self.collection_context_menu
         )
@@ -173,6 +161,15 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
 
     def set_collection_filters(self, filters):
         self.collection_tree.set_filters(filters)
+
+    def _start_wfs_task(self, source, title, on_ready):
+        """
+        Creates a WFS layer in a background thread. on_ready(layer, error) is
+        called on the main thread when the task finishes.
+        """
+        task = WfsLayerTask(source.uri_string(), title)
+        task.layerReady.connect(on_ready)
+        QgsApplication.taskManager().addTask(task)
 
     def dataset_context_menu(self, point):
         index = self.dataset_tree.indexAt(point)
@@ -207,9 +204,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             favorite_action.triggered.connect(self.toggle_favorite_state)
 
             details_action = menu.addAction(self.tr("Details…"))
-            details_action.triggered.connect(
-                lambda: self.show_dataset_details(dataset)
-            )
+            details_action.triggered.connect(lambda: self.show_dataset_details(dataset))
             try:
                 menu.exec_(self.dataset_tree.mapToGlobal(point))
             except AttributeError:
@@ -241,11 +236,9 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             )
 
         if collection is None:
-            collection = (
-                self.collection_tree.datasets_model.collection_for_index(
-                    self.collection_tree.datasets_model.parent(
-                        self.collection_tree.proxy_model.mapToSource(index)
-                    )
+            collection = self.collection_tree.datasets_model.collection_for_index(
+                self.collection_tree.datasets_model.parent(
+                    self.collection_tree.proxy_model.mapToSource(index)
                 )
             )
 
@@ -287,22 +280,35 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
 
     def add_dataset(self, protocol=""):
         dataset = self.dataset_tree.selected_dataset()
-        if dataset is not None:
-            layer = dataset.layer(protocol)
+        if dataset is None:
+            return
 
-            if layer is None:
-                self.show_message(self.tr("Dataset has no layers."))
-                return
+        resolved_protocol, source = dataset.resolved_source(protocol)
+        if source is None:
+            self.show_message(self.tr("Dataset has no layers."))
+            return
 
+        if isinstance(source, WfsSource):
+
+            def on_ready(layer, error, ds=dataset):
+                if layer is not None:
+                    ds.update_metadata(layer)
+                    QgsProject.instance().addMapLayer(layer, False)
+                    QgsProject.instance().layerTreeRoot().insertLayer(0, layer)
+                else:
+                    self.show_message(self.tr("Failed to load layer: ") + (error or ""))
+
+            self._start_wfs_task(source, dataset.title, on_ready)
+        else:
+            layer = source.to_layer(dataset.title)
+            dataset.update_metadata(layer)
             if not layer.isValid():
                 self.show_message(
-                    self.tr("Failed to load layer: ") + layer.error().message(),
+                    self.tr("Failed to load layer: ") + layer.error().message()
                 )
                 return
-
             QgsProject.instance().addMapLayer(layer, False)
-            r = QgsProject.instance().layerTreeRoot()
-            r.insertLayer(0, layer)
+            QgsProject.instance().layerTreeRoot().insertLayer(0, layer)
 
     def add_collection(self):
         collection = self.collection_tree.selected_collection()
@@ -319,23 +325,41 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             for ds in collection.datasets:
                 if ds in self.registry.datasets:
                     d = self.registry.datasets[ds]
-                    layer = d.layer()
-                    if layer is None:
+                    _, source = d.resolved_source()
+                    if source is None:
                         errors.append(
-                            self.tr("There are no layers in the dataset ")
-                            + d.title
+                            self.tr("There are no layers in the dataset ") + d.title
                         )
                         continue
-                    if not layer.isValid():
-                        errors.append(
-                            self.tr("Failed to load ")
-                            + d.title
-                            + ": "
-                            + layer.error().message()
-                        )
-                        continue
-                    QgsProject.instance().addMapLayer(layer, False)
-                    group.addLayer(layer)
+                    if isinstance(source, WfsSource):
+
+                        def on_ready(layer, error, dataset=d, grp=group):
+                            if layer is not None:
+                                dataset.update_metadata(layer)
+                                QgsProject.instance().addMapLayer(layer, False)
+                                grp.addLayer(layer)
+                            else:
+                                self.show_message(
+                                    self.tr("Failed to load ")
+                                    + dataset.title
+                                    + ": "
+                                    + (error or "")
+                                )
+
+                        self._start_wfs_task(source, d.title, on_ready)
+                    else:
+                        layer = source.to_layer(d.title)
+                        d.update_metadata(layer)
+                        if not layer.isValid():
+                            errors.append(
+                                self.tr("Failed to load ")
+                                + d.title
+                                + ": "
+                                + layer.error().message()
+                            )
+                            continue
+                        QgsProject.instance().addMapLayer(layer, False)
+                        group.addLayer(layer)
 
             if errors:
                 self.show_message("\n".join(errors))
@@ -347,20 +371,34 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             if dataset is None:
                 return
 
-            layer = dataset.layer()
-            if layer is None:
+            _, source = dataset.resolved_source()
+            if source is None:
                 self.show_message(self.tr("Dataset has no layers."))
                 return
 
-            if not layer.isValid():
-                self.show_message(
-                    self.tr("Failed to load layer: ") + layer.error().message(),
-                )
-                return
+            if isinstance(source, WfsSource):
 
-            QgsProject.instance().addMapLayer(layer, False)
-            r = QgsProject.instance().layerTreeRoot()
-            r.insertLayer(0, layer)
+                def on_ready(layer, error, ds=dataset):
+                    if layer is not None:
+                        ds.update_metadata(layer)
+                        QgsProject.instance().addMapLayer(layer, False)
+                        QgsProject.instance().layerTreeRoot().insertLayer(0, layer)
+                    else:
+                        self.show_message(
+                            self.tr("Failed to load layer: ") + (error or "")
+                        )
+
+                self._start_wfs_task(source, dataset.title, on_ready)
+            else:
+                layer = source.to_layer(dataset.title)
+                dataset.update_metadata(layer)
+                if not layer.isValid():
+                    self.show_message(
+                        self.tr("Failed to load layer: ") + layer.error().message()
+                    )
+                    return
+                QgsProject.instance().addMapLayer(layer, False)
+                QgsProject.instance().layerTreeRoot().insertLayer(0, layer)
             return
 
         root = QgsProject.instance().layerTreeRoot()
@@ -375,22 +413,41 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         for ds in collection.datasets:
             if ds in self.registry.datasets:
                 d = self.registry.datasets[ds]
-                layer = d.layer()
-                if layer is None:
+                _, source = d.resolved_source()
+                if source is None:
                     errors.append(
                         self.tr("There are no layers in the dataset ") + d.title
                     )
                     continue
-                if not layer.isValid():
-                    errors.append(
-                        self.tr("Failed to load ")
-                        + d.title
-                        + ": "
-                        + layer.error().message()
-                    )
-                    continue
-                QgsProject.instance().addMapLayer(layer, False)
-                group.addLayer(layer)
+                if isinstance(source, WfsSource):
+
+                    def on_ready(layer, error, dataset=d, grp=group):
+                        if layer is not None:
+                            dataset.update_metadata(layer)
+                            QgsProject.instance().addMapLayer(layer, False)
+                            grp.addLayer(layer)
+                        else:
+                            self.show_message(
+                                self.tr("Failed to load ")
+                                + dataset.title
+                                + ": "
+                                + (error or "")
+                            )
+
+                    self._start_wfs_task(source, d.title, on_ready)
+                else:
+                    layer = source.to_layer(d.title)
+                    d.update_metadata(layer)
+                    if not layer.isValid():
+                        errors.append(
+                            self.tr("Failed to load ")
+                            + d.title
+                            + ": "
+                            + layer.error().message()
+                        )
+                        continue
+                    QgsProject.instance().addMapLayer(layer, False)
+                    group.addLayer(layer)
 
         if errors:
             self.show_message("\n".join(errors))
@@ -409,44 +466,78 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
 
             errors = list()
             for d in dataset_group:
-                layer = d.layer()
-                if layer is None:
+                _, source = d.resolved_source()
+                if source is None:
                     errors.append(
                         self.tr("There are no layers in the dataset ") + d.title
                     )
                     continue
-                if not layer.isValid():
-                    errors.append(
-                        self.tr("Failed to load ")
-                        + d.title
-                        + ": "
-                        + layer.error().message()
-                    )
-                    continue
-                QgsProject.instance().addMapLayer(layer, False)
-                group.addLayer(layer)
+                if isinstance(source, WfsSource):
+
+                    def on_ready(layer, error, dataset=d, grp=group):
+                        if layer is not None:
+                            dataset.update_metadata(layer)
+                            QgsProject.instance().addMapLayer(layer, False)
+                            grp.addLayer(layer)
+                        else:
+                            self.show_message(
+                                self.tr("Failed to load ")
+                                + dataset.title
+                                + ": "
+                                + (error or "")
+                            )
+
+                    self._start_wfs_task(source, d.title, on_ready)
+                else:
+                    layer = source.to_layer(d.title)
+                    d.update_metadata(layer)
+                    if not layer.isValid():
+                        errors.append(
+                            self.tr("Failed to load ")
+                            + d.title
+                            + ": "
+                            + layer.error().message()
+                        )
+                        continue
+                    QgsProject.instance().addMapLayer(layer, False)
+                    group.addLayer(layer)
 
             if errors:
                 self.show_message("\n".join(errors))
 
     def add_dataset_collection(self, collection, dataset, protocol=""):
-        if collection is not None and dataset is not None:
-            root = QgsProject.instance().layerTreeRoot()
-            group = root.findGroup(collection.title)
-            if group is None:
-                group = root.addGroup(collection.title)
+        if collection is None or dataset is None:
+            return
 
-            layer = dataset.layer(protocol)
-            if layer is None:
-                self.show_message(self.tr("Dataset has no layers."))
-                return
+        root = QgsProject.instance().layerTreeRoot()
+        group = root.findGroup(collection.title)
+        if group is None:
+            group = root.addGroup(collection.title)
 
+        resolved_protocol, source = dataset.resolved_source(protocol)
+        if source is None:
+            self.show_message(self.tr("Dataset has no layers."))
+            return
+
+        if isinstance(source, WfsSource):
+
+            def on_ready(layer, error, grp=group):
+                if layer is not None:
+                    dataset.update_metadata(layer)
+                    QgsProject.instance().addMapLayer(layer, False)
+                    grp.addLayer(layer)
+                else:
+                    self.show_message(self.tr("Failed to load layer: ") + (error or ""))
+
+            self._start_wfs_task(source, dataset.title, on_ready)
+        else:
+            layer = source.to_layer(dataset.title)
+            dataset.update_metadata(layer)
             if not layer.isValid():
                 self.show_message(
-                    self.tr("Failed to load layer: ") + layer.error().message(),
+                    self.tr("Failed to load layer: ") + layer.error().message()
                 )
                 return
-
             QgsProject.instance().addMapLayer(layer, False)
             group.addLayer(layer)
 
