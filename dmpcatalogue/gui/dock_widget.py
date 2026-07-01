@@ -304,6 +304,32 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             r = QgsProject.instance().layerTreeRoot()
             r.insertLayer(0, layer)
 
+    def _sorted_datasets_for_collection(self, collection):
+        """
+        Returns datasets for a collection in the same sorted order as displayed
+        in the collection tree view (using the proxy model sort order).
+        """
+        try:
+            proxy = self.collection_tree.proxy_model
+            source_model = self.collection_tree.datasets_model
+            for row in range(proxy.rowCount()):
+                proxy_index = proxy.index(row, 0)
+                source_index = proxy.mapToSource(proxy_index)
+                col = source_model.collection_for_index(source_index)
+                if col is not None and col.uid == collection.uid:
+                    datasets = []
+                    for child_row in range(proxy.rowCount(proxy_index)):
+                        child_proxy_index = proxy.index(child_row, 0, proxy_index)
+                        child_source_index = proxy.mapToSource(child_proxy_index)
+                        ds = source_model.dataset_for_index(child_source_index)
+                        if ds is not None:
+                            datasets.append(ds)
+                    return datasets
+        except Exception:
+            pass
+        # Fallback: return datasets in original order
+        return [self.registry.datasets[ds] for ds in collection.datasets if ds in self.registry.datasets]
+
     def add_collection(self):
         collection = self.collection_tree.selected_collection()
         if collection is not None:
@@ -316,26 +342,25 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                 group = root.insertGroup(0, collection.title)
 
             errors = list()
-            for ds in collection.datasets:
-                if ds in self.registry.datasets:
-                    d = self.registry.datasets[ds]
-                    layer = d.layer()
-                    if layer is None:
-                        errors.append(
-                            self.tr("There are no layers in the dataset ")
-                            + d.title
-                        )
-                        continue
-                    if not layer.isValid():
-                        errors.append(
-                            self.tr("Failed to load ")
-                            + d.title
-                            + ": "
-                            + layer.error().message()
-                        )
-                        continue
-                    QgsProject.instance().addMapLayer(layer, False)
-                    group.addLayer(layer)
+            datasets = self._sorted_datasets_for_collection(collection)
+            for d in datasets:
+                layer = d.layer()
+                if layer is None:
+                    errors.append(
+                        self.tr("There are no layers in the dataset ")
+                        + d.title
+                    )
+                    continue
+                if not layer.isValid():
+                    errors.append(
+                        self.tr("Failed to load ")
+                        + d.title
+                        + ": "
+                        + layer.error().message()
+                    )
+                    continue
+                QgsProject.instance().addMapLayer(layer, False)
+                group.addLayer(layer)
 
             if errors:
                 self.show_message("\n".join(errors))
@@ -371,26 +396,27 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             root.removeChildNode(group)
             group = root.insertGroup(0, collection.title)
 
+        # Collect and validate layers in the sorted order shown in the tree
         errors = list()
-        for ds in collection.datasets:
-            if ds in self.registry.datasets:
-                d = self.registry.datasets[ds]
-                layer = d.layer()
-                if layer is None:
-                    errors.append(
-                        self.tr("There are no layers in the dataset ") + d.title
-                    )
-                    continue
-                if not layer.isValid():
-                    errors.append(
-                        self.tr("Failed to load ")
-                        + d.title
-                        + ": "
-                        + layer.error().message()
-                    )
-                    continue
-                QgsProject.instance().addMapLayer(layer, False)
-                group.addLayer(layer)
+        datasets = self._sorted_datasets_for_collection(collection)
+        
+        for d in datasets:
+            layer = d.layer()
+            if layer is None:
+                errors.append(
+                    self.tr("There are no layers in the dataset ") + d.title
+                )
+                continue
+            if not layer.isValid():
+                errors.append(
+                    self.tr("Failed to load ")
+                    + d.title
+                    + ": "
+                    + layer.error().message()
+                )
+                continue
+            QgsProject.instance().addMapLayer(layer, False)
+            group.addLayer(layer)
 
         if errors:
             self.show_message("\n".join(errors))
