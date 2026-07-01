@@ -460,7 +460,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             root = QgsProject.instance().layerTreeRoot()
             group = root.findGroup(collection.title)
             if group is None:
-                group = root.addGroup(collection.title)
+                group = root.insertGroup(0, collection.title)
 
             layer = dataset.layer(protocol)
             if layer is None:
