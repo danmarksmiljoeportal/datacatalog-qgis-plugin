@@ -40,6 +40,9 @@ class DetailsDialog(BASE, WIDGET):
         style = QgsApplication.reportStyleSheet()
         self.text_browser.document().setDefaultStyleSheet(style)
 
+        # Allow external links to open in browser while keeping dialog open
+        self.text_browser.setOpenExternalLinks(True)
+
         if isinstance(item, Dataset):
             self.text_browser.setHtml(self.dataset_info(item))
         else:
@@ -77,11 +80,7 @@ class DetailsDialog(BASE, WIDGET):
         info += '<table class="list-view">\n'
         if dataset.supportContact:
             info += '<tr><td class="highlight">' + self.tr("Support contact")
-            info += (
-                f"</td><td><a href='{dataset.supportContact}'>"
-                + dataset.supportContact
-                + "</a></td></tr>\n"
-            )
+            info += f"</td><td>" + dataset.supportContact + "</td></tr>\n"
 
         if dataset.metadata is not None:
             info += '<tr><td class="highlight">' + self.tr("Metadata")
@@ -91,10 +90,19 @@ class DetailsDialog(BASE, WIDGET):
                 + "</a></td></tr>\n"
             )
 
-        info += '<tr><td class="highlight">' + self.tr("Created")
-        info += f"</td><td>" + dataset.created + "</td></tr>\n"
-        info += '<tr><td class="highlight">' + self.tr("Updated")
-        info += f"</td><td>" + dataset.updated + "</td></tr>\n"
+        # TODO: Add licence and dataResponsibilityAgreement fields when available from API
+        # if hasattr(dataset, 'licence') and dataset.licence:
+        #     info += '<tr><td class="highlight">' + self.tr("Licence")
+        #     info += f"</td><td>" + dataset.licence + "</td></tr>\n"
+        # if hasattr(dataset, 'dataResponsibilityAgreement') and dataset.dataResponsibilityAgreement:
+        #     info += '<tr><td class="highlight">' + self.tr("Data responsibility agreement")
+        #     info += f"</td><td>" + dataset.dataResponsibilityAgreement + "</td></tr>\n"
+        if dataset.license:
+            info += '<tr><td class="highlight">' + self.tr("Licence")
+            info += f"</td><td>" + dataset.license + "</td></tr>\n"
+        if dataset.dataLiabilityAgreement:
+            info += '<tr><td class="highlight">' + self.tr("Data responsibility agreement")
+            info += f"</td><td>" + dataset.dataLiabilityAgreement + "</td></tr>\n"
         info += "</table>\n<br><br>"
 
         if dataset.wms is not None:

@@ -8,8 +8,8 @@
         "description": "Åbeskyttelseslinjen har til formål at sikre åer som værdifulde landskabselementer og som levesteder og spredningskorridorer for plante- og dyreliv. Der er inden for beskyttelseslinien tale om et generelt forbud mod ændringer.",
         "supportContact": "support@miljoeportal.dk",
         "metadata": "https://geodata-info.dk/srv/dan/catalog.search#/metadata/3033fc6c-b7f8-418a-8fc9-f1af372b8182",
-        "created": "2022-12-21 13:52:14Z",
-        "updated": "2022-12-21 13:52:14Z"
+        "license": "CC0",
+        "dataLiabilityAgreement": "https://example.com/agreement"
       },
       "relationships": {
         "wmsSource": {
@@ -93,8 +93,8 @@
         "description": "Datasættet indeholder samtlige arter fra ålegræs, marin undersøgelser i VanDa herunder informationer om sted, tid, transekt, målested, art og dækningsgrad, samt hovedudbredelse og maks dybdegrænse. VanDa er Danmarks Miljøportals system for inddatering af data for det rene overfladevand. VanDa indeholder data for sø, vandløb og det marine område, når det drejer sig om kemi, flora og fauna.",
         "supportContact": "support@miljoeportal.dk",
         "metadata": null,
-        "created": "2022-12-21 13:52:14Z",
-        "updated": "2022-12-21 13:52:14Z"
+        "license": "",
+        "dataLiabilityAgreement": ""
       },
       "relationships": {
         "wmsSource": {
@@ -173,8 +173,8 @@
         "description": "Arealer med tinglyste aftaler for grundvandsbeskyttelse. Datasættet viser de arealer, hvor kommunerne har tinglyst aftaler med lodsejer for grundvandsbeskyttelse. Af datasættet fremgår hvilke typer af aftaler, der er indgået samt hvilke restriktioner, der ligger i aftalerne.",
         "supportContact": "support@miljoeportal.dk",
         "metadata": "https://geodata-info.dk/srv/dan/catalog.search#/metadata/f723f64a-1670-4d7d-b81c-213c384f547e",
-        "created": "2022-12-21 13:52:14Z",
-        "updated": "2022-12-21 13:52:14Z"
+        "license": "",
+        "dataLiabilityAgreement": ""
       },
       "relationships": {
         "wmsSource": {

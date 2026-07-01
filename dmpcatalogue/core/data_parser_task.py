@@ -45,140 +45,161 @@ class DataParserTask(QgsTask):
 
         self.datasets = dict()
         self.collections = dict()
+        self.parse_error = False
 
     def run(self):
-        cache_root = cache_directory()
+        try:
+            cache_root = cache_directory()
 
-        icon_cache = os.path.join(cache_root, "thumbnails")
-        os.makedirs(icon_cache, exist_ok=True)
+            icon_cache = os.path.join(cache_root, "thumbnails")
+            os.makedirs(icon_cache, exist_ok=True)
 
-        # read and parse datasets status info
-        status_info = dict()
-        cache_file = os.path.join(cache_root, "status.json")
-        if os.path.exists(cache_file):
+            # read and parse datasets status info
+            status_info = dict()
+            cache_file = os.path.join(cache_root, "status.json")
+            if os.path.exists(cache_file):
+                with open(cache_file, "r", encoding="utf-8") as f:
+                    content = json.load(f)
+
+                # reply contains only status information, it is enough to have
+                # only uid as a key
+                status_info = lookup_map(content["data"], True)
+
+            # read and parse datatsets metadata
+            cache_file = os.path.join(cache_root, "datasets.json")
             with open(cache_file, "r", encoding="utf-8") as f:
                 content = json.load(f)
 
-            # reply contains only status information, it is enough to have
-            # only uid as a key
-            status_info = lookup_map(content["data"], True)
-
-        # read and parse datatsets metadata
-        cache_file = os.path.join(cache_root, "datasets.json")
-        with open(cache_file, "r", encoding="utf-8") as f:
-            content = json.load(f)
-
-        meta = content.get("meta", None)
-        if meta is None:
-            return False
-
-        if meta["total"] == 0:
-            return False
-
-        lookup_table = lookup_map(content["included"], simplify=True)
-
-        flatten(content["data"], lookup_table)
-
-        step = 90 / len(content["data"])
-        for i, item in enumerate(content["data"]):
-            if self.isCanceled():
+            meta = content.get("meta", None)
+            if meta is None:
                 return False
 
-            uid = item["id"]
-            attributes = item["attributes"].copy()
+            if meta["total"] == 0:
+                return False
 
-            # create datasources
-            for dtype, keys in (
-                ("wfsSource", ["typeName"]),
-                ("wmsSource", ["layer", "style", "format"]),
-                ("wmtsSource", ["layer", "style", "format", "matrixSet"]),
-            ):
-                data = attributes.pop(dtype, None)
-                protocol = dtype[:-6].lower()
-                attributes[protocol] = ows_datasource(protocol, data, keys)
+            lookup_table = lookup_map(content["included"], simplify=True)
 
-            # process fileSources attribute
-            data = attributes.pop("fileSources", None)
-            attributes["files"] = file_datasource(data)
+            flatten(content["data"], lookup_table)
 
-            data = attributes.pop("category", None).copy()
-            attributes["category"] = attribute(data, "name")
-            attributes["category_icon"] = PLUGIN_ICON
-            if data is not None:
-                t = data.pop("thumbnail", None)
-                if t is not None:
-                    thumb = t.copy()
-                    tid = attribute(thumb, "id")
-                    url = attribute(thumb, "url")
+            step = 90 / len(content["data"])
+            for i, item in enumerate(content["data"]):
+                if self.isCanceled():
+                    return False
+
+                uid = item["id"]
+                attributes = item["attributes"].copy()
+
+                # create datasources
+                for dtype, keys in (
+                    ("wfsSource", ["typeName"]),
+                    ("wmsSource", ["layer", "style", "format"]),
+                    ("wmtsSource", ["layer", "style", "format", "matrixSet"]),
+                ):
+                    data = attributes.pop(dtype, None)
+                    protocol = dtype[:-6].lower()
+                    attributes[protocol] = ows_datasource(protocol, data, keys)
+
+                # process fileSources attribute
+                data = attributes.pop("fileSources", None)
+                attributes["files"] = file_datasource(data)
+
+                data = attributes.pop("category", None).copy()
+                attributes["category"] = attribute(data, "name")
+                attributes["category_icon"] = PLUGIN_ICON
+                if data is not None:
+                    t = data.pop("thumbnail", None)
+                    if t is not None:
+                        thumb = t.copy()
+                        tid = attribute(thumb, "id")
+                        url = attribute(thumb, "url")
+                        if tid is not None:
+                            icon_file = os.path.join(icon_cache, tid)
+                            attributes["category_icon"] = icon(icon_file, url)
+
+                data = attributes.pop("thumbnail", None)
+                attributes["thumbnail"] = QIcon(attributes["category_icon"])
+                if data is not None:
+                    tid = attribute(data, "id")
+                    url = attribute(data, "url")
                     if tid is not None:
                         icon_file = os.path.join(icon_cache, tid)
-                        attributes["category_icon"] = icon(icon_file, url)
+                        attributes["thumbnail"] = icon(icon_file, url)
 
-            data = attributes.pop("thumbnail", None)
-            attributes["thumbnail"] = QIcon(attributes["category_icon"])
-            if data is not None:
-                tid = attribute(data, "id")
-                url = attribute(data, "url")
-                if tid is not None:
-                    icon_file = os.path.join(icon_cache, tid)
-                    attributes["thumbnail"] = icon(icon_file, url)
+                # extract necessary information from the complex attributes
+                for key, field in (
+                    ("tags", "name"),
+                    ("owners", "title"),
+                ):
+                    data = attributes.pop(key, None)
+                    attributes[key] = attribute(data, field)
 
-            # extract necessary information from the complex attributes
-            for key, field in (
-                ("tags", "name"),
-                ("owners", "title"),
-            ):
-                data = attributes.pop(key, None)
-                attributes[key] = attribute(data, field)
+                # handle license and dataLiabilityAgreement - convert to string if dict
+                for key in ("license", "dataLiabilityAgreement"):
+                    value = attributes.pop(key, None)
+                    if isinstance(value, dict):
+                        # If it's a dict, try to get a meaningful field (name, title, or url)
+                        attributes[key] = value.get("name") or value.get("title") or value.get("url") or ""
+                    else:
+                        attributes[key] = value or ""
 
-            # inject status info
-            status = attribute(status_info.get(uid, None), "status")
-            attributes["status"] = status
+                # remove old created/updated fields if they exist
+                attributes.pop("created", None)
+                attributes.pop("updated", None)
 
-            ds = Dataset(uid, **attributes)
-            self.datasets[uid] = ds
+                # inject status info
+                status = attribute(status_info.get(uid, None), "status")
+                attributes["status"] = status
 
-            self.setProgress(i * step)
+                ds = Dataset(uid, **attributes)
+                self.datasets[uid] = ds
 
-        # read and parse collections metadata
-        cache_file = os.path.join(cache_root, "collections.json")
-        with open(cache_file, "r", encoding="utf-8") as f:
-            content = json.load(f)
+                self.setProgress(i * step)
 
-        lookup_table = lookup_map(content["included"], simplify=True)
-        flatten(content["data"], lookup_table)
+            # read and parse collections metadata
+            cache_file = os.path.join(cache_root, "collections.json")
+            with open(cache_file, "r", encoding="utf-8") as f:
+                content = json.load(f)
 
-        step = 10 / len(content["data"])
-        for i, item in enumerate(content["data"]):
-            if self.isCanceled():
-                return False
+            lookup_table = lookup_map(content["included"], simplify=True)
+            flatten(content["data"], lookup_table)
 
-            uid = item["id"]
-            params = dict()
+            step = 10 / len(content["data"])
+            for i, item in enumerate(content["data"]):
+                if self.isCanceled():
+                    return False
 
-            attrs = item["attributes"]
-            params["title"] = attrs["title"]
-            params["description"] = attrs["description"]
+                uid = item["id"]
+                params = dict()
 
-            params["datasets"] = list()
-            d = attrs["datasetCollectionItems"]
-            if d is None:
-                continue
+                attrs = item["attributes"]
+                params["title"] = attrs["title"]
+                params["description"] = attrs["description"]
 
-            for item in d:
-                params["datasets"].append(item["dataset"]["id"])
+                params["datasets"] = list()
+                d = attrs["datasetCollectionItems"]
+                if d is None:
+                    continue
 
-            params["icon"] = None
-            t = attrs.get("thumbnail")
-            if t is not None:
-                tid = t["id"]
-                url = t["url"]
-                if tid is not None:
-                    icon_file = os.path.join(icon_cache, tid)
-                    params["icon"] = icon(icon_file, url)
+                for item in d:
+                    params["datasets"].append(item["dataset"]["id"])
 
-            self.collections[uid] = Collection(uid, **params)
-            self.setProgress(self.progress() + i * step)
+                params["icon"] = None
+                t = attrs.get("thumbnail")
+                if t is not None:
+                    tid = t["id"]
+                    url = t["url"]
+                    if tid is not None:
+                        icon_file = os.path.join(icon_cache, tid)
+                        params["icon"] = icon(icon_file, url)
 
-        self.processed.emit()
-        return True
+                self.collections[uid] = Collection(uid, **params)
+                self.setProgress(self.progress() + i * step)
+
+            self.processed.emit()
+            return True
+        except Exception as e:
+            # Log parse error and set flag for registry to force refresh
+            print(f"Data parsing error: {str(e)}")
+            self.parse_error = True
+            self.processed.emit()
+            return False

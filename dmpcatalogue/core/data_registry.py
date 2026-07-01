@@ -106,7 +106,7 @@ class DataRegistry(QObject):
             full_url = (
                 f"{url}/datasets?include="
                 "wfsSource,wmsSource,wmtsSource,fileSources,"
-                "category,tags,owners,thumbnail,"
+                "category,tags,owners,license,dataLiabilityAgreement,thumbnail,"
                 "fileSources.fileSourceType,category.thumbnail"
                 f"&locale={self.locale}"
                 "&orgname=Danmarks Miljøportal&componentname=DMPCatalogue&appname=QGIS&appurlname=http://qgis.org"
@@ -164,9 +164,13 @@ class DataRegistry(QObject):
         self.task_manager.addTask(task)
 
     def load_data(self, task):
-        self.datasets = task.datasets
-        self.collections = task.collections
-        self.initialized.emit()
+        if task.parse_error:
+            # If parsing failed, force refresh data from API
+            self.initialize(force_download=True)
+        else:
+            self.datasets = task.datasets
+            self.collections = task.collections
+            self.initialized.emit()
 
     def add_or_remove_favorite(self, dataset_uid: str):
         """

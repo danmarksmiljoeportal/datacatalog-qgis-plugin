@@ -196,8 +196,8 @@ class Dataset:
     category: str
     supportContact: str
     metadata: str
-    created: str
-    updated: str
+    license: str
+    dataLiabilityAgreement: str
     tags: list[str]
     owners: list[str]
     status: str
