@@ -212,8 +212,11 @@ class DatasetItemModel(QAbstractItemModel):
 
         if self.registry:
             self.favorite_node = FavoriteNode()
-            self.root_node.add_child_node(self.favorite_node)
-            self.repopulate_favorites(True)
+            
+            # Only add Favorites node to tree when displaying datasets, not collections
+            if not self.show_collections:
+                self.root_node.add_child_node(self.favorite_node)
+                self.repopulate_favorites(True)
 
             if self.show_collections:
                 for col in self.registry.collections.values():

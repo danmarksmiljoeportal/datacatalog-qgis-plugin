@@ -10,3 +10,4 @@ __pycache__/
 PLUGIN_ARCHITECTURE.md
 development.md
 check_code_style.py
+changenotes.md

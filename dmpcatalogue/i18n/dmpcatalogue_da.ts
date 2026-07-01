@@ -91,7 +91,7 @@
     <message>
         <location filename="../ui/catalogue_widget.ui" line="180"/>
         <source>Group by owners</source>
-        <translation>Gruppér efter udbyder</translation>
+        <translation>Gruppér efter dataejer</translation>
     </message>
     <message>
         <location filename="../gui/dock_widget.py" line="248"/>
