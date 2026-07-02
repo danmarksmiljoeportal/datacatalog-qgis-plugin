@@ -138,7 +138,12 @@ class DataParserTask(QgsTask):
                     value = attributes.pop(key, None)
                     if isinstance(value, dict):
                         # If it's a dict, try to get a meaningful field (name, title, or url)
-                        attributes[key] = value.get("name") or value.get("title") or value.get("url") or ""
+                        attributes[key] = (
+                            value.get("name")
+                            or value.get("title")
+                            or value.get("url")
+                            or ""
+                        )
                     else:
                         attributes[key] = value or ""
 

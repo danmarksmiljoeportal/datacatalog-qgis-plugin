@@ -319,8 +319,12 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                 if col is not None and col.uid == collection.uid:
                     datasets = []
                     for child_row in range(proxy.rowCount(proxy_index)):
-                        child_proxy_index = proxy.index(child_row, 0, proxy_index)
-                        child_source_index = proxy.mapToSource(child_proxy_index)
+                        child_proxy_index = proxy.index(
+                            child_row, 0, proxy_index
+                        )
+                        child_source_index = proxy.mapToSource(
+                            child_proxy_index
+                        )
                         ds = source_model.dataset_for_index(child_source_index)
                         if ds is not None:
                             datasets.append(ds)
@@ -328,7 +332,11 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         except Exception:
             pass
         # Fallback: return datasets in original order
-        return [self.registry.datasets[ds] for ds in collection.datasets if ds in self.registry.datasets]
+        return [
+            self.registry.datasets[ds]
+            for ds in collection.datasets
+            if ds in self.registry.datasets
+        ]
 
     def add_collection(self):
         collection = self.collection_tree.selected_collection()
@@ -347,8 +355,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                 layer = d.layer()
                 if layer is None:
                     errors.append(
-                        self.tr("There are no layers in the dataset ")
-                        + d.title
+                        self.tr("There are no layers in the dataset ") + d.title
                     )
                     continue
                 if not layer.isValid():
@@ -399,7 +406,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         # Collect and validate layers in the sorted order shown in the tree
         errors = list()
         datasets = self._sorted_datasets_for_collection(collection)
-        
+
         for d in datasets:
             layer = d.layer()
             if layer is None:

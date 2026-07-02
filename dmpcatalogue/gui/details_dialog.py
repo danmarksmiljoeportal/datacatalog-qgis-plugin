@@ -101,8 +101,12 @@ class DetailsDialog(BASE, WIDGET):
             info += '<tr><td class="highlight">' + self.tr("Licence")
             info += f"</td><td>" + dataset.license + "</td></tr>\n"
         if dataset.dataLiabilityAgreement:
-            info += '<tr><td class="highlight">' + self.tr("Data responsibility agreement")
-            info += f"</td><td>" + dataset.dataLiabilityAgreement + "</td></tr>\n"
+            info += '<tr><td class="highlight">' + self.tr(
+                "Data responsibility agreement"
+            )
+            info += (
+                f"</td><td>" + dataset.dataLiabilityAgreement + "</td></tr>\n"
+            )
         info += "</table>\n<br><br>"
 
         if dataset.wms is not None:
