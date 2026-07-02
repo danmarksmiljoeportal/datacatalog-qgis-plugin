@@ -207,12 +207,14 @@
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="94"/>
-        <source>Created</source>
-        <translation>Oprettet</translation>
+        <source>Licence</source>
+        <translation>Licens</translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="96"/>
-        <source>Updated</source>
+        <source>Data responsibility agreement</source>
+        <translation>Dataansvarsaftale</translation>
+    </message>
         <translation>Opdateret</translation>
     </message>
     <message>

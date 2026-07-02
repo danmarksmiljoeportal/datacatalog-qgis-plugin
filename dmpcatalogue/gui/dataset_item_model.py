@@ -418,11 +418,13 @@ class DatasetItemModel(QAbstractItemModel):
                     else:
                         return dataset.thumbnail
                 elif node.node_type == NodeType.NodeCategory:
+                    if self.mode == Mode.GroupOwners:
+                        return None
                     return PLUGIN_ICON if node.icon is None else node.icon
                 elif node.node_type == NodeType.NodeCollection:
                     return PLUGIN_ICON if node.icon is None else node.icon
                 elif node.node_type == NodeType.NodeOwner:
-                    return PLUGIN_ICON
+                    return None
                 elif is_favorite_node:
                     return QgsApplication.getThemeIcon("/mIconFavorites.svg")
                 return None

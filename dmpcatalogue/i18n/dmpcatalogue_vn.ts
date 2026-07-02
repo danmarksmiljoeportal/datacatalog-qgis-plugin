@@ -194,12 +194,12 @@
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="94"/>
-        <source>Created</source>
+        <source>Licence</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../gui/details_dialog.py" line="96"/>
-        <source>Updated</source>
+        <source>Data responsibility agreement</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
