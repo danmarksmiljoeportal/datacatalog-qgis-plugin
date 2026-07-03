@@ -24,6 +24,7 @@ from qgis.PyQt.QtCore import (
     QAbstractItemModel,
     QModelIndex,
     QSortFilterProxyModel,
+    QSize,
 )
 
 from qgis.core import QgsApplication
@@ -428,6 +429,14 @@ class DatasetItemModel(QAbstractItemModel):
                 elif is_favorite_node:
                     return QgsApplication.getThemeIcon("/mIconFavorites.svg")
                 return None
+            return None
+        elif role == Qt.ItemDataRole.SizeHintRole:
+            if index.column() == 0:
+                # Add spacing for owner nodes to maintain layout consistency when icons are hidden
+                if node.node_type == NodeType.NodeCategory and self.mode == Mode.GroupOwners:
+                    return QSize(18, 18)
+                elif node.node_type == NodeType.NodeOwner:
+                    return QSize(18, 18)
             return None
         elif role == Roles.RoleDatasetUid:
             if index.column() == 0:
