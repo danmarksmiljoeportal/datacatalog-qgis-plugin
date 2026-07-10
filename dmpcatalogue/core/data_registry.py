@@ -67,9 +67,10 @@ class DataRegistry(QObject):
         collections_cache = os.path.join(cache_root, "collections.json")
 
         if file_exists(datasets_cache) and not force_download:
-            full_url = f"{url}/datasetAvailabilities?locale={self.locale}"
-            if SettingsRegistry.tracking_enabled():
-                full_url += "&orgname=Danmarks Miljøportal&componentname=DMPCatalogue&appname=QGIS&appurlname=http://qgis.org"
+            full_url = (
+                f"{url}/datasetAvailabilities?locale={self.locale}"
+                "&orgname=Danmarks Miljøportal&componentname=DMPCatalogue&appname=QGIS&appurlname=http://qgis.org"
+            )
             # datasets cached, only fetch their status
             task = QgsNetworkContentFetcherTask(QUrl(full_url))
             reply_handler = partial(self.cache_response, task, status_cache)
@@ -77,9 +78,10 @@ class DataRegistry(QObject):
             task.errorOccurred.connect(self.report_error)
         else:
             # fetch datasets and their status
-            full_url = f"{url}/datasetAvailabilities?locale={self.locale}"
-            if SettingsRegistry.tracking_enabled():
-                full_url += "?orgname=Danmarks Miljøportal&componentname=DMPCatalogue&appname=QGIS&appurlname=http://qgis.org"
+            full_url = (
+                f"{url}/datasetAvailabilities?locale={self.locale}"
+                "&orgname=Danmarks Miljøportal&componentname=DMPCatalogue&appname=QGIS&appurlname=http://qgis.org"
+            )
 
             status_task = QgsNetworkContentFetcherTask(QUrl(full_url))
             status_reply_handler = partial(
@@ -92,9 +94,8 @@ class DataRegistry(QObject):
                 f"{url}/datasetCollections?include="
                 "datasetCollectionItems,datasetCollectionItems.dataset,thumbnail"
                 f"&locale={self.locale}"
+                "&orgname=Danmarks Miljøportal&componentname=DMPCatalogue&appname=QGIS&appurlname=http://qgis.org"
             )
-            if SettingsRegistry.tracking_enabled():
-                full_url += "&orgname=Danmarks Miljøportal&componentname=DMPCatalogue&appname=QGIS&appurlname=http://qgis.org"
             collections_task = QgsNetworkContentFetcherTask(QUrl(full_url))
             collections_reply_handler = partial(
                 self.cache_response, collections_task, collections_cache, False
@@ -105,12 +106,11 @@ class DataRegistry(QObject):
             full_url = (
                 f"{url}/datasets?include="
                 "wfsSource,wmsSource,wmtsSource,fileSources,"
-                "category,tags,owners,thumbnail,"
+                "category,tags,owners,license,dataLiabilityAgreement,thumbnail,"
                 "fileSources.fileSourceType,category.thumbnail"
                 f"&locale={self.locale}"
+                "&orgname=Danmarks Miljøportal&componentname=DMPCatalogue&appname=QGIS&appurlname=http://qgis.org"
             )
-            if SettingsRegistry.tracking_enabled():
-                full_url += "&orgname=Danmarks Miljøportal&componentname=DMPCatalogue&appname=QGIS&appurlname=http://qgis.org"
             task = QgsNetworkContentFetcherTask(QUrl(full_url))
             task_handler = partial(self.cache_response, task, datasets_cache)
             task.fetched.connect(task_handler)
@@ -164,9 +164,13 @@ class DataRegistry(QObject):
         self.task_manager.addTask(task)
 
     def load_data(self, task):
-        self.datasets = task.datasets
-        self.collections = task.collections
-        self.initialized.emit()
+        if task.parse_error:
+            # If parsing failed, force refresh data from API
+            self.initialize(force_download=True)
+        else:
+            self.datasets = task.datasets
+            self.collections = task.collections
+            self.initialized.emit()
 
     def add_or_remove_favorite(self, dataset_uid: str):
         """

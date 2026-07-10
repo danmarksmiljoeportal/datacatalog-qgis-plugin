@@ -29,7 +29,6 @@ from dmpcatalogue.gui.dataset_item_model import Filters, Mode
 from dmpcatalogue.gui.details_dialog import DetailsDialog
 from dmpcatalogue.constants import PLUGIN_PATH
 
-
 WIDGET, BASE = uic.loadUiType(
     os.path.join(PLUGIN_PATH, "ui", "catalogue_widget.ui")
 )
@@ -47,7 +46,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         self.dataset_toolbar.setIconSize(iface.iconSize(True))
         self.collection_toolbar.setIconSize(iface.iconSize(True))
 
-        ds_menu = QMenu()
+        ds_menu = QMenu(self)
         all_ds_action = ds_menu.addAction(self.tr("All"))
         all_ds_action.setCheckable(True)
         all_ds_action.triggered.connect(
@@ -73,11 +72,15 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         ds_group.addAction(ows_ds_action)
         ds_group.addAction(file_ds_action)
         self.datasources_source_action.setMenu(ds_menu)
-        self.dataset_toolbar.widgetForAction(
+        ds_widget = self.dataset_toolbar.widgetForAction(
             self.datasources_source_action
-        ).setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        )
+        if ds_widget and isinstance(ds_widget, QToolButton):
+            ds_widget.setPopupMode(
+                QToolButton.ToolButtonPopupMode.MenuButtonPopup
+            )
         self.datasources_source_action.setIcon(
-            QIcon(os.path.join(PLUGIN_PATH, "icons", "datasources.svg"))
+            QgsApplication.getThemeIcon("/mActionFilter2.svg")
         )
         self.group_owners_action.setIcon(
             QIcon(os.path.join(PLUGIN_PATH, "icons", "group.svg"))
@@ -89,7 +92,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         )
         self.options_action.triggered.connect(self.open_plugin_options)
 
-        col_menu = QMenu()
+        col_menu = QMenu(self)
         all_col_action = col_menu.addAction(self.tr("All"))
         all_col_action.setCheckable(True)
         all_col_action.triggered.connect(
@@ -114,11 +117,15 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         col_group.addAction(ows_col_action)
         col_group.addAction(file_col_action)
         self.collections_source_action.setMenu(col_menu)
-        self.collection_toolbar.widgetForAction(
+        col_widget = self.collection_toolbar.widgetForAction(
             self.collections_source_action
-        ).setPopupMode(QToolButton.ToolButtonPopupMode.InstantPopup)
+        )
+        if col_widget and isinstance(col_widget, QToolButton):
+            col_widget.setPopupMode(
+                QToolButton.ToolButtonPopupMode.MenuButtonPopup
+            )
         self.collections_source_action.setIcon(
-            QIcon(os.path.join(PLUGIN_PATH, "icons", "datasources.svg"))
+            QgsApplication.getThemeIcon("/mActionFilter2.svg")
         )
 
         self.search_dataset.setShowSearchIcon(True)
@@ -297,6 +304,40 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             r = QgsProject.instance().layerTreeRoot()
             r.insertLayer(0, layer)
 
+    def _sorted_datasets_for_collection(self, collection):
+        """
+        Returns datasets for a collection in the same sorted order as displayed
+        in the collection tree view (using the proxy model sort order).
+        """
+        try:
+            proxy = self.collection_tree.proxy_model
+            source_model = self.collection_tree.datasets_model
+            for row in range(proxy.rowCount()):
+                proxy_index = proxy.index(row, 0)
+                source_index = proxy.mapToSource(proxy_index)
+                col = source_model.collection_for_index(source_index)
+                if col is not None and col.uid == collection.uid:
+                    datasets = []
+                    for child_row in range(proxy.rowCount(proxy_index)):
+                        child_proxy_index = proxy.index(
+                            child_row, 0, proxy_index
+                        )
+                        child_source_index = proxy.mapToSource(
+                            child_proxy_index
+                        )
+                        ds = source_model.dataset_for_index(child_source_index)
+                        if ds is not None:
+                            datasets.append(ds)
+                    return datasets
+        except Exception:
+            pass
+        # Fallback: return datasets in original order
+        return [
+            self.registry.datasets[ds]
+            for ds in collection.datasets
+            if ds in self.registry.datasets
+        ]
+
     def add_collection(self):
         collection = self.collection_tree.selected_collection()
         if collection is not None:
@@ -309,26 +350,24 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                 group = root.insertGroup(0, collection.title)
 
             errors = list()
-            for ds in collection.datasets:
-                if ds in self.registry.datasets:
-                    d = self.registry.datasets[ds]
-                    layer = d.layer()
-                    if layer is None:
-                        errors.append(
-                            self.tr("There are no layers in the dataset ")
-                            + d.title
-                        )
-                        continue
-                    if not layer.isValid():
-                        errors.append(
-                            self.tr("Failed to load ")
-                            + d.title
-                            + ": "
-                            + layer.error().message()
-                        )
-                        continue
-                    QgsProject.instance().addMapLayer(layer, False)
-                    group.addLayer(layer)
+            datasets = self._sorted_datasets_for_collection(collection)
+            for d in datasets:
+                layer = d.layer()
+                if layer is None:
+                    errors.append(
+                        self.tr("There are no layers in the dataset ") + d.title
+                    )
+                    continue
+                if not layer.isValid():
+                    errors.append(
+                        self.tr("Failed to load ")
+                        + d.title
+                        + ": "
+                        + layer.error().message()
+                    )
+                    continue
+                QgsProject.instance().addMapLayer(layer, False)
+                group.addLayer(layer)
 
             if errors:
                 self.show_message("\n".join(errors))
@@ -364,26 +403,27 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             root.removeChildNode(group)
             group = root.insertGroup(0, collection.title)
 
+        # Collect and validate layers in the sorted order shown in the tree
         errors = list()
-        for ds in collection.datasets:
-            if ds in self.registry.datasets:
-                d = self.registry.datasets[ds]
-                layer = d.layer()
-                if layer is None:
-                    errors.append(
-                        self.tr("There are no layers in the dataset ") + d.title
-                    )
-                    continue
-                if not layer.isValid():
-                    errors.append(
-                        self.tr("Failed to load ")
-                        + d.title
-                        + ": "
-                        + layer.error().message()
-                    )
-                    continue
-                QgsProject.instance().addMapLayer(layer, False)
-                group.addLayer(layer)
+        datasets = self._sorted_datasets_for_collection(collection)
+
+        for d in datasets:
+            layer = d.layer()
+            if layer is None:
+                errors.append(
+                    self.tr("There are no layers in the dataset ") + d.title
+                )
+                continue
+            if not layer.isValid():
+                errors.append(
+                    self.tr("Failed to load ")
+                    + d.title
+                    + ": "
+                    + layer.error().message()
+                )
+                continue
+            QgsProject.instance().addMapLayer(layer, False)
+            group.addLayer(layer)
 
         if errors:
             self.show_message("\n".join(errors))
@@ -427,7 +467,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             root = QgsProject.instance().layerTreeRoot()
             group = root.findGroup(collection.title)
             if group is None:
-                group = root.addGroup(collection.title)
+                group = root.insertGroup(0, collection.title)
 
             layer = dataset.layer(protocol)
             if layer is None:
@@ -486,4 +526,6 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         iface.showOptionsDialog(iface.mainWindow(), "dmpOptions")
 
     def show_message(self, message, level=Qgis.Warning):
-        iface.messageBar().pushMessage(self.tr("DMP Catalogue"), message, level)
+        iface.messageBar().pushMessage(
+            self.tr("Danmarks Miljøportals datakatalog"), message, level
+        )

@@ -32,14 +32,22 @@ class DmpPlugin:
         locale = QgsApplication.locale()
         qm_path = "{}/i18n/dmpcatalogue_{}.qm".format(PLUGIN_PATH, locale)
 
+        # Try short locale if full locale file doesn't exist (e.g., "da" instead of "da_DK")
+        if not os.path.exists(qm_path) and "_" in locale:
+            locale = locale.split("_")[0]
+            qm_path = "{}/i18n/dmpcatalogue_{}.qm".format(PLUGIN_PATH, locale)
+
         if os.path.exists(qm_path):
-            self.translator = QTranslator()
-            self.translator.load(qm_path)
-            QCoreApplication.installTranslator(self.translator)
+            # Qt6: translator needs parent to avoid garbage collection
+            self.translator = QTranslator(QCoreApplication.instance())
+            if self.translator.load(qm_path):
+                QCoreApplication.installTranslator(self.translator)
 
     def initGui(self):
         self.options_factory = DmpOptionsFactory()
-        self.options_factory.setTitle(self.tr("DMP Catalogue"))
+        self.options_factory.setTitle(
+            self.tr("Danmarks Miljøportals datakatalog")
+        )
         self.iface.registerOptionsWidgetFactory(self.options_factory)
 
         self.dock_widget = CatalogueDockWidget()
@@ -50,7 +58,8 @@ class DmpPlugin:
         self.dock_widget.visibilityChanged.connect(self.toggle_dock_action)
 
         self.dock_action = QAction(
-            self.tr("DMP Catalogue"), self.iface.mainWindow()
+            self.tr("Danmarks Miljøportals datakatalog"),
+            self.iface.mainWindow(),
         )
         self.dock_action.setIcon(PLUGIN_ICON)
         self.dock_action.setObjectName("toggleDmpCatalogue")
@@ -74,13 +83,13 @@ class DmpPlugin:
         self.help_action.triggered.connect(self.open_help)
 
         self.iface.addPluginToWebMenu(
-            self.tr("DMP Catalogue"), self.dock_action
+            self.tr("Danmarks Miljøportals datakatalog"), self.dock_action
         )
         self.iface.addPluginToWebMenu(
-            self.tr("DMP Catalogue"), self.settings_action
+            self.tr("Danmarks Miljøportals datakatalog"), self.settings_action
         )
         self.iface.addPluginToWebMenu(
-            self.tr("DMP Catalogue"), self.help_action
+            self.tr("Danmarks Miljøportals datakatalog"), self.help_action
         )
         self.iface.addWebToolBarIcon(self.dock_action)
 
@@ -89,13 +98,13 @@ class DmpPlugin:
 
     def unload(self):
         self.iface.removePluginWebMenu(
-            self.tr("DMP Catalogue"), self.dock_action
+            self.tr("Danmarks Miljøportals datakatalog"), self.dock_action
         )
         self.iface.removePluginWebMenu(
-            self.tr("DMP Catalogue"), self.settings_action
+            self.tr("Danmarks Miljøportals datakatalog"), self.settings_action
         )
         self.iface.removePluginWebMenu(
-            self.tr("DMP Catalogue"), self.help_action
+            self.tr("Danmarks Miljøportals datakatalog"), self.help_action
         )
         self.iface.removeWebToolBarIcon(self.dock_action)
 
@@ -113,8 +122,8 @@ class DmpPlugin:
     def open_help(self):
         QDesktopServices.openUrl(
             QUrl(
-                "https://github.com/strandbygaard/DmpQgisDataCatalogue/"
-                "blob/master/README.md"
+                "https://github.com/danmarksmiljoeportal/datacatalog-qgis-plugin/"
+                "wiki/1.-Using-The-Plugin"
             )
         )
 
@@ -123,7 +132,7 @@ class DmpPlugin:
 
     def report_error(self, message):
         self.iface.messageBar().pushMessage(
-            self.tr("DMP Catalogue"), message, Qgis.Warning
+            self.tr("Danmarks Miljøportals datakatalog"), message, Qgis.Warning
         )
 
     def tr(self, text):

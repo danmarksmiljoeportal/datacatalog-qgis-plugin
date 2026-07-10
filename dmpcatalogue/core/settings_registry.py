@@ -91,30 +91,24 @@ class SettingsRegistry:
         )
 
     @staticmethod
-    def datafordeler_auth() -> tuple[str, str]:
+    def datafordeler_apikey() -> str:
         """
-        Returns Datafordeler login and password.
+        Returns Datafordeler API key.
         """
         settings = QgsSettings()
-        login = settings.value(
-            "dmpcatalogue/datafordeler/login", "", str, QgsSettings.Plugins
+        apikey = settings.value(
+            "dmpcatalogue/datafordeler/apikey", "", str, QgsSettings.Plugins
         )
-        password = settings.value(
-            "dmpcatalogue/datafordeler/password", "", str, QgsSettings.Plugins
-        )
-        return login, password
+        return apikey
 
     @staticmethod
-    def set_datafordeler_auth(login: str, password: str):
+    def set_datafordeler_apikey(apikey: str):
         """
-        Sets Datafordeler login and password.
+        Sets Datafordeler API key.
         """
         settings = QgsSettings()
         settings.setValue(
-            "dmpcatalogue/datafordeler/login", login, QgsSettings.Plugins
-        )
-        password = settings.setValue(
-            "dmpcatalogue/datafordeler/password", password, QgsSettings.Plugins
+            "dmpcatalogue/datafordeler/apikey", apikey, QgsSettings.Plugins
         )
 
     @staticmethod

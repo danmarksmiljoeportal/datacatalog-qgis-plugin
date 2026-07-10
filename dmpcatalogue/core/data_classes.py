@@ -36,27 +36,38 @@ class Datasource:
         """
         Prepares datasource URL for further manipulations. This includes:
           - converting from percent encoding
-          - overriding auth for datafordeler.dk and dataforsyningen.dk if
-            requested
+          - overriding auth for datafordeler.dk (apikey) and
+            dataforsyningen.dk (token) if requested
         """
         url = QUrl.fromPercentEncoding(bytes(self.url, "utf-8"))
 
+        # Override datafordeler.dk auth only if explicitly requested
         if (
             "datafordeler.dk" in url
             and SettingsRegistry.override_datafordeler_auth()
         ):
             u = QUrl(url)
+            apikey = SettingsRegistry.datafordeler_apikey()
+
             if u.hasQuery():
                 query = QUrlQuery(u.query())
-                if query.hasQueryItem("username") and query.hasQueryItem(
-                    "password"
-                ):
-                    login, password = SettingsRegistry.datafordeler_auth()
-                    query.setQueryItems(
-                        [("username", login), ("password", password)]
-                    )
-                    u.setQuery(query)
-                    url = u.toString()
+                # Remove old username/password if present
+                if query.hasQueryItem("username"):
+                    query.removeQueryItem("username")
+                if query.hasQueryItem("password"):
+                    query.removeQueryItem("password")
+                # Remove old apikey if present and set new one
+                if query.hasQueryItem("apikey"):
+                    query.removeQueryItem("apikey")
+                query.addQueryItem("apikey", apikey)
+                u.setQuery(query)
+            else:
+                # No query string, add apikey
+                query = QUrlQuery()
+                query.addQueryItem("apikey", apikey)
+                u.setQuery(query)
+
+            url = u.toString()
 
         if (
             "dataforsyningen.dk" in url
@@ -100,6 +111,8 @@ class WmsSource(Datasource):
         uri.setParam("styles", self.style)
         uri.setParam("format", self.image_format)
         uri.setParam("crs", "EPSG:25832")
+        # 10 second timeout to prevent hanging on unresponsive servers
+        uri.setParam("timeout", "10")
         layer = QgsRasterLayer(str(uri.encodedUri(), "utf-8"), title, "wms")
         return layer
 
@@ -136,6 +149,8 @@ class WmtsSource(WmsSource):
         uri.setParam("format", self.image_format)
         uri.setParam("tileMatrixSet", self.tile_matrix)
         uri.setParam("crs", "EPSG:25832")
+        # 10 second timeout to prevent hanging on unresponsive servers
+        uri.setParam("timeout", "10")
         layer = QgsRasterLayer(str(uri.encodedUri(), "utf-8"), title, "wms")
         return layer
 
@@ -155,6 +170,8 @@ class WfsSource(Datasource):
         uri.setParam("url", url)
         uri.setParam("typename", self.typename)
         uri.setParam("srsname", "EPSG:25832")
+        # 10 second timeout to prevent hanging on unresponsive servers
+        uri.setParam("timeout", "10")
         if SettingsRegistry.use_request_bbox():
             uri.setParam("restrictToRequestBBOX", "1")
 
@@ -179,8 +196,8 @@ class Dataset:
     category: str
     supportContact: str
     metadata: str
-    created: str
-    updated: str
+    license: str
+    dataLiabilityAgreement: str
     tags: list[str]
     owners: list[str]
     status: str

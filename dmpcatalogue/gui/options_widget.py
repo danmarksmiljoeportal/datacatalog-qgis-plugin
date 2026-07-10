@@ -38,6 +38,13 @@ class DmpOptionsWidget(BASE, WIDGET):
         super(DmpOptionsWidget, self).__init__(parent)
         self.setupUi(self)
 
+        # Ensure external links open in browser (openExternalLinks in .ui is
+        # not reliably applied by PyQt5/QGIS 3.x uic)
+        self.label_3.setOpenExternalLinks(True)
+        self.label_4.setOpenExternalLinks(True)
+
+        self.reloadUrl.clicked.connect(self.reload_catalog)
+
         self.load_options()
 
     def load_options(self):
@@ -49,9 +56,8 @@ class DmpOptionsWidget(BASE, WIDGET):
 
         override_datafordeler = SettingsRegistry.override_datafordeler_auth()
         self.datafordeler_auth_group.setChecked(override_datafordeler)
-        login, password = SettingsRegistry.datafordeler_auth()
-        self.datafordeler_login_edit.setText(login)
-        self.datafordeler_password_edit.setText(password)
+        apikey = SettingsRegistry.datafordeler_apikey()
+        self.datafordeler_apikey_edit.setText(apikey)
 
         override_dataforsyningen = (
             SettingsRegistry.override_dataforsyningen_auth()
@@ -60,10 +66,13 @@ class DmpOptionsWidget(BASE, WIDGET):
         token = SettingsRegistry.dataforsyningen_token()
         self.dataforsyningen_token_edit.setText(token)
 
-        self.tracking_checkbox.setChecked(SettingsRegistry.tracking_enabled())
         self.request_bbox_checkbox.setChecked(
             SettingsRegistry.use_request_bbox()
         )
+
+    def reload_catalog(self):
+        SettingsRegistry.set_catalog_url(self.url_line_edit.text())
+        DATA_REGISTRY.initialize(force_download=True)
 
     def accept(self):
         old_url = SettingsRegistry.catalog_url()
@@ -81,9 +90,8 @@ class DmpOptionsWidget(BASE, WIDGET):
         SettingsRegistry.set_override_datafordeler_auth(
             self.datafordeler_auth_group.isChecked()
         )
-        SettingsRegistry.set_datafordeler_auth(
-            self.datafordeler_login_edit.text(),
-            self.datafordeler_password_edit.text(),
+        SettingsRegistry.set_datafordeler_apikey(
+            self.datafordeler_apikey_edit.text()
         )
 
         SettingsRegistry.set_override_dataforsyningen_auth(
@@ -91,10 +99,6 @@ class DmpOptionsWidget(BASE, WIDGET):
         )
         SettingsRegistry.set_dataforsyningen_token(
             self.dataforsyningen_token_edit.text()
-        )
-
-        SettingsRegistry.set_tracking_enabled(
-            self.tracking_checkbox.isChecked()
         )
 
         SettingsRegistry.set_use_request_bbox(

@@ -15,7 +15,6 @@ import os
 
 from qgis.PyQt.QtGui import QIcon
 
-
 PLUGIN_PATH = os.path.dirname(__file__)
 PLUGIN_ICON = QIcon(os.path.join(PLUGIN_PATH, "icons", "dmpcatalogue.svg"))
 
