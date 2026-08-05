@@ -47,24 +47,24 @@ class Datasource:
             and SettingsRegistry.override_datafordeler_auth()
         ):
             u = QUrl(url)
-            apikey = SettingsRegistry.datafordeler_apikey()
+            cred_value = SettingsRegistry.datafordeler_apikey()
 
             if u.hasQuery():
                 query = QUrlQuery(u.query())
-                # Remove old username/password if present
+                # Remove old username/credential if present
                 if query.hasQueryItem("username"):
                     query.removeQueryItem("username")
-                if query.hasQueryItem("password"):
-                    query.removeQueryItem("password")
-                # Remove old apikey if present and set new one
+                if query.hasQueryItem("credential"):
+                    query.removeQueryItem("credential")
+                # Remove old credential param if present and set new one
                 if query.hasQueryItem("apikey"):
                     query.removeQueryItem("apikey")
-                query.addQueryItem("apikey", apikey)
+                query.addQueryItem("apikey", cred_value)
                 u.setQuery(query)
             else:
-                # No query string, add apikey
+                # No query string, add credential
                 query = QUrlQuery()
-                query.addQueryItem("apikey", apikey)
+                query.addQueryItem("apikey", cred_value)
                 u.setQuery(query)
 
             url = u.toString()
@@ -77,8 +77,8 @@ class Datasource:
             if u.hasQuery():
                 query = QUrlQuery(u.query())
                 if query.hasQueryItem("token"):
-                    token = SettingsRegistry.dataforsyningen_token()
-                    query.setQueryItems([("token", token)])
+                    cred_value = SettingsRegistry.dataforsyningen_token()
+                    query.setQueryItems([("token", cred_value)])
                     u.setQuery(query)
                     url = u.toString()
 

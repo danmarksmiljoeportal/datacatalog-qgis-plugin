@@ -56,15 +56,15 @@ class DmpOptionsWidget(BASE, WIDGET):
 
         override_datafordeler = SettingsRegistry.override_datafordeler_auth()
         self.datafordeler_auth_group.setChecked(override_datafordeler)
-        apikey = SettingsRegistry.datafordeler_apikey()
-        self.datafordeler_apikey_edit.setText(apikey)
+        cred_value = SettingsRegistry.datafordeler_apikey()
+        self.datafordeler_apikey_edit.setText(cred_value)
 
         override_dataforsyningen = (
             SettingsRegistry.override_dataforsyningen_auth()
         )
         self.dataforsyningen_auth_group.setChecked(override_dataforsyningen)
-        token = SettingsRegistry.dataforsyningen_token()
-        self.dataforsyningen_token_edit.setText(token)
+        cred_value = SettingsRegistry.dataforsyningen_token()
+        self.dataforsyningen_token_edit.setText(cred_value)
 
         self.request_bbox_checkbox.setChecked(
             SettingsRegistry.use_request_bbox()

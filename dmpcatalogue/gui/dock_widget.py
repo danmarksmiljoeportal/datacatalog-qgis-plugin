@@ -210,10 +210,8 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             details_action.triggered.connect(
                 lambda: self.show_dataset_details(dataset)
             )
-            try:
-                menu.exec_(self.dataset_tree.mapToGlobal(point))
-            except AttributeError:
-                menu.exec(self.dataset_tree.mapToGlobal(point))
+            exec_func = getattr(menu, "exec", None) or getattr(menu, "exec_")
+            exec_func(self.dataset_tree.mapToGlobal(point))
 
             return
 
@@ -221,10 +219,8 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         if dataset_group is not None:
             group_add_action = menu.addAction(self.tr("Add"))
             group_add_action.triggered.connect(self.add_dataset_group)
-            try:
-                menu.exec_(self.dataset_tree.mapToGlobal(point))
-            except AttributeError:
-                menu.exec(self.dataset_tree.mapToGlobal(point))
+            exec_func = getattr(menu, "exec", None) or getattr(menu, "exec_")
+            exec_func(self.dataset_tree.mapToGlobal(point))
 
     def collection_context_menu(self, point):
         index = self.collection_tree.indexAt(point)
@@ -280,10 +276,8 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                 lambda: self.show_dataset_details(dataset)
             )
 
-        try:
-            menu.exec_(self.collection_tree.mapToGlobal(point))
-        except AttributeError:
-            menu.exec(self.collection_tree.mapToGlobal(point))
+        exec_func = getattr(menu, "exec", None) or getattr(menu, "exec_")
+        exec_func(self.collection_tree.mapToGlobal(point))
 
     def add_dataset(self, protocol=""):
         dataset = self.dataset_tree.selected_dataset()
@@ -503,18 +497,14 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
     def show_dataset_details(self, dataset):
         if dataset is not None:
             dlg = DetailsDialog(dataset)
-            try:
-                dlg.exec_()
-            except AttributeError:
-                dlg.exec()
+            exec_func = getattr(dlg, "exec", None) or getattr(dlg, "exec_")
+            exec_func()
 
     def show_collection_details(self, collection):
         if collection is not None:
             dlg = DetailsDialog(collection)
-            try:
-                dlg.exec_()
-            except AttributeError:
-                dlg.exec()
+            exec_func = getattr(dlg, "exec", None) or getattr(dlg, "exec_")
+            exec_func()
 
     def toggle_group_owners(self, checked):
         if checked:

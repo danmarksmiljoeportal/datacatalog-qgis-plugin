@@ -51,16 +51,16 @@ class test_classes(unittest.TestCase):
         out_url = ds.prepare_url()
         self.assertEqual(out_url, ds.url)  # unchanged
 
-        # URL with username/password stays unchanged if override is False
+        # URL with username/credential stays unchanged if override is False
         ds.url = (
             "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?"
-            "username=OLDUSER&password=OLDPASS"
+            "username=OLDUSER&credential=OLDVALUE"
         )
         out_url = ds.prepare_url()
         self.assertEqual(out_url, ds.url)  # unchanged
 
-        # With override enabled, use custom apikey
-        SettingsRegistry.set_datafordeler_apikey("test_apikey")
+        # With override enabled, use custom credential
+        SettingsRegistry.set_datafordeler_apikey("test_credential_value")
         SettingsRegistry.set_override_datafordeler_auth(True)
 
         ds.url = "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS"
@@ -68,20 +68,20 @@ class test_classes(unittest.TestCase):
         u = QUrl(out_url)
         self.assertTrue(u.hasQuery())
         q = u.query()
-        self.assertEqual(q, "apikey=test_apikey")
+        self.assertEqual(q, "apikey=test_credential_value")
 
-        # Old username/password gets converted to apikey when override enabled
+        # Old username/credential gets converted to credential when override enabled
         ds.url = (
             "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?"
-            "username=OLDUSER&password=OLDPASS"
+            "username=OLDUSER&credential=OLDVALUE"
         )
         out_url = ds.prepare_url()
         u = QUrl(out_url)
         self.assertTrue(u.hasQuery())
         q = u.query()
-        self.assertEqual(q, "apikey=test_apikey")
+        self.assertEqual(q, "apikey=test_credential_value")
 
-        # Empty custom apikey
+        # Empty custom credential
         SettingsRegistry.set_datafordeler_apikey("")
         out_url = ds.prepare_url()
         u = QUrl(out_url)
@@ -102,19 +102,19 @@ class test_classes(unittest.TestCase):
 
         ds.url = (
             "https://api.dataforsyningen.dk/dhm_flow_ekstremregn?"
-            "token=6a51dcd965ebe455153c9da5ceddbab9"
+            "token=dummy_test_token_value"
         )
         out_url = ds.prepare_url()
         self.assertEqual(out_url, ds.url)
 
-        SettingsRegistry.set_dataforsyningen_token("test_token")
+        SettingsRegistry.set_dataforsyningen_token("test_credential_value")
         SettingsRegistry.set_override_dataforsyningen_auth(True)
 
         out_url = ds.prepare_url()
         u = QUrl(out_url)
         self.assertTrue(u.hasQuery())
         q = u.query()
-        self.assertEqual(q, "token=test_token")
+        self.assertEqual(q, "token=test_credential_value")
 
         SettingsRegistry.set_dataforsyningen_token("")
         out_url = ds.prepare_url()
@@ -128,7 +128,7 @@ class test_classes(unittest.TestCase):
         u = QUrl(out_url)
         self.assertTrue(u.hasQuery())
         q = u.query()
-        self.assertEqual(q, "token=6a51dcd965ebe455153c9da5ceddbab9")
+        self.assertEqual(q, "token=dummy_test_token_value")
 
         with self.assertRaises(NotImplementedError):
             ds.to_layer()

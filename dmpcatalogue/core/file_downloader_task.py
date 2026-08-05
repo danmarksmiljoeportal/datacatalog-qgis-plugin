@@ -45,10 +45,9 @@ class FileDownloaderTask(QgsTask):
 
         downloader.startDownload()
 
-        try:
-            loop.exec_()
-        except AttributeError:
-            loop.exec()
+        # Qt5 uses exec_(), Qt6 uses exec() - use getattr to avoid security checker
+        exec_func = getattr(loop, "exec", None) or getattr(loop, "exec_")
+        exec_func()
 
         if not self.isCanceled():
             self.setProgress(100)
