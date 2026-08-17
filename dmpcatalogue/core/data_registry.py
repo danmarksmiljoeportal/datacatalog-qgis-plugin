@@ -128,18 +128,21 @@ class DataRegistry(QObject):
     def has_error(self, task) -> bool:
         """
         Checks whether network content fetcher task completed without
+
         error. In case of error emits signal with the error details.
         """
         reply = task.reply()
         if reply is not None:
-            if reply.error() != QNetworkReply.NetworkError.NoError:
+            # Handle both PyQt5 (int) and PyQt6 (enum) return types
+            error = reply.error()
+            error_code = error.value if hasattr(error, "value") else error
+            if error_code != 0:
                 self.requestFailed.emit(
                     self.tr("Network request failed: ") + reply.errorString()
                 )
                 return True
 
         return False
-
     def cache_response(self, task, cache_file: str, emit_signal: bool = True):
         """
         Caches server reply. If emit_signal is True, emit dataFetched when
