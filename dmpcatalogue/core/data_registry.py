@@ -40,6 +40,7 @@ class DataRegistry(QObject):
     favoritesChanged = pyqtSignal()
     fileDownloaded = pyqtSignal(str)
     downloadFailed = pyqtSignal(str)
+    municipalityFilterChanged = pyqtSignal(str)
 
     def __init__(self):
         QObject.__init__(self)

@@ -36,7 +36,7 @@
     </widget>
    </item>
    <item row="7" column="0" colspan="3">
-    <widget class="QGroupBox" name="horizontalGroupBox">
+    <widget class="QGroupBox" name="wfsFilterGroup">
      <property name="title">
       <string>WFS Filter</string>
      </property>

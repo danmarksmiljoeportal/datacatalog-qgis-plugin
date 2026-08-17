@@ -24,6 +24,7 @@ from qgis.core import Qgis, QgsProject, QgsApplication
 from qgis.utils import iface
 
 from dmpcatalogue.core.settings_registry import SettingsRegistry
+from dmpcatalogue.core.settings_registry import SettingsRegistry
 from dmpcatalogue.core.data_registry import DATA_REGISTRY
 from dmpcatalogue.gui.dataset_item_model import Filters, Mode
 from dmpcatalogue.gui.details_dialog import DetailsDialog
@@ -149,6 +150,13 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         )
         self.registry.downloadFailed.connect(self.show_message)
 
+        self.registry.municipalityFilterChanged.connect(
+            self.update_wfs_filter_indicator
+        )
+        self.update_wfs_filter_indicator(
+            SettingsRegistry.municipality_filter()
+        )
+
         self.search_dataset.textChanged.connect(self.set_dataset_filter_string)
         self.dataset_tree.customContextMenuRequested.connect(
             self.dataset_context_menu
@@ -164,6 +172,13 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
 
     def set_dataset_filter_string(self, filter_string):
         self.dataset_tree.set_filter_string(filter_string)
+
+    def update_wfs_filter_indicator(self, komkode: str):
+        """
+        Shows the WFS filter indicator when a municipality filter is
+        selected, hides it otherwise.
+        """
+        self.wfsFilterIndicator.setVisible(bool(komkode))
 
     def set_dataset_filters(self, filters):
         self.dataset_tree.set_filters(filters)
