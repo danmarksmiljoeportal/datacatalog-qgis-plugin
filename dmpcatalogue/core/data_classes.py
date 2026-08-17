@@ -21,6 +21,7 @@ from qgis.PyQt.QtCore import QUrl, QUrlQuery
 
 from qgis.core import QgsDataSourceUri, QgsRasterLayer, QgsVectorLayer
 
+from dmpcatalogue.core.municipalities import municipality_bbox
 from dmpcatalogue.core.settings_registry import SettingsRegistry
 
 
@@ -163,6 +164,25 @@ class WfsSource(Datasource):
 
     typename: str
 
+    def gml_filter(
+        self, geometry_column, xmin, ymin, xmax, ymax
+    ) -> str:
+        """
+        Builds an OGC Filter Encoding BBOX filter restricting features to
+        the given extent.
+        """
+        return f"""\
+        <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"
+                    xmlns:gml="http://www.opengis.net/gml">
+            <ogc:BBOX>
+                <ogc:PropertyName>{geometry_column}</ogc:PropertyName>
+                <gml:Envelope srsName="EPSG:25832">
+                    <gml:lowerCorner>{xmin} {ymin}</gml:lowerCorner>
+                    <gml:upperCorner>{xmax} {ymax}</gml:upperCorner>
+                </gml:Envelope>
+            </ogc:BBOX>
+        </ogc:Filter>"""
+
     def to_layer(self, title: str) -> QgsVectorLayer:
         url = self.prepare_url()
 
@@ -175,8 +195,23 @@ class WfsSource(Datasource):
         if SettingsRegistry.use_request_bbox():
             uri.setParam("restrictToRequestBBOX", "1")
 
+        komkode = SettingsRegistry.municipality_filter()
+        if komkode:
+            bbox = municipality_bbox(komkode)
+            if bbox is not None:
+                filter_gml = self.gml_filter(
+                    self.geometry_column,
+                    bbox["xmin"],
+                    bbox["ymin"],
+                    bbox["xmax"],
+                    bbox["ymax"],
+                )
+                uri.setParam("filter", filter_gml)
+
         layer = QgsVectorLayer(uri.uri(), title, "wfs")
         return layer
+
+    
 
 
 @dataclass
