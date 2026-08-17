@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>284</width>
-    <height>438</height>
+    <width>492</width>
+    <height>744</height>
    </rect>
   </property>
   <property name="allowedAreas">
@@ -67,15 +67,38 @@
            <bool>false</bool>
           </property>
           <addaction name="datasources_source_action"/>
-          <addaction name="group_owners_action"/>
           <addaction name="options_action"/>
+          <addaction name="group_owners_action"/>
          </widget>
         </item>
         <item>
-         <widget class="QgsFilterLineEdit" name="search_dataset">
-          <property name="placeholderText">
-           <string>Search…</string>
-          </property>
+         <widget class="QGroupBox" name="horizontalGroupBox">
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QgsFilterLineEdit" name="search_dataset">
+             <property name="placeholderText">
+              <string>Search…</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="wfsFilterIndicator">
+             <property name="styleSheet">
+              <string notr="true">      color: #d32f2f;
+        border: 1px solid #d32f2f;
+        border-radius: 10px;
+        padding: 2px 6px;
+    outline: none;</string>
+             </property>
+             <property name="text">
+              <string>WFS filter active</string>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>
@@ -185,7 +208,7 @@
   <customwidget>
    <class>QgsFilterLineEdit</class>
    <extends>QLineEdit</extends>
-   <header>qgis.gui</header>
+   <header>qgsfilterlineedit.h</header>
   </customwidget>
   <customwidget>
    <class>DatasetTreeView</class>

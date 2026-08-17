@@ -70,6 +70,17 @@ class DmpOptionsWidget(BASE, WIDGET):
             SettingsRegistry.use_request_bbox()
         )
 
+        self.municipalityFilterBox.clear()
+        municipalities = sorted(
+            DATA_REGISTRY.municipalities.items(),
+            key=lambda item: int(item[1]["komkode"]),
+        )
+        for name, attributes in municipalities:
+            komkode = attributes["komkode"]
+            self.municipalityFilterBox.addItem(
+                f"{name} ({komkode})", komkode
+            )
+
     def reload_catalog(self):
         SettingsRegistry.set_catalog_url(self.url_line_edit.text())
         DATA_REGISTRY.initialize(force_download=True)

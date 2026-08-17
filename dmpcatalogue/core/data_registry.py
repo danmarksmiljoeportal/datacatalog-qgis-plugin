@@ -13,6 +13,7 @@
 
 from __future__ import annotations
 
+import json
 import os
 from functools import partial
 
@@ -25,7 +26,7 @@ from dmpcatalogue.core.data_parser_task import DataParserTask
 from dmpcatalogue.core.file_downloader_task import FileDownloaderTask
 from dmpcatalogue.core.settings_registry import SettingsRegistry
 from dmpcatalogue.core.utils import cache_directory, file_exists
-from dmpcatalogue.constants import DEFAULT_LOCALE, LOCALES
+from dmpcatalogue.constants import DEFAULT_LOCALE, LOCALES, PLUGIN_PATH
 
 
 class DataRegistry(QObject):
@@ -47,11 +48,23 @@ class DataRegistry(QObject):
         self.collections = dict()
         self.favorites = SettingsRegistry.favorites()
         self.task_manager = QgsApplication.taskManager()
+        self.municipalities = self.load_municipalities()
 
         locale = QgsApplication.locale()
         self.locale = locale if locale in LOCALES else DEFAULT_LOCALE
 
         self.dataFetched.connect(self.parse_data)
+
+    def load_municipalities(self) -> dict:
+        """
+        Loads municipality names and their BBOXes from the JSON file bundled
+        with the plugin, keeping them in memory for the plugin's lifetime.
+        """
+        municipalities_file = os.path.join(
+            PLUGIN_PATH, "data", "kommune_bbox.json"
+        )
+        with open(municipalities_file, "r", encoding="utf-8") as f:
+            return json.load(f)
 
     def initialize(self, force_download=False):
         """
