@@ -199,6 +199,8 @@ def ows_datasource(protocol: str, data: dict, keys: list[str]):
             args["tile_matrix"] = v
         elif k == "typeName":
             args["typename"] = v
+        elif k == "geometryName":
+            args["geometry_column"] = v
         else:
             args[k] = v
 

@@ -91,7 +91,7 @@ class DataParserTask(QgsTask):
 
                 # create datasources
                 for dtype, keys in (
-                    ("wfsSource", ["typeName"]),
+                    ("wfsSource", ["typeName", "geometryName", "version"]),
                     ("wmsSource", ["layer", "style", "format"]),
                     ("wmtsSource", ["layer", "style", "format", "matrixSet"]),
                 ):

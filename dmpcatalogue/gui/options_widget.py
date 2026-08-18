@@ -52,6 +52,10 @@ class DmpOptionsWidget(BASE, WIDGET):
         )
         self.wfsFilterGroup.toggled.connect(self.on_wfs_filter_group_toggled)
 
+        # Sync request_bbox_checkbox enabled/checked state with the
+        # wfsFilterGroup state restored in load_options().
+        self.on_wfs_filter_group_toggled(self.wfsFilterGroup.isChecked())
+
     def load_options(self):
         self.url_line_edit.setText(SettingsRegistry.catalog_url())
 
@@ -105,6 +109,12 @@ class DmpOptionsWidget(BASE, WIDGET):
     def on_wfs_filter_group_toggled(self, checked):
         if not checked:
             self.municipalityFilterBox.setCurrentIndex(0)
+
+        # BBOX request restriction is redundant (and conflicting) with a
+        # municipality WFS filter, so disable it while the filter is active.
+        self.request_bbox_checkbox.setEnabled(not checked)
+        if checked:
+            self.request_bbox_checkbox.setChecked(False)
 
     def reload_catalog(self):
         SettingsRegistry.set_catalog_url(self.url_line_edit.text())

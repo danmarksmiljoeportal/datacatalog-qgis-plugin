@@ -10,7 +10,7 @@ SOURCES = __init__.py \
           gui/dataset_item_model.py \
           gui/dataset_tree_view.py \
           gui/details_dialog.py \
-          gui/dock_widget.py
+          gui/dock_widget.py \
           gui/options_widget.py
 
 FORMS = ui/catalogue_widget.ui \

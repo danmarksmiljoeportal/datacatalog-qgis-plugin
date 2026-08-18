@@ -163,25 +163,68 @@ class WfsSource(Datasource):
     """
 
     typename: str
+    geometry_column: str = ""
+    version: str = "2.0.0"
+
+    def __post_init__(self):
+        # API may return an empty string when version is not set
+        if not self.version:
+            self.version = "2.0.0"
 
     def gml_filter(
         self, geometry_column, xmin, ymin, xmax, ymax
     ) -> str:
         """
-        Builds an OGC Filter Encoding BBOX filter restricting features to
-        the given extent.
+        Builds a BBOX filter restricting features to the given extent, using
+        the Filter Encoding/GML dialect that matches self.version (each WFS
+        version mandates a specific pair): 1.0.0 uses Filter Encoding 1.0
+        (ogc:Filter/ogc:BBOX) with GML2's gml:Box; 1.1.0 uses Filter Encoding
+        1.1 (ogc:Filter/ogc:BBOX) with GML 3.1.1's gml:Envelope; 2.0.0 uses
+        FES 2.0 (fes:Filter/fes:BBOX) with GML 3.2's gml:Envelope. Kept on a
+        single line without embedded newlines/indentation, since those get
+        mangled when percent-encoded into the WFS GET request's FILTER
+        query parameter.
         """
-        return f"""\
-        <ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"
-                    xmlns:gml="http://www.opengis.net/gml">
-            <ogc:BBOX>
-                <ogc:PropertyName>{geometry_column}</ogc:PropertyName>
-                <gml:Envelope srsName="EPSG:25832">
-                    <gml:lowerCorner>{xmin} {ymin}</gml:lowerCorner>
-                    <gml:upperCorner>{xmax} {ymax}</gml:upperCorner>
-                </gml:Envelope>
-            </ogc:BBOX>
-        </ogc:Filter>"""
+        if self.version.startswith("1.0"):
+            return (
+                '<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc" '
+                'xmlns:gml="http://www.opengis.net/gml">'
+                "<ogc:BBOX>"
+                f"<ogc:PropertyName>{geometry_column}</ogc:PropertyName>"
+                f'<gml:Box srsName="EPSG:25832">'
+                f"<gml:coordinates>{xmin},{ymin} {xmax},{ymax}</gml:coordinates>"
+                f"</gml:Box>"
+                "</ogc:BBOX>"
+                "</ogc:Filter>"
+            )
+
+        if self.version.startswith("1.1"):
+            return (
+                '<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc" '
+                'xmlns:gml="http://www.opengis.net/gml">'
+                "<ogc:BBOX>"
+                f"<ogc:PropertyName>{geometry_column}</ogc:PropertyName>"
+                f'<gml:Envelope srsName="EPSG:25832">'
+                f"<gml:lowerCorner>{xmin} {ymin}</gml:lowerCorner>"
+                f"<gml:upperCorner>{xmax} {ymax}</gml:upperCorner>"
+                f"</gml:Envelope>"
+                "</ogc:BBOX>"
+                "</ogc:Filter>"
+            )
+
+        # 2.0.0 (default): FES 2.0 with GML 3.2
+        return (
+            '<fes:Filter xmlns:fes="http://www.opengis.net/fes/2.0" '
+            'xmlns:gml="http://www.opengis.net/gml/3.2">'
+            "<fes:BBOX>"
+            f"<fes:ValueReference>{geometry_column}</fes:ValueReference>"
+            f'<gml:Envelope srsName="EPSG:25832">'
+            f"<gml:lowerCorner>{xmin} {ymin}</gml:lowerCorner>"
+            f"<gml:upperCorner>{xmax} {ymax}</gml:upperCorner>"
+            f"</gml:Envelope>"
+            "</fes:BBOX>"
+            "</fes:Filter>"
+        )
 
     def to_layer(self, title: str) -> QgsVectorLayer:
         url = self.prepare_url()
@@ -190,8 +233,7 @@ class WfsSource(Datasource):
         uri.setParam("url", url)
         uri.setParam("typename", self.typename)
         uri.setParam("srsname", "EPSG:25832")
-        # 10 second timeout to prevent hanging on unresponsive servers
-        uri.setParam("timeout", "10")
+        uri.setParam("version", self.version)
         if SettingsRegistry.use_request_bbox():
             uri.setParam("restrictToRequestBBOX", "1")
 
