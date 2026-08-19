@@ -41,7 +41,7 @@ version=1.5.0
 qgisMinimumVersion=3.22
 qgisMaximumVersion=4.99
 
-icon=icons/dmpcatalogue.svg
+icon=icons/dmpcatalogue.png
 tags=wms,wfs,data,catalog,denmark,DMP,Danmarks Miljøportal,DMP Data Catalogue,Miljødata,katalog,danmark,jordforurening,ortofoto
 
 author=Danmarks Miljøportal

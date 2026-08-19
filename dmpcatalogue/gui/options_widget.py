@@ -90,9 +90,7 @@ class DmpOptionsWidget(BASE, WIDGET):
         )
         for name, attributes in municipalities:
             komkode = attributes["komkode"]
-            self.municipalityFilterBox.addItem(
-                f"{name} ({komkode})", komkode
-            )
+            self.municipalityFilterBox.addItem(f"{name} ({komkode})", komkode)
 
         saved_komkode = SettingsRegistry.municipality_filter()
         index = self.municipalityFilterBox.findData(saved_komkode)

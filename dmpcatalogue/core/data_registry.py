@@ -23,7 +23,7 @@ from qgis.core import QgsApplication, QgsNetworkContentFetcherTask, QgsTask
 
 from dmpcatalogue.core.data_parser_task import DataParserTask
 from dmpcatalogue.core.file_downloader_task import FileDownloaderTask
-from dmpcatalogue.core.municipalities import load_municipalities
+from dmpcatalogue.core.municipalities import load_municipality_geometries
 from dmpcatalogue.core.settings_registry import SettingsRegistry
 from dmpcatalogue.core.utils import cache_directory, file_exists
 from dmpcatalogue.constants import DEFAULT_LOCALE, LOCALES
@@ -49,7 +49,7 @@ class DataRegistry(QObject):
         self.collections = dict()
         self.favorites = SettingsRegistry.favorites()
         self.task_manager = QgsApplication.taskManager()
-        self.municipalities = load_municipalities()
+        self.municipalities = load_municipality_geometries()
 
         locale = QgsApplication.locale()
         self.locale = locale if locale in LOCALES else DEFAULT_LOCALE
@@ -146,6 +146,7 @@ class DataRegistry(QObject):
                 return True
 
         return False
+
     def cache_response(self, task, cache_file: str, emit_signal: bool = True):
         """
         Caches server reply. If emit_signal is True, emit dataFetched when

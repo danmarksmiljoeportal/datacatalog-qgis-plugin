@@ -21,31 +21,33 @@ from dmpcatalogue.constants import PLUGIN_PATH
 
 # Module-level cache so the bundled JSON is only parsed once. This module has
 # no dependencies on data_registry/data_classes so both can import it freely.
-_municipalities: Optional[dict] = None
+_municipality_geometries: Optional[dict] = None
 
 
-def load_municipalities() -> dict:
+def load_municipality_geometries() -> dict:
     """
-    Loads municipality names and their BBOXes from the JSON file bundled
-    with the plugin, caching the result for subsequent calls.
+    Loads municipality names and their simplified polygon geometries from
+    the JSON file bundled with the plugin, caching the result for
+    subsequent calls.
     """
-    global _municipalities
-    if _municipalities is None:
-        municipalities_file = os.path.join(
-            PLUGIN_PATH, "data", "kommune_bbox.json"
+    global _municipality_geometries
+    if _municipality_geometries is None:
+        geometries_file = os.path.join(
+            PLUGIN_PATH, "data", "kommune_geometry.json"
         )
-        with open(municipalities_file, "r", encoding="utf-8") as f:
-            _municipalities = json.load(f)
-    return _municipalities
+        with open(geometries_file, "r", encoding="utf-8") as f:
+            _municipality_geometries = json.load(f)
+    return _municipality_geometries
 
 
-def municipality_bbox(komkode: str) -> Optional[dict]:
+def municipality_geometry(komkode: str) -> Optional[list]:
     """
-    Returns the BBOX attributes (xmin, xmax, ymin, ymax, komkode) for the
-    municipality with the given komkode, or None if not found.
+    Returns the polygons (a list of polygons, each a list of rings, each
+    ring a list of [x, y] pairs) for the municipality with the given
+    komkode, or None if not found.
     """
-    for attributes in load_municipalities().values():
+    for attributes in load_municipality_geometries().values():
         if attributes["komkode"] == komkode:
-            return attributes
+            return attributes["polygons"]
 
     return None
