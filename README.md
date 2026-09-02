@@ -18,6 +18,8 @@ You can also try latest development versions by downloading and installing the p
 2. Enable the plugin, by clicking on the "DMP Catalogue" button in the toolbar - or from the menu "Web"
 3. Right click on any layer in the _Datasets_ tab, to add it to the current QGIS project.
 
+For more information on how to use the plugin, please refer to the Wiki.
+
 # Support
 
 Please contact support@miljoeportal.dk if you find bugs in the plugin or you have suggestions for how to improve the plugin.
