@@ -203,6 +203,9 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
 
     def dataset_context_menu(self, point):
         index = self.dataset_tree.indexAt(point)
+        if not index.isValid():
+            return
+
         menu = QMenu()
         dataset = self.dataset_tree.dataset_for_index(index)
         if dataset is not None:
@@ -251,6 +254,9 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
 
     def collection_context_menu(self, point):
         index = self.collection_tree.indexAt(point)
+        if not index.isValid():
+            return
+
         menu = QMenu()
 
         collection = self.collection_tree.collection_for_index(index)
