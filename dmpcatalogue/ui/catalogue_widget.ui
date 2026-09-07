@@ -139,10 +139,23 @@
          </widget>
         </item>
         <item>
-         <widget class="QgsFilterLineEdit" name="search_collection">
-          <property name="placeholderText">
-           <string>Search…</string>
-          </property>
+         <widget class="QGroupBox" name="collectionGroupBox">
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QgsFilterLineEdit" name="search_collection">
+             <property name="placeholderText">
+              <string>Search…</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="wfsFilterIndicatorCollections">
+             <property name="text">
+              <string>WFS filter active</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>

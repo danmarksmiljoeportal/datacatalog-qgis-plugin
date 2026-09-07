@@ -159,7 +159,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         # Windows native style, which ignores border-radius in .ui stylesheets.
         # #ef5350 (Material Red 400) is bright enough to read on dark backgrounds
         # while still clearly red on light backgrounds.
-        self.wfsFilterIndicator.setStyleSheet(
+        wfs_indicator_stylesheet = (
             "QLabel {"
             "  color: #ef5350;"
             "  background-color: rgba(239, 83, 80, 35);"
@@ -168,6 +168,8 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             "  padding: 2px 6px;"
             "}"
         )
+        self.wfsFilterIndicator.setStyleSheet(wfs_indicator_stylesheet)
+        self.wfsFilterIndicatorCollections.setStyleSheet(wfs_indicator_stylesheet)
 
         self.search_dataset.textChanged.connect(self.set_dataset_filter_string)
         self.dataset_tree.customContextMenuRequested.connect(
@@ -191,6 +193,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         selected, hides it otherwise.
         """
         self.wfsFilterIndicator.setVisible(bool(komkode))
+        self.wfsFilterIndicatorCollections.setVisible(bool(komkode))
 
     def set_dataset_filters(self, filters):
         self.dataset_tree.set_filters(filters)
