@@ -312,7 +312,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         exec_func = getattr(menu, "exec", None) or getattr(menu, "exec_")
         exec_func(self.collection_tree.mapToGlobal(point))
 
-    def _add_layer_to_project(self, layer):
+    def _add_layer_to_project(self, layer, dataset):
         if (
             layer.providerType() == "wfs"
             and SettingsRegistry.municipality_filter()
@@ -335,6 +335,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
 
             layer.dataProvider().raiseError.connect(on_wfs_error)
         QgsProject.instance().addMapLayer(layer, False)
+        self.registry.track_layer_usage(dataset.uid, layer.providerType())
 
     def add_dataset(self, protocol=""):
         dataset = self.dataset_tree.selected_dataset()
@@ -351,7 +352,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                 )
                 return
 
-            self._add_layer_to_project(layer)
+            self._add_layer_to_project(layer, dataset)
             r = QgsProject.instance().layerTreeRoot()
             r.insertLayer(0, layer)
 
@@ -417,7 +418,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                         + layer.error().message()
                     )
                     continue
-                self._add_layer_to_project(layer)
+                self._add_layer_to_project(layer, d)
                 group.addLayer(layer)
 
             if errors:
@@ -441,7 +442,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                 )
                 return
 
-            self._add_layer_to_project(layer)
+            self._add_layer_to_project(layer, dataset)
             r = QgsProject.instance().layerTreeRoot()
             r.insertLayer(0, layer)
             return
@@ -473,7 +474,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                     + layer.error().message()
                 )
                 continue
-            self._add_layer_to_project(layer)
+            self._add_layer_to_project(layer, d)
             group.addLayer(layer)
 
         if errors:
@@ -507,7 +508,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                         + layer.error().message()
                     )
                     continue
-                self._add_layer_to_project(layer)
+                self._add_layer_to_project(layer, d)
                 group.addLayer(layer)
 
             if errors:
@@ -531,7 +532,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                 )
                 return
 
-            self._add_layer_to_project(layer)
+            self._add_layer_to_project(layer, dataset)
             group.addLayer(layer)
 
     def download_file(self, url):

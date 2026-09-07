@@ -179,6 +179,24 @@ class DataRegistry(QObject):
             self.collections = task.collections
             self.initialized.emit()
 
+    def track_layer_usage(self, dataset_uid: str, protocol: str):
+        """
+        Sends a minimal, fire-and-forget request to the catalog so that
+        layer usage becomes visible in the server's traffic monitoring,
+        mirroring the tracking parameters sent when caching datasets.
+        Errors are ignored since this is a best-effort telemetry call.
+        """
+        url = SettingsRegistry.catalog_url()
+        full_url = (
+            f"{url}/datasets?filter=equals(id,'{dataset_uid}')"
+            "&fields[datasets]=title"
+            f"&locale={self.locale}"
+            "&orgname=Danmarks Miljøportal&componentname=DMPCatalogue"
+            f"&appname=QGIS&appurlname=http://qgis.org&layertype={protocol}"
+        )
+        task = QgsNetworkContentFetcherTask(QUrl(full_url))
+        self.task_manager.addTask(task)
+
     def add_or_remove_favorite(self, dataset_uid: str):
         """
         Adds or removes dataset with the given UID to/from favorites.
