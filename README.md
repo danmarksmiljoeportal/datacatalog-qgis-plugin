@@ -8,7 +8,7 @@ The plugin allows you to explore the datasets (layers) and collections (groups o
 # Installation
 The plugin is installed using the QGIS plugin manager. 
 
-Goto to Plugins > "Manage and Install Plugins" click on "All" and search for "Danmarks Miljøportals datakatalog".
+Go to to Plugins > "Manage and Install Plugins" click on "All" and search for "Danmarks Miljøportals datakatalog".
 
 You can also try latest development versions by downloading and installing the plugin in QGIS from a zip file. These are available here https://github.com/danmarksmiljoeportal/datacatalog-qgis-plugin/releases, download the zip-file "dmpcatalogue.zip" for the release you want to try.
 
