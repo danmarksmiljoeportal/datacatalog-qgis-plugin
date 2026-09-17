@@ -157,13 +157,11 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
 
         # Force Qt to use its own painter so border-radius is respected on
         # Windows native style, which ignores border-radius in .ui stylesheets.
-        # #ef5350 (Material Red 400) is bright enough to read on dark backgrounds
-        # while still clearly red on light backgrounds.
         wfs_indicator_stylesheet = (
             "QLabel {"
-            "  color: #ef5350;"
-            "  background-color: rgba(239, 83, 80, 35);"
-            "  border: 1px solid #ef5350;"
+            "  color: #7a91aa;"
+            "  background-color: rgba(122, 145, 170, 35);"
+            "  border: 1px solid #7a91aa;"
             "  border-radius: 10px;"
             "  padding: 2px 6px;"
             "}"

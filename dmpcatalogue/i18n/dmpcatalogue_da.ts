@@ -90,7 +90,7 @@
     <message>
         <location filename="../ui/catalogue_widget.ui" line="94"/>
         <source>WFS filter active</source>
-        <translation>Aktivt WFS filter</translation>
+        <translation>Aktivt WFS-filter</translation>
     </message>
     <message>
         <location filename="../ui/catalogue_widget.ui" line="118"/>

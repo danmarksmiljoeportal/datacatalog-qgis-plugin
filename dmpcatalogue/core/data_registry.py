@@ -184,7 +184,6 @@ class DataRegistry(QObject):
         Sends a minimal, fire-and-forget request to the catalog so that
         layer usage becomes visible in the server's traffic monitoring,
         mirroring the tracking parameters sent when caching datasets.
-        Errors are ignored since this is a best-effort telemetry call.
         """
         url = SettingsRegistry.catalog_url()
         full_url = (
