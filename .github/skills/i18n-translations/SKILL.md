@@ -44,9 +44,13 @@ C:\Qt\6.11.1\mingw_64\bin\lrelease.exe
 ## Procedure: add a new translatable string
 
 1. Wrap new UI text in `self.tr(...)` (Python) or set it as the `<string>` in the `.ui` file.
-2. Regenerate `.ts` files with `pylupdate5 dmpcatalogue/ -ts dmpcatalogue/i18n/dmpcatalogue_da.ts`
-   (repeat per language, or list all `.ts` files at once).
-3. Fill in `<translation>` for the new `<source>` entries.
+2. Regenerate all `.ts` files at once by running `pylupdate5 plugin.pro` from inside the
+   `dmpcatalogue/` directory (NOT `pylupdate5 dmpcatalogue/ -ts ...` — pylupdate5 does not
+   accept a bare directory, it needs the `.pro` file which already lists `SOURCES`/`FORMS`/
+   `TRANSLATIONS`). `pylupdate5` was found on `PATH` via the Anaconda install
+   (`C:\App\anaconda3\Lib\site-packages\PyQt5`) on this machine.
+3. Fill in `<translation>` for the new `<source>` entries (new ones get
+   `<translation type="unfinished"></translation>`).
 4. Compile with `lrelease` as above.
 
 See also [development.md](../../../development.md) for the full contributor-facing writeup.
