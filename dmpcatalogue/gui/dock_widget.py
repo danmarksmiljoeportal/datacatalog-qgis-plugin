@@ -167,7 +167,9 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
             "}"
         )
         self.wfsFilterIndicator.setStyleSheet(wfs_indicator_stylesheet)
-        self.wfsFilterIndicatorCollections.setStyleSheet(wfs_indicator_stylesheet)
+        self.wfsFilterIndicatorCollections.setStyleSheet(
+            wfs_indicator_stylesheet
+        )
 
         self.search_dataset.textChanged.connect(self.set_dataset_filter_string)
         self.dataset_tree.customContextMenuRequested.connect(
