@@ -37,7 +37,7 @@ about[da]=Med Danmarks Miljøportals plugin kan du let indlæse samtlige lag fra
 
 
 category=Web
-version=1.5.0
+version=1.6.0
 qgisMinimumVersion=3.22
 qgisMaximumVersion=4.99
 
