@@ -547,7 +547,8 @@ class DatasetItemModel(QAbstractItemModel):
 
         datasets = []
         for d in node.children:
-            datasets.append(d.dataset)
+            if d.node_type == NodeType.NodeDataset:
+                datasets.append(d.dataset)
         return datasets
 
     def collection_for_index(

@@ -16,13 +16,14 @@ from functools import partial
 
 from qgis.PyQt import uic
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtCore import QUrl
+from qgis.PyQt.QtCore import QUrl, QTimer
 from qgis.PyQt.QtWidgets import QMenu, QFileDialog, QActionGroup, QToolButton
 
 from qgis.gui import QgsDockWidget
 from qgis.core import Qgis, QgsProject, QgsApplication
 from qgis.utils import iface
 
+from dmpcatalogue.core.settings_registry import SettingsRegistry
 from dmpcatalogue.core.settings_registry import SettingsRegistry
 from dmpcatalogue.core.data_registry import DATA_REGISTRY
 from dmpcatalogue.gui.dataset_item_model import Filters, Mode
@@ -149,6 +150,27 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         )
         self.registry.downloadFailed.connect(self.show_message)
 
+        self.registry.municipalityFilterChanged.connect(
+            self.update_wfs_filter_indicator
+        )
+        self.update_wfs_filter_indicator(SettingsRegistry.municipality_filter())
+
+        # Force Qt to use its own painter so border-radius is respected on
+        # Windows native style, which ignores border-radius in .ui stylesheets.
+        wfs_indicator_stylesheet = (
+            "QLabel {"
+            "  color: #7a91aa;"
+            "  background-color: rgba(122, 145, 170, 35);"
+            "  border: 1px solid #7a91aa;"
+            "  border-radius: 10px;"
+            "  padding: 2px 6px;"
+            "}"
+        )
+        self.wfsFilterIndicator.setStyleSheet(wfs_indicator_stylesheet)
+        self.wfsFilterIndicatorCollections.setStyleSheet(
+            wfs_indicator_stylesheet
+        )
+
         self.search_dataset.textChanged.connect(self.set_dataset_filter_string)
         self.dataset_tree.customContextMenuRequested.connect(
             self.dataset_context_menu
@@ -165,6 +187,14 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
     def set_dataset_filter_string(self, filter_string):
         self.dataset_tree.set_filter_string(filter_string)
 
+    def update_wfs_filter_indicator(self, komkode: str):
+        """
+        Shows the WFS filter indicator when a municipality filter is
+        selected, hides it otherwise.
+        """
+        self.wfsFilterIndicator.setVisible(bool(komkode))
+        self.wfsFilterIndicatorCollections.setVisible(bool(komkode))
+
     def set_dataset_filters(self, filters):
         self.dataset_tree.set_filters(filters)
 
@@ -176,6 +206,9 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
 
     def dataset_context_menu(self, point):
         index = self.dataset_tree.indexAt(point)
+        if not index.isValid():
+            return
+
         menu = QMenu()
         dataset = self.dataset_tree.dataset_for_index(index)
         if dataset is not None:
@@ -224,6 +257,9 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
 
     def collection_context_menu(self, point):
         index = self.collection_tree.indexAt(point)
+        if not index.isValid():
+            return
+
         menu = QMenu()
 
         collection = self.collection_tree.collection_for_index(index)
@@ -279,6 +315,31 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
         exec_func = getattr(menu, "exec", None) or getattr(menu, "exec_")
         exec_func(self.collection_tree.mapToGlobal(point))
 
+    def _add_layer_to_project(self, layer, dataset):
+        if (
+            layer.providerType() == "wfs"
+            and SettingsRegistry.municipality_filter()
+            and layer.dataProvider()
+        ):
+            layer_id = layer.id()
+
+            def on_wfs_error(msg):
+                self.show_message(
+                    self.tr(
+                        "WFS municipality filter may not be supported by this server: "
+                    )
+                    + msg
+                )
+                # Defer removal so we are not inside the signal handler when the
+                # layer object is deleted.
+                QTimer.singleShot(
+                    0, lambda: QgsProject.instance().removeMapLayer(layer_id)
+                )
+
+            layer.dataProvider().raiseError.connect(on_wfs_error)
+        QgsProject.instance().addMapLayer(layer, False)
+        self.registry.track_layer_usage(dataset.uid, layer.providerType())
+
     def add_dataset(self, protocol=""):
         dataset = self.dataset_tree.selected_dataset()
         if dataset is not None:
@@ -294,7 +355,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                 )
                 return
 
-            QgsProject.instance().addMapLayer(layer, False)
+            self._add_layer_to_project(layer, dataset)
             r = QgsProject.instance().layerTreeRoot()
             r.insertLayer(0, layer)
 
@@ -360,7 +421,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                         + layer.error().message()
                     )
                     continue
-                QgsProject.instance().addMapLayer(layer, False)
+                self._add_layer_to_project(layer, d)
                 group.addLayer(layer)
 
             if errors:
@@ -384,7 +445,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                 )
                 return
 
-            QgsProject.instance().addMapLayer(layer, False)
+            self._add_layer_to_project(layer, dataset)
             r = QgsProject.instance().layerTreeRoot()
             r.insertLayer(0, layer)
             return
@@ -416,7 +477,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                     + layer.error().message()
                 )
                 continue
-            QgsProject.instance().addMapLayer(layer, False)
+            self._add_layer_to_project(layer, d)
             group.addLayer(layer)
 
         if errors:
@@ -450,7 +511,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                         + layer.error().message()
                     )
                     continue
-                QgsProject.instance().addMapLayer(layer, False)
+                self._add_layer_to_project(layer, d)
                 group.addLayer(layer)
 
             if errors:
@@ -474,7 +535,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                 )
                 return
 
-            QgsProject.instance().addMapLayer(layer, False)
+            self._add_layer_to_project(layer, dataset)
             group.addLayer(layer)
 
     def download_file(self, url):

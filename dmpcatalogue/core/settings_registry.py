@@ -247,3 +247,26 @@ class SettingsRegistry:
             use_bbox,
             QgsSettings.Plugins,
         )
+
+    @staticmethod
+    def municipality_filter() -> str:
+        """
+        Returns komkode of the selected municipality WFS filter, or an empty
+        string if none is selected.
+        """
+        settings = QgsSettings()
+        return settings.value(
+            "dmpcatalogue/municipality_filter", "", str, QgsSettings.Plugins
+        )
+
+    @staticmethod
+    def set_municipality_filter(komkode: str):
+        """
+        Sets komkode of the selected municipality WFS filter.
+        """
+        settings = QgsSettings()
+        settings.setValue(
+            "dmpcatalogue/municipality_filter",
+            komkode or "",
+            QgsSettings.Plugins,
+        )

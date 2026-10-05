@@ -21,6 +21,7 @@ from qgis.PyQt.QtCore import QUrl, QUrlQuery
 
 from qgis.core import QgsDataSourceUri, QgsRasterLayer, QgsVectorLayer
 
+from dmpcatalogue.core.municipalities import municipality_geometry
 from dmpcatalogue.core.settings_registry import SettingsRegistry
 
 
@@ -162,6 +163,133 @@ class WfsSource(Datasource):
     """
 
     typename: str
+    geometry_column: str = ""
+    version: str = "2.0.0"
+
+    def __post_init__(self):
+        # API may return an empty string when version is not set
+        if not self.version:
+            self.version = "2.0.0"
+
+    @staticmethod
+    def _gml2_polygon(rings: list) -> str:
+        """
+        Renders one polygon (a list of rings, first exterior, rest holes)
+        as a GML2 gml:polygonMember (gml:coordinates/outerBoundaryIs).
+        """
+        exterior = " ".join(f"{x},{y}" for x, y in rings[0])
+        parts = [
+            "<gml:outerBoundaryIs><gml:LinearRing>"
+            f"<gml:coordinates>{exterior}</gml:coordinates>"
+            "</gml:LinearRing></gml:outerBoundaryIs>"
+        ]
+        for hole in rings[1:]:
+            coords = " ".join(f"{x},{y}" for x, y in hole)
+            parts.append(
+                "<gml:innerBoundaryIs><gml:LinearRing>"
+                f"<gml:coordinates>{coords}</gml:coordinates>"
+                "</gml:LinearRing></gml:innerBoundaryIs>"
+            )
+        return (
+            f"<gml:polygonMember><gml:Polygon>{''.join(parts)}"
+            "</gml:Polygon></gml:polygonMember>"
+        )
+
+    @staticmethod
+    def _gml3_polygon(
+        rings: list, poly_id: str, require_id: bool = False
+    ) -> str:
+        """
+        Renders one polygon (a list of rings, first exterior, rest holes)
+        as a GML 3.x gml:surfaceMember (gml:posList/exterior/interior).
+        GML 3.2 (used with FES 2.0/WFS 2.0.0) mandates a gml:id attribute
+        on every geometry object; GML 3.1.1 (WFS 1.1.0) leaves it optional.
+        """
+        id_attr = f' gml:id="{poly_id}"' if require_id else ""
+        exterior = " ".join(f"{x} {y}" for x, y in rings[0])
+        parts = [
+            "<gml:exterior><gml:LinearRing>"
+            f"<gml:posList>{exterior}</gml:posList>"
+            "</gml:LinearRing></gml:exterior>"
+        ]
+        for hole in rings[1:]:
+            poslist = " ".join(f"{x} {y}" for x, y in hole)
+            parts.append(
+                "<gml:interior><gml:LinearRing>"
+                f"<gml:posList>{poslist}</gml:posList>"
+                "</gml:LinearRing></gml:interior>"
+            )
+        return (
+            f"<gml:surfaceMember><gml:Polygon{id_attr}>{''.join(parts)}"
+            "</gml:Polygon></gml:surfaceMember>"
+        )
+
+    def intersects_filter(self, geometry_column, polygons: list) -> str:
+        """
+        Builds a spatial Intersects filter restricting features to the
+        given municipality polygon (as returned by municipality_geometry()),
+        using the Filter Encoding/GML dialect that matches self.version:
+        1.0.0 uses Filter Encoding 1.0 (ogc:Filter/ogc:Intersects) with
+        GML2's gml:MultiPolygon; 1.1.0 uses Filter Encoding 1.1
+        (ogc:Filter/ogc:Intersects) with GML 3.1.1's gml:MultiSurface;
+        2.0.0 uses FES 2.0 (fes:Filter/fes:Intersects) with GML 3.2's
+        gml:MultiSurface. Kept on a single line without embedded
+        newlines/indentation, since those get mangled when percent-encoded
+        into the WFS GET request's FILTER query parameter.
+        """
+        if self.version.startswith("1.0"):
+            members = "".join(self._gml2_polygon(poly) for poly in polygons)
+            geometry = (
+                f'<gml:MultiPolygon srsName="EPSG:25832">{members}'
+                "</gml:MultiPolygon>"
+            )
+            return (
+                '<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc" '
+                'xmlns:gml="http://www.opengis.net/gml">'
+                "<ogc:Intersects>"
+                f"<ogc:PropertyName>{geometry_column}</ogc:PropertyName>"
+                f"{geometry}"
+                "</ogc:Intersects>"
+                "</ogc:Filter>"
+            )
+
+        if self.version.startswith("1.1"):
+            members = "".join(
+                self._gml3_polygon(poly, f"geom-{i}")
+                for i, poly in enumerate(polygons)
+            )
+            geometry = (
+                f'<gml:MultiSurface srsName="EPSG:25832">{members}'
+                "</gml:MultiSurface>"
+            )
+            return (
+                '<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc" '
+                'xmlns:gml="http://www.opengis.net/gml">'
+                "<ogc:Intersects>"
+                f"<ogc:PropertyName>{geometry_column}</ogc:PropertyName>"
+                f"{geometry}"
+                "</ogc:Intersects>"
+                "</ogc:Filter>"
+            )
+
+        # 2.0.0 (default): FES 2.0 with GML 3.2, gml:id is mandatory
+        members = "".join(
+            self._gml3_polygon(poly, f"geom-{i}", require_id=True)
+            for i, poly in enumerate(polygons)
+        )
+        geometry = (
+            '<gml:MultiSurface gml:id="geom" srsName="EPSG:25832">'
+            f"{members}</gml:MultiSurface>"
+        )
+        return (
+            '<fes:Filter xmlns:fes="http://www.opengis.net/fes/2.0" '
+            'xmlns:gml="http://www.opengis.net/gml/3.2">'
+            "<fes:Intersects>"
+            f"<fes:ValueReference>{geometry_column}</fes:ValueReference>"
+            f"{geometry}"
+            "</fes:Intersects>"
+            "</fes:Filter>"
+        )
 
     def to_layer(self, title: str) -> QgsVectorLayer:
         url = self.prepare_url()
@@ -170,10 +298,20 @@ class WfsSource(Datasource):
         uri.setParam("url", url)
         uri.setParam("typename", self.typename)
         uri.setParam("srsname", "EPSG:25832")
-        # 10 second timeout to prevent hanging on unresponsive servers
-        uri.setParam("timeout", "10")
+        uri.setParam("version", self.version)
+        # Ensures QGIS detects Z geometries from actual features, not DescribeFeatureType
+        uri.setParam("forceInitialGetFeature", "true")
         if SettingsRegistry.use_request_bbox():
             uri.setParam("restrictToRequestBBOX", "1")
+
+        komkode = SettingsRegistry.municipality_filter()
+        if komkode:
+            polygons = municipality_geometry(komkode)
+            if polygons is not None:
+                uri.setParam(
+                    "filter",
+                    self.intersects_filter(self.geometry_column, polygons),
+                )
 
         layer = QgsVectorLayer(uri.uri(), title, "wfs")
         return layer

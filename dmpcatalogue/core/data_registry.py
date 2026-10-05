@@ -23,6 +23,7 @@ from qgis.core import QgsApplication, QgsNetworkContentFetcherTask, QgsTask
 
 from dmpcatalogue.core.data_parser_task import DataParserTask
 from dmpcatalogue.core.file_downloader_task import FileDownloaderTask
+from dmpcatalogue.core.municipalities import load_municipality_geometries
 from dmpcatalogue.core.settings_registry import SettingsRegistry
 from dmpcatalogue.core.utils import cache_directory, file_exists
 from dmpcatalogue.constants import DEFAULT_LOCALE, LOCALES
@@ -39,6 +40,7 @@ class DataRegistry(QObject):
     favoritesChanged = pyqtSignal()
     fileDownloaded = pyqtSignal(str)
     downloadFailed = pyqtSignal(str)
+    municipalityFilterChanged = pyqtSignal(str)
 
     def __init__(self):
         QObject.__init__(self)
@@ -47,6 +49,7 @@ class DataRegistry(QObject):
         self.collections = dict()
         self.favorites = SettingsRegistry.favorites()
         self.task_manager = QgsApplication.taskManager()
+        self.municipalities = load_municipality_geometries()
 
         locale = QgsApplication.locale()
         self.locale = locale if locale in LOCALES else DEFAULT_LOCALE
@@ -143,6 +146,7 @@ class DataRegistry(QObject):
                 return True
 
         return False
+
     def cache_response(self, task, cache_file: str, emit_signal: bool = True):
         """
         Caches server reply. If emit_signal is True, emit dataFetched when
@@ -174,6 +178,23 @@ class DataRegistry(QObject):
             self.datasets = task.datasets
             self.collections = task.collections
             self.initialized.emit()
+
+    def track_layer_usage(self, dataset_uid: str, protocol: str):
+        """
+        Sends a minimal, fire-and-forget request to the catalog so that
+        layer usage becomes visible in the server's traffic monitoring,
+        mirroring the tracking parameters sent when caching datasets.
+        """
+        url = SettingsRegistry.catalog_url()
+        full_url = (
+            f"{url}/datasets?filter=equals(id,'{dataset_uid}')"
+            "&fields[datasets]=title"
+            f"&locale={self.locale}"
+            "&orgname=Danmarks Miljøportal&componentname=DMPCatalogue"
+            f"&appname=QGIS&appurlname=http://qgis.org&layertype={protocol}"
+        )
+        task = QgsNetworkContentFetcherTask(QUrl(full_url))
+        self.task_manager.addTask(task)
 
     def add_or_remove_favorite(self, dataset_uid: str):
         """

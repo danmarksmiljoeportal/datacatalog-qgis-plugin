@@ -47,6 +47,15 @@ class DmpOptionsWidget(BASE, WIDGET):
 
         self.load_options()
 
+        self.municipalityFilterBox.currentIndexChanged.connect(
+            self.on_municipality_filter_changed
+        )
+        self.wfsFilterGroup.toggled.connect(self.on_wfs_filter_group_toggled)
+
+        # Sync request_bbox_checkbox enabled/checked state with the
+        # wfsFilterGroup state restored in load_options().
+        self.on_wfs_filter_group_toggled(self.wfsFilterGroup.isChecked())
+
     def load_options(self):
         self.url_line_edit.setText(SettingsRegistry.catalog_url())
 
@@ -69,6 +78,41 @@ class DmpOptionsWidget(BASE, WIDGET):
         self.request_bbox_checkbox.setChecked(
             SettingsRegistry.use_request_bbox()
         )
+
+        # Signals are blocked while populating so the restored selection
+        # below does not get reported as a user change.
+        self.municipalityFilterBox.blockSignals(True)
+        self.municipalityFilterBox.clear()
+        self.municipalityFilterBox.addItem("", None)
+        municipalities = sorted(
+            DATA_REGISTRY.municipalities.items(),
+            key=lambda item: int(item[1]["komkode"]),
+        )
+        for name, attributes in municipalities:
+            komkode = attributes["komkode"]
+            self.municipalityFilterBox.addItem(f"{name} ({komkode})", komkode)
+
+        saved_komkode = SettingsRegistry.municipality_filter()
+        index = self.municipalityFilterBox.findData(saved_komkode)
+        self.municipalityFilterBox.setCurrentIndex(max(index, 0))
+        self.wfsFilterGroup.setChecked(bool(saved_komkode))
+        self.municipalityFilterBox.blockSignals(False)
+
+    def on_municipality_filter_changed(self, index):
+        komkode = self.municipalityFilterBox.itemData(index) or ""
+        self.wfsFilterGroup.setChecked(bool(komkode))
+        SettingsRegistry.set_municipality_filter(komkode)
+        DATA_REGISTRY.municipalityFilterChanged.emit(komkode)
+
+    def on_wfs_filter_group_toggled(self, checked):
+        if not checked:
+            self.municipalityFilterBox.setCurrentIndex(0)
+
+        # BBOX request restriction is redundant (and conflicting) with a
+        # municipality WFS filter, so disable it while the filter is active.
+        self.request_bbox_checkbox.setEnabled(not checked)
+        if checked:
+            self.request_bbox_checkbox.setChecked(False)
 
     def reload_catalog(self):
         SettingsRegistry.set_catalog_url(self.url_line_edit.text())
