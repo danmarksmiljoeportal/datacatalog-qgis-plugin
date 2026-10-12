@@ -145,7 +145,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
                 self.tr(f"File downloaded ")
                 + f"<a href='{QUrl.fromLocalFile(file_name).toString()}'>"
                 + f"{file_name}</a>.",
-                Qgis.Info,
+                Qgis.MessageLevel.Info,
             )
         )
         self.registry.downloadFailed.connect(self.show_message)
@@ -576,7 +576,7 @@ class CatalogueDockWidget(QgsDockWidget, WIDGET):
     def open_plugin_options(self):
         iface.showOptionsDialog(iface.mainWindow(), "dmpOptions")
 
-    def show_message(self, message, level=Qgis.Warning):
+    def show_message(self, message, level=Qgis.MessageLevel.Warning):
         iface.messageBar().pushMessage(
             self.tr("Danmarks Miljøportals datakatalog"), message, level
         )

@@ -132,7 +132,9 @@ class DmpPlugin:
 
     def report_error(self, message):
         self.iface.messageBar().pushMessage(
-            self.tr("Danmarks Miljøportals datakatalog"), message, Qgis.Warning
+            self.tr("Danmarks Miljøportals datakatalog"),
+            message,
+            Qgis.MessageLevel.Warning,
         )
 
     def tr(self, text):

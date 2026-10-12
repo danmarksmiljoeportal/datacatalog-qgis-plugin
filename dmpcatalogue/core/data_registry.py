@@ -120,10 +120,11 @@ class DataRegistry(QObject):
             task.errorOccurred.connect(self.report_error)
             task.addSubTask(
                 collections_task,
-                subTaskDependency=QgsTask.ParentDependsOnSubTask,
+                subTaskDependency=QgsTask.SubTaskDependency.ParentDependsOnSubTask,
             )
             task.addSubTask(
-                status_task, subTaskDependency=QgsTask.ParentDependsOnSubTask
+                status_task,
+                subTaskDependency=QgsTask.SubTaskDependency.ParentDependsOnSubTask,
             )
 
         self.task_manager.addTask(task)

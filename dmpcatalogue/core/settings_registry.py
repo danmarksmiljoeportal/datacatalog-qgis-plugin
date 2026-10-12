@@ -26,7 +26,10 @@ class SettingsRegistry:
         """
         settings = QgsSettings()
         url = settings.value(
-            "dmpcatalogue/url", DEFAULT_API_ROOT, str, QgsSettings.Plugins
+            "dmpcatalogue/url",
+            DEFAULT_API_ROOT,
+            str,
+            QgsSettings.Section.Plugins,
         )
         return url
 
@@ -36,7 +39,7 @@ class SettingsRegistry:
         Sets server URL.
         """
         settings = QgsSettings()
-        settings.setValue("dmpcatalogue/url", url, QgsSettings.Plugins)
+        settings.setValue("dmpcatalogue/url", url, QgsSettings.Section.Plugins)
 
     @staticmethod
     def datasource_load_order() -> list[str]:
@@ -48,7 +51,7 @@ class SettingsRegistry:
             "dmpcatalogue/datasource_load_order",
             DEFAULT_LOAD_ORDER,
             list,
-            QgsSettings.Plugins,
+            QgsSettings.Section.Plugins,
         )
         return order
 
@@ -61,7 +64,7 @@ class SettingsRegistry:
         settings.setValue(
             "dmpcatalogue/datasource_load_order",
             load_order,
-            QgsSettings.Plugins,
+            QgsSettings.Section.Plugins,
         )
 
     @staticmethod
@@ -74,7 +77,7 @@ class SettingsRegistry:
             "dmpcatalogue/override_datafordeler_auth",
             False,
             bool,
-            QgsSettings.Plugins,
+            QgsSettings.Section.Plugins,
         )
         return override
 
@@ -87,7 +90,7 @@ class SettingsRegistry:
         settings.setValue(
             "dmpcatalogue/override_datafordeler_auth",
             override,
-            QgsSettings.Plugins,
+            QgsSettings.Section.Plugins,
         )
 
     @staticmethod
@@ -97,7 +100,10 @@ class SettingsRegistry:
         """
         settings = QgsSettings()
         apikey = settings.value(
-            "dmpcatalogue/datafordeler/apikey", "", str, QgsSettings.Plugins
+            "dmpcatalogue/datafordeler/apikey",
+            "",
+            str,
+            QgsSettings.Section.Plugins,
         )
         return apikey
 
@@ -108,7 +114,9 @@ class SettingsRegistry:
         """
         settings = QgsSettings()
         settings.setValue(
-            "dmpcatalogue/datafordeler/apikey", apikey, QgsSettings.Plugins
+            "dmpcatalogue/datafordeler/apikey",
+            apikey,
+            QgsSettings.Section.Plugins,
         )
 
     @staticmethod
@@ -121,7 +129,7 @@ class SettingsRegistry:
             "dmpcatalogue/override_dataforsyningen_auth",
             False,
             bool,
-            QgsSettings.Plugins,
+            QgsSettings.Section.Plugins,
         )
         return override
 
@@ -134,7 +142,7 @@ class SettingsRegistry:
         settings.setValue(
             "dmpcatalogue/override_dataforsyningen_auth",
             override,
-            QgsSettings.Plugins,
+            QgsSettings.Section.Plugins,
         )
 
     @staticmethod
@@ -144,7 +152,10 @@ class SettingsRegistry:
         """
         settings = QgsSettings()
         token = settings.value(
-            "dmpcatalogue/dataforsyningen/token", "", str, QgsSettings.Plugins
+            "dmpcatalogue/dataforsyningen/token",
+            "",
+            str,
+            QgsSettings.Section.Plugins,
         )
         return token
 
@@ -155,7 +166,9 @@ class SettingsRegistry:
         """
         settings = QgsSettings()
         settings.setValue(
-            "dmpcatalogue/dataforsyningen/token", token, QgsSettings.Plugins
+            "dmpcatalogue/dataforsyningen/token",
+            token,
+            QgsSettings.Section.Plugins,
         )
 
     @staticmethod
@@ -165,7 +178,7 @@ class SettingsRegistry:
         """
         settings = QgsSettings()
         return settings.value(
-            "dmpcatalogue/favorites", list(), list, QgsSettings.Plugins
+            "dmpcatalogue/favorites", list(), list, QgsSettings.Section.Plugins
         )
 
     @staticmethod
@@ -175,7 +188,7 @@ class SettingsRegistry:
         """
         settings = QgsSettings()
         settings.setValue(
-            "dmpcatalogue/favorites", favorites, QgsSettings.Plugins
+            "dmpcatalogue/favorites", favorites, QgsSettings.Section.Plugins
         )
 
     @staticmethod
@@ -185,7 +198,7 @@ class SettingsRegistry:
         """
         settings = QgsSettings()
         return settings.value(
-            "dmpcatalogue/last_dir", None, str, QgsSettings.Plugins
+            "dmpcatalogue/last_dir", None, str, QgsSettings.Section.Plugins
         )
 
     @staticmethod
@@ -195,7 +208,7 @@ class SettingsRegistry:
         """
         settings = QgsSettings()
         settings.setValue(
-            "dmpcatalogue/last_dir", directory, QgsSettings.Plugins
+            "dmpcatalogue/last_dir", directory, QgsSettings.Section.Plugins
         )
 
     @staticmethod
@@ -208,7 +221,7 @@ class SettingsRegistry:
             "dmpcatalogue/tracking_enabled",
             False,
             bool,
-            QgsSettings.Plugins,
+            QgsSettings.Section.Plugins,
         )
 
     @staticmethod
@@ -220,7 +233,7 @@ class SettingsRegistry:
         settings.setValue(
             "dmpcatalogue/tracking_enabled",
             enable,
-            QgsSettings.Plugins,
+            QgsSettings.Section.Plugins,
         )
 
     @staticmethod
@@ -233,7 +246,7 @@ class SettingsRegistry:
             "dmpcatalogue/request_bbox",
             False,
             bool,
-            QgsSettings.Plugins,
+            QgsSettings.Section.Plugins,
         )
 
     @staticmethod
@@ -245,7 +258,7 @@ class SettingsRegistry:
         settings.setValue(
             "dmpcatalogue/request_bbox",
             use_bbox,
-            QgsSettings.Plugins,
+            QgsSettings.Section.Plugins,
         )
 
     @staticmethod
@@ -256,7 +269,10 @@ class SettingsRegistry:
         """
         settings = QgsSettings()
         return settings.value(
-            "dmpcatalogue/municipality_filter", "", str, QgsSettings.Plugins
+            "dmpcatalogue/municipality_filter",
+            "",
+            str,
+            QgsSettings.Section.Plugins,
         )
 
     @staticmethod
@@ -268,5 +284,5 @@ class SettingsRegistry:
         settings.setValue(
             "dmpcatalogue/municipality_filter",
             komkode or "",
-            QgsSettings.Plugins,
+            QgsSettings.Section.Plugins,
         )

@@ -250,7 +250,7 @@ def icon(icon_file: str, url: Union[str, None]) -> QIcon:
     # download icon
     request = QgsBlockingNetworkRequest()
     result = request.get(QNetworkRequest(QUrl(url)))
-    if result == QgsBlockingNetworkRequest.NoError:
+    if result == QgsBlockingNetworkRequest.ErrorCode.NoError:
         data = request.reply().content()
         with open(icon_file, "wb") as f:
             f.write(data)
