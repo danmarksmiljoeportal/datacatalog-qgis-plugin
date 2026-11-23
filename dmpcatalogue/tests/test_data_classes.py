@@ -11,6 +11,8 @@
 ***************************************************************************
 """
 
+from urllib.parse import quote
+
 from qgis.PyQt.QtCore import QUrl
 
 from qgis.core import QgsApplication
@@ -23,6 +25,7 @@ from dmpcatalogue.core.data_classes import (
     WfsSource,
     Dataset,
 )
+from dmpcatalogue.core.municipalities import load_municipality_geometries
 from dmpcatalogue.core.settings_registry import SettingsRegistry
 
 
@@ -196,6 +199,23 @@ class test_classes(unittest.TestCase):
 
         layer = ds.to_layer("test")
         self.assertTrue(layer.isValid())
+
+    def test_wfs_intersects_filter_length(self):
+        # The municipality filter is sent in the GetFeature GET URL. Some
+        # servers reject long URLs with "Request header is too large" (e.g.
+        # arealeditering.miljoeportal.dk at ~2350 chars), so the bundled
+        # geometries in kommune_geometry.json must stay below this limit.
+        max_filter_length = 1700
+        municipalities = load_municipality_geometries()
+        for version in ("1.0.0", "1.1.0", "2.0.0"):
+            ds = WfsSource("https://server.dk/wfs", "test", "geom", version)
+            for name, attributes in municipalities.items():
+                result = ds.intersects_filter("geom", attributes["polygons"])
+                self.assertLessEqual(
+                    len(quote(result, safe=":/")),
+                    max_filter_length,
+                    f"{name} ({version})",
+                )
 
     def test_dataset(self):
         ds = Dataset(
